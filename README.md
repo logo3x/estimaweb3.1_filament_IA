@@ -35,6 +35,38 @@ CREATE DATABASE estimaweb31_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_c
 php artisan datos:cargar
 ```
 
+## Pruebas
+
+Las pruebas corren contra **datos reales** de producción, no contra datos
+inventados: así se verifica que los cálculos dan los mismos números que el
+sistema actual sobre las mismas cotizaciones.
+
+Hace falta un `.env.testing` (no va al repositorio, porque lleva credenciales).
+Se crea copiando el `.env` y cambiando dos líneas:
+
+```
+APP_ENV=testing
+DB_DATABASE=estimaweb31_test
+```
+
+Preparar la base de pruebas y ejecutar:
+
+```bash
+php artisan pruebas:preparar   # recrea el esquema y copia los datos reales
+php artisan test --compact
+```
+
+### Las dos bases locales
+
+| Base | Contenido | ¿Se puede borrar? |
+|---|---|---|
+| `estimaweb31` | Copia de los datos de producción, usada como referencia | **No.** Recuperarla exige recargar el respaldo |
+| `estimaweb31_test` | Base de pruebas | Sí, se reconstruye sola |
+
+`migrate:fresh` y demás comandos destructivos están **bloqueados** sobre la base
+de referencia (ver `ProteccionBaseReferenciaServiceProvider`). Para trabajar
+sobre la desechable: `--env=testing`.
+
 ## Cargar datos de producción
 
 El desarrollo se hace contra datos reales para que el cambio sea transparente
