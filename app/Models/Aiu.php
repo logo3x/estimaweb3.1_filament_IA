@@ -57,13 +57,49 @@ class Aiu extends Model
     /** En contrato de obra el IVA grava solo la utilidad. */
     public function esContratoDeObra(): bool
     {
-        return (string) $this->contrato_obra === 'SI';
+        return self::esAfirmativo($this->contrato_obra);
     }
 
     /** Con el AIU visible, A+I+U van desglosados y no dentro de cada item. */
     public function muestraAiuDesglosado(): bool
     {
-        return (string) $this->mostrar_aiu === 'SI';
+        return self::esAfirmativo($this->mostrar_aiu);
+    }
+
+    /** Si el AIU se pacto sobre el contrato actual. */
+    public function esContratoActual(): bool
+    {
+        return self::esAfirmativo($this->contrato_actual);
+    }
+
+    /**
+     * Interpreta una bandera de la base, venga en el formato que venga.
+     *
+     * En esta tabla conviven DOS formatos: la mayoria de las filas guardan
+     * 'SI'/'NO' y unas pocas guardan '1'/'0'. El sistema actual solo entiende
+     * el primero, asi que una cotizacion guardada como '1' se calcula como si
+     * dijera 'NO'.
+     *
+     * En los datos reales son dos cotizaciones de prueba, y el total
+     * facturado coincide igualmente; lo que cambia es la presentacion, porque
+     * el cliente deberia ver el AIU desglosado y lo ve incorporado en los
+     * precios. Aun asi es un formato que hay que entender, no ignorar.
+     */
+    private static function esAfirmativo(mixed $valor): bool
+    {
+        if (is_bool($valor)) {
+            return $valor;
+        }
+
+        if (is_int($valor)) {
+            return $valor === 1;
+        }
+
+        /**
+         * mb_strtoupper y no strtoupper: la funcion de PHP no entiende los
+         * acentos en UTF-8, asi que "si" con tilde no se convertiria bien.
+         */
+        return in_array(mb_strtoupper(trim((string) $valor)), ['1', 'SI', 'SÍ', 'TRUE'], true);
     }
 
     /**

@@ -106,7 +106,11 @@ final readonly class DatosPersona
             return $valor === 1;
         }
 
-        $texto = strtoupper(trim((string) $valor));
+        /**
+         * mb_strtoupper y no strtoupper: la funcion de PHP no entiende los
+         * acentos en UTF-8, asi que "si" con tilde no se convertiria bien.
+         */
+        $texto = mb_strtoupper(trim((string) $valor));
 
         return in_array($texto, ['1', 'SI', 'SÍ', 'TRUE', 'Y'], true);
     }

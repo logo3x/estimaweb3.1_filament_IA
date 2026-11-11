@@ -73,6 +73,21 @@ class GoldenMasterCalculoTest extends TestCase
     }
 
     /**
+     * Cotizaciones cuya bandera del AIU esta guardada como '1'/'0'.
+     *
+     * El sistema actual solo entiende 'SI'/'NO', asi que las lee como si
+     * dijeran 'NO' y les aplica el escenario equivocado. El dominio nuevo
+     * entiende ambos formatos, de modo que aqui difiere A PROPOSITO.
+     *
+     * El total facturado coincide igualmente; lo que cambia es la
+     * presentacion: el cliente deberia ver el AIU desglosado y lo ve
+     * incorporado en los precios de cada item.
+     *
+     * @var list<int>
+     */
+    private const BANDERA_EN_FORMATO_NUMERICO = [6, 7];
+
+    /**
      * El escenario guardado corresponde a los parametros que hay en la base.
      *
      * Si alguien cambia el AIU de una cotizacion, la referencia deja de ser
@@ -90,10 +105,45 @@ class GoldenMasterCalculoTest extends TestCase
 
         $escenario = ($esObra ? 'obra' : 'servicio') . '/' . ($muestra ? 'aiu-visible' : 'aiu-oculto');
 
+        if (in_array($id, self::BANDERA_EN_FORMATO_NUMERICO, true)) {
+            $this->assertNotSame(
+                $esperado['escenario'],
+                $escenario,
+                "Cotizacion {$id}: deberia diferir del snapshot, porque su bandera "
+                . 'esta guardada como numero y el dominio nuevo la interpreta bien.'
+            );
+
+            return;
+        }
+
         $this->assertSame(
             $esperado['escenario'],
             $escenario,
             "Cotizacion {$id}: cambiaron los parametros del AIU en la base; el snapshot quedo obsoleto."
+        );
+    }
+
+    /**
+     * Deja constancia de cuales cotizaciones traen la bandera como numero.
+     *
+     * Si aparece una nueva, es que el formulario sigue guardando en los dos
+     * formatos y hay que unificarlo.
+     */
+    public function test_el_alcance_de_las_banderas_numericas_no_crecio(): void
+    {
+        $numericas = Aiu::query()
+            ->where(function ($query): void {
+                $query->whereIn('contrato_obra', ['0', '1'])
+                    ->orWhereIn('mostrar_aiu', ['0', '1']);
+            })
+            ->orderBy('id_cotizacion')
+            ->pluck('id_cotizacion')
+            ->all();
+
+        $this->assertSame(
+            self::BANDERA_EN_FORMATO_NUMERICO,
+            $numericas,
+            'Cambio el conjunto de cotizaciones con la bandera del AIU guardada como numero.'
         );
     }
 
