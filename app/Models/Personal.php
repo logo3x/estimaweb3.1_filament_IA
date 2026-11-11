@@ -78,6 +78,12 @@ class Personal extends Model
         return $this->hasMany(PerAuxOtro::class, 'id_personal');
     }
 
+    /** Auxilios pactados por convencion colectiva. */
+    public function auxiliosConvencionales(): HasMany
+    {
+        return $this->hasMany(PerAuxConvencional::class, 'id_personal');
+    }
+
     /** Elementos de proteccion personal asignados. */
     public function epps(): HasMany
     {
