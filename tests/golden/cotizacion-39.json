@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 39,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 10365426.85,
+        "con_aiu": 10365426.85,
+        "con_iva": 12334857.95,
+        "administracion": 599121.67,
+        "imprevistos": 51827.13,
+        "utilidad": 829234.15,
+        "iva": 1969431.1
+    },
+    "items": [
+        {
+            "id": 231,
+            "numero": 1,
+            "nombre": "Calibración de medidor de gas tipo turbina Dresser G1000",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 10365426.85,
+            "costo_directo": 9070202
+        }
+    ],
+    "cuadre": {
+        "suma_items": 10365426.85,
+        "subtotal": 10365426.85,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 10,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

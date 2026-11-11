@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 35,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 15
+    },
+    "totales": {
+        "sin_aiu": 9672645.97,
+        "con_aiu": 9672645.97,
+        "con_iva": 11510448.7,
+        "administracion": 870538.14,
+        "imprevistos": 193452.92,
+        "utilidad": 1450896.9,
+        "iva": 1837802.73
+    },
+    "items": [
+        {
+            "id": 223,
+            "numero": 1,
+            "nombre": "Análisis de calidad de energía a los circuitos eléctricos ",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 9672645.97,
+            "costo_directo": 7676703.15
+        }
+    ],
+    "cuadre": {
+        "suma_items": 9672645.97,
+        "subtotal": 9672645.97,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 5,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

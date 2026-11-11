@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 22,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 2234386.25,
+        "con_aiu": 2234386.25,
+        "con_iva": 2658919.64,
+        "administracion": 201094.76,
+        "imprevistos": 44687.72,
+        "utilidad": 178750.9,
+        "iva": 424533.39
+    },
+    "items": [
+        {
+            "id": 194,
+            "numero": 1,
+            "nombre": "Mantenimiento a Contactor",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 2234386.25,
+            "costo_directo": 1877635.5
+        }
+    ],
+    "cuadre": {
+        "suma_items": 2234386.25,
+        "subtotal": 2234386.25,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

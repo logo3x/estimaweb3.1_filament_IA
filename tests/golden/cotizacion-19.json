@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 19,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 8,
+        "imprevistos": 1,
+        "utilidad": 16
+    },
+    "totales": {
+        "sin_aiu": 50312654.96,
+        "con_aiu": 50312654.96,
+        "con_iva": 59872059.41,
+        "administracion": 4025012.4,
+        "imprevistos": 503126.55,
+        "utilidad": 8050024.79,
+        "iva": 9559404.44
+    },
+    "items": [
+        {
+            "id": 188,
+            "numero": 1,
+            "nombre": "Recorredor MONC 14X14 12H ",
+            "unidad": "MES",
+            "cantidad": 1,
+            "valor_unitario": 29675146.61,
+            "costo_directo": 23740117.29
+        },
+        {
+            "id": 189,
+            "numero": 1,
+            "nombre": "Recorredor MONC 5X2 8 H ",
+            "unidad": "MES",
+            "cantidad": 1,
+            "valor_unitario": 20637508.35,
+            "costo_directo": 16510006.68
+        }
+    ],
+    "cuadre": {
+        "suma_items": 50312654.96,
+        "subtotal": 50312654.96,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 30,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

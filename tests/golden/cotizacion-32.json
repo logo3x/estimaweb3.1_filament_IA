@@ -1,0 +1,68 @@
+{
+    "cotizacion_id": 32,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 49949687.15,
+        "con_aiu": 49949687.15,
+        "con_iva": 59440127.71,
+        "administracion": 4495471.84,
+        "imprevistos": 998993.74,
+        "utilidad": 9490440.56,
+        "iva": 9490440.56
+    },
+    "items": [
+        {
+            "id": 216,
+            "numero": 1,
+            "nombre": "Circuito Batería Uno – Red 34,5 kV: Orito, Putumayo ",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 5375807.26,
+            "costo_directo": 4135236.36
+        },
+        {
+            "id": 217,
+            "numero": 2,
+            "nombre": "Circuito Yarumo Campamento – Red 34,5 kV: Orito, Putumayo",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 8931614.52,
+            "costo_directo": 6870472.71
+        },
+        {
+            "id": 218,
+            "numero": 3,
+            "nombre": "Circuito Flora Uno – Red 34,5 kV: La Hormiga, Putumayo ",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 23154843.57,
+            "costo_directo": 17811418.13
+        },
+        {
+            "id": 219,
+            "numero": 4,
+            "nombre": "Circuito Flora Dos – Red 34,5 kV: San Miguel, Putumayo ",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 12487421.79,
+            "costo_directo": 9605709.07
+        }
+    ],
+    "cuadre": {
+        "suma_items": 49949687.14,
+        "subtotal": 49949687.15,
+        "diferencia": -0.01,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 60,
+    "numero_items": 4,
+    "tiene_aiu": true
+}

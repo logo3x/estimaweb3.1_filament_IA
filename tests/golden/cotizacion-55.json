@@ -1,0 +1,284 @@
+{
+    "cotizacion_id": 55,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 599888341.23,
+        "con_aiu": 599888341.23,
+        "con_iva": 713867126.06,
+        "administracion": 34673546.12,
+        "imprevistos": 2999441.71,
+        "utilidad": 47991067.3,
+        "iva": 113978784.83
+    },
+    "items": [
+        {
+            "id": 303,
+            "numero": 1,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación ERCT 2",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 304,
+            "numero": 2,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación ERCT 3",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 305,
+            "numero": 3,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación ERCT 4",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 37493021.26,
+            "costo_directo": 32808034
+        },
+        {
+            "id": 306,
+            "numero": 4,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación ERCT 5",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 307,
+            "numero": 5,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Peñas Blancas",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 18746510.63,
+            "costo_directo": 16404017
+        },
+        {
+            "id": 308,
+            "numero": 6,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Casabe Sur",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 309,
+            "numero": 7,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Bombeo Condor",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 310,
+            "numero": 8,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Auxiliar",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 311,
+            "numero": 9,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Isla IV",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 24995346.74,
+            "costo_directo": 21872022
+        },
+        {
+            "id": 312,
+            "numero": 10,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Isla VI",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 37493021.26,
+            "costo_directo": 32808034
+        },
+        {
+            "id": 313,
+            "numero": 11,
+            "nombre": "Detección y cuantificación de fugas de gas natural Planta Compresora Yariguí",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 24995346.74,
+            "costo_directo": 21872022
+        },
+        {
+            "id": 314,
+            "numero": 12,
+            "nombre": "Detección y cuantificación de fugas de gas natural Locación Aullador",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 6248837.26,
+            "costo_directo": 5468006
+        },
+        {
+            "id": 315,
+            "numero": 13,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Cristalina",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 6248837.26,
+            "costo_directo": 5468006
+        },
+        {
+            "id": 316,
+            "numero": 14,
+            "nombre": "Detección y cuantificación de fugas de gas natural Locación Flamencos",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 6248837.26,
+            "costo_directo": 5468006
+        },
+        {
+            "id": 317,
+            "numero": 15,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Garzas",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 6248837.26,
+            "costo_directo": 5468006
+        },
+        {
+            "id": 318,
+            "numero": 16,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Central",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 12497673.37,
+            "costo_directo": 10936011
+        },
+        {
+            "id": 319,
+            "numero": 17,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Satélite",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 12497673.37,
+            "costo_directo": 10936011
+        },
+        {
+            "id": 320,
+            "numero": 18,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Suroccidental/Sol",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 12497673.37,
+            "costo_directo": 10936011
+        },
+        {
+            "id": 321,
+            "numero": 19,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Tesoro",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 12497673.37,
+            "costo_directo": 10936011
+        },
+        {
+            "id": 322,
+            "numero": 20,
+            "nombre": "Detección y cuantificación de fugas de gas natural Planta Compresora Lisama",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 12497673.37,
+            "costo_directo": 10936011
+        },
+        {
+            "id": 323,
+            "numero": 28,
+            "nombre": "Detección y cuantificación de fugas de gas natural Compresora Llanito",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 18746510.63,
+            "costo_directo": 16404017
+        },
+        {
+            "id": 324,
+            "numero": 27,
+            "nombre": "Detección y cuantificación de fugas de gas natural Deshidratadora Galán",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 31244185.14,
+            "costo_directo": 27340029
+        },
+        {
+            "id": 325,
+            "numero": 26,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Gala",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 24995346.74,
+            "costo_directo": 21872022
+        },
+        {
+            "id": 326,
+            "numero": 25,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Tres",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 18746510.63,
+            "costo_directo": 16404017
+        },
+        {
+            "id": 327,
+            "numero": 24,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Nororiental",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 24995346.74,
+            "costo_directo": 21872022
+        },
+        {
+            "id": 328,
+            "numero": 23,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación Tisquirama",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 24995346.74,
+            "costo_directo": 21872022
+        },
+        {
+            "id": 329,
+            "numero": 22,
+            "nombre": "Detección y cuantificación de fugas de gas natural Estación San Roque",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 18746510.63,
+            "costo_directo": 16404017
+        },
+        {
+            "id": 330,
+            "numero": 21,
+            "nombre": "Detección y cuantificación de fugas de gas natural Planta Deshidratadora Lisama",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 18746510.63,
+            "costo_directo": 16404017
+        }
+    ],
+    "cuadre": {
+        "suma_items": 599888341.24,
+        "subtotal": 599888341.23,
+        "diferencia": 0.01,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 30,
+    "numero_items": 28,
+    "tiene_aiu": true
+}

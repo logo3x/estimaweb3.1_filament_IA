@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 23,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 44112080,
+        "con_aiu": 44112080,
+        "con_iva": 52493375.2,
+        "administracion": 2549678.22,
+        "imprevistos": 220560.4,
+        "utilidad": 3528966.4,
+        "iva": 8381295.2
+    },
+    "items": [
+        {
+            "id": 196,
+            "numero": 1,
+            "nombre": "Medidor Ultrasónico marca FLUENTA – Spool de 6” y punto de muestreo de gas incorporado.",
+            "unidad": "MES",
+            "cantidad": 1,
+            "valor_unitario": 44112080,
+            "costo_directo": 38600000
+        }
+    ],
+    "cuadre": {
+        "suma_items": 44112080,
+        "subtotal": 44112080,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 90,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

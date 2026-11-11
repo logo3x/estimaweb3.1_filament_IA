@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 10,
+    "escenario": "servicio/aiu-visible",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "SI",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 9
+    },
+    "totales": {
+        "sin_aiu": 0,
+        "con_aiu": 0,
+        "con_iva": 0,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 25,
+            "numero": 1,
+            "nombre": "Servicio de monitoreo ",
+            "unidad": "dia ",
+            "cantidad": 5,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 26,
+            "numero": 2,
+            "nombre": "Traslado del personal ",
+            "unidad": "recorrido",
+            "cantidad": 2,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 0,
+        "subtotal": 0,
+        "diferencia": 0,
+        "diferencia_esperada": -0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 5,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

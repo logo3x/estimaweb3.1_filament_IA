@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 54,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 12262086.25,
+        "con_aiu": 12262086.25,
+        "con_iva": 14591882.63,
+        "administracion": 1103587.76,
+        "imprevistos": 245241.72,
+        "utilidad": 2329796.39,
+        "iva": 2329796.39
+    },
+    "items": [
+        {
+            "id": 302,
+            "numero": 1,
+            "nombre": "Diagnóstico de la Gestión de Mantenimiento",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 12262086.25,
+            "costo_directo": 9432374.03
+        }
+    ],
+    "cuadre": {
+        "suma_items": 12262086.25,
+        "subtotal": 12262086.25,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 15,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

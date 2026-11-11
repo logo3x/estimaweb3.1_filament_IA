@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 25,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 13740291.51,
+        "con_aiu": 13740291.51,
+        "con_iva": 16350946.9,
+        "administracion": 1236626.24,
+        "imprevistos": 274805.83,
+        "utilidad": 2610655.39,
+        "iva": 2610655.39
+    },
+    "items": [
+        {
+            "id": 199,
+            "numero": 1,
+            "nombre": "Serivicio de Filtroprensado a 2 Transformadores de 300 KVA",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 13740291.51,
+            "costo_directo": 10569455.01
+        }
+    ],
+    "cuadre": {
+        "suma_items": 13740291.51,
+        "subtotal": 13740291.51,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 2,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

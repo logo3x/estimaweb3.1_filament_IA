@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 53,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 29
+    },
+    "totales": {
+        "sin_aiu": 16943268.36,
+        "con_aiu": 16943268.36,
+        "con_iva": 20162489.35,
+        "administracion": 1524894.15,
+        "imprevistos": 338865.37,
+        "utilidad": 4913547.83,
+        "iva": 3219220.99
+    },
+    "items": [
+        {
+            "id": 300,
+            "numero": 1,
+            "nombre": "Servicio de Ultrasonido en 43 Estructuras",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 15481261.33,
+            "costo_directo": 11058043.8
+        },
+        {
+            "id": 301,
+            "numero": 2,
+            "nombre": "Día de Stand By",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 1462007.04,
+            "costo_directo": 1044290.74
+        }
+    ],
+    "cuadre": {
+        "suma_items": 16943268.37,
+        "subtotal": 16943268.36,
+        "diferencia": 0.01,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 15,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

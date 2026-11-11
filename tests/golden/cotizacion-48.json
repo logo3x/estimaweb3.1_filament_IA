@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 48,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 156622861.04,
+        "con_aiu": 156622861.04,
+        "con_iva": 186381204.63,
+        "administracion": 9052801.37,
+        "imprevistos": 783114.31,
+        "utilidad": 12529828.88,
+        "iva": 29758343.6
+    },
+    "items": [
+        {
+            "id": 263,
+            "numero": 1,
+            "nombre": "Servicio Para El Aseguramiento Metrológico De Equipos De Medición Muestreador Eléctrico Automático",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 156622861.04,
+            "costo_directo": 137051856
+        }
+    ],
+    "cuadre": {
+        "suma_items": 156622861.04,
+        "subtotal": 156622861.04,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 80,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

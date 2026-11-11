@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 30,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 8,
+        "imprevistos": 1,
+        "utilidad": 1
+    },
+    "totales": {
+        "sin_aiu": 54824685.3,
+        "con_aiu": 54824685.3,
+        "con_iva": 65241375.51,
+        "administracion": 4385974.82,
+        "imprevistos": 548246.85,
+        "utilidad": 548246.85,
+        "iva": 10416690.21
+    },
+    "items": [
+        {
+            "id": 209,
+            "numero": 1,
+            "nombre": "Operador - Mantenedor CCM",
+            "unidad": "Tecnico",
+            "cantidad": 3,
+            "valor_unitario": 18274895.1,
+            "costo_directo": 49840623
+        }
+    ],
+    "cuadre": {
+        "suma_items": 54824685.3,
+        "subtotal": 54824685.3,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 90,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

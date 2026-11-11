@@ -1,0 +1,59 @@
+{
+    "cotizacion_id": 56,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0
+    },
+    "totales": {
+        "sin_aiu": 0,
+        "con_aiu": 0,
+        "con_iva": 0,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 335,
+            "numero": 5,
+            "nombre": "Omnis placeat sit ",
+            "unidad": "Adipisci sit quaerat",
+            "cantidad": 15,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 336,
+            "numero": 24,
+            "nombre": "Animi architecto mo",
+            "unidad": "Quasi culpa quo ips",
+            "cantidad": 93,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 337,
+            "numero": 64,
+            "nombre": "Sint autem sint lab",
+            "unidad": "Explicabo Anim quia",
+            "cantidad": 12,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 0,
+        "subtotal": 0,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 2,
+    "numero_items": 3,
+    "tiene_aiu": false
+}

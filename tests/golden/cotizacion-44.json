@@ -1,0 +1,59 @@
+{
+    "cotizacion_id": 44,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 77777869.2,
+        "con_aiu": 77777869.2,
+        "con_iva": 92555664.35,
+        "administracion": 7000008.23,
+        "imprevistos": 1555557.38,
+        "utilidad": 14777795.15,
+        "iva": 14777795.15
+    },
+    "items": [
+        {
+            "id": 250,
+            "numero": 2,
+            "nombre": "Servicio de inspección, mantenimiento y verificación en banco de válvulas de seguridad y alivio. Dia Adicional",
+            "unidad": "dia",
+            "cantidad": 17,
+            "valor_unitario": 3804110.36,
+            "costo_directo": 49746058.55
+        },
+        {
+            "id": 251,
+            "numero": 1,
+            "nombre": "Servicio de inspección, mantenimiento y verificación en banco de válvulas de seguridad y alivio. Primer dia",
+            "unidad": "dia",
+            "cantidad": 1,
+            "valor_unitario": 11482993.09,
+            "costo_directo": 8833071.61
+        },
+        {
+            "id": 254,
+            "numero": 3,
+            "nombre": "Servicio de torno ",
+            "unidad": "hora",
+            "cantidad": 5,
+            "valor_unitario": 325000,
+            "costo_directo": 1250000
+        }
+    ],
+    "cuadre": {
+        "suma_items": 77777869.21,
+        "subtotal": 77777869.2,
+        "diferencia": 0.01,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 14,
+    "numero_items": 3,
+    "tiene_aiu": true
+}

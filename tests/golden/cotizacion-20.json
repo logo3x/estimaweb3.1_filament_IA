@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 20,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 27125686.36,
+        "con_aiu": 27125686.36,
+        "con_iva": 32279566.77,
+        "administracion": 2441311.77,
+        "imprevistos": 542513.73,
+        "utilidad": 5153880.41,
+        "iva": 5153880.41
+    },
+    "items": [
+        {
+            "id": 192,
+            "numero": 1,
+            "nombre": "Servicio de Diagnostico de la Gestión de Mantenimiento ",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 27125686.36,
+            "costo_directo": 20865912.59
+        }
+    ],
+    "cuadre": {
+        "suma_items": 27125686.36,
+        "subtotal": 27125686.36,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 20,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

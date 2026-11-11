@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 13,
+    "escenario": "servicio/aiu-visible",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "SI",
+        "administracion": 10,
+        "imprevistos": 2,
+        "utilidad": 6
+    },
+    "totales": {
+        "sin_aiu": 27238476.37,
+        "con_aiu": 32141402.12,
+        "con_iva": 38248268.52,
+        "administracion": 2723847.64,
+        "imprevistos": 544769.53,
+        "utilidad": 1634308.58,
+        "iva": 6106866.4
+    },
+    "items": [
+        {
+            "id": 39,
+            "numero": 1,
+            "nombre": "Servicio de monitoreo",
+            "unidad": "Día",
+            "cantidad": 5,
+            "valor_unitario": 5447695.27,
+            "costo_directo": 27238476.37
+        },
+        {
+            "id": 40,
+            "numero": 2,
+            "nombre": "Servicio de transporte ",
+            "unidad": "Recorrido",
+            "cantidad": 2,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 27238476.35,
+        "subtotal": 32141402.12,
+        "diferencia": -4902925.77,
+        "diferencia_esperada": -4902925.75,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 5,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 40,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 16970580,
+        "con_aiu": 16970580,
+        "con_iva": 20194990.2,
+        "administracion": 980899.52,
+        "imprevistos": 84852.9,
+        "utilidad": 1357646.4,
+        "iva": 3224410.2
+    },
+    "items": [
+        {
+            "id": 234,
+            "numero": 1,
+            "nombre": "Calibración de probador de 18 pulgadas",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 16970580,
+            "costo_directo": 14850000
+        }
+    ],
+    "cuadre": {
+        "suma_items": 16970580,
+        "subtotal": 16970580,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 5,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

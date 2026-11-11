@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 15,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 8677.16,
+        "con_aiu": 8677.16,
+        "con_iva": 10325.83,
+        "administracion": 780.94,
+        "imprevistos": 173.54,
+        "utilidad": 694.17,
+        "iva": 1648.66
+    },
+    "items": [
+        {
+            "id": 57,
+            "numero": 1,
+            "nombre": "Mantenimineto Locativo Planta Fotovoltaica Molino Aguazul",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 8677.16,
+            "costo_directo": 7291.73
+        },
+        {
+            "id": 58,
+            "numero": 2,
+            "nombre": "Servicio Especializado SCADA",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 8677.16,
+        "subtotal": 8677.16,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 30,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

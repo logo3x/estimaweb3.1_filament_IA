@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 26,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 7280016.66,
+        "con_aiu": 7280016.66,
+        "con_iva": 8663219.83,
+        "administracion": 655201.5,
+        "imprevistos": 145600.33,
+        "utilidad": 582401.33,
+        "iva": 1383203.17
+    },
+    "items": [
+        {
+            "id": 202,
+            "numero": 1,
+            "nombre": "Servicio de diagnostico de valvulas de Control. Primer dia",
+            "unidad": "dia",
+            "cantidad": 1,
+            "valor_unitario": 4408828.49,
+            "costo_directo": 3704897.89
+        },
+        {
+            "id": 203,
+            "numero": 2,
+            "nombre": "Servicio de diagnóstico de válvulas de control. Dia Adicional",
+            "unidad": "dia",
+            "cantidad": 1,
+            "valor_unitario": 2871188.17,
+            "costo_directo": 2412763.17
+        }
+    ],
+    "cuadre": {
+        "suma_items": 7280016.66,
+        "subtotal": 7280016.66,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 21,
+    "escenario": "servicio/aiu-visible",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "SI",
+        "administracion": 8.33,
+        "imprevistos": 1,
+        "utilidad": 7
+    },
+    "totales": {
+        "sin_aiu": 35893652,
+        "con_aiu": 41755085.37,
+        "con_iva": 49688551.59,
+        "administracion": 2989941.21,
+        "imprevistos": 358936.52,
+        "utilidad": 2512555.64,
+        "iva": 7933466.22
+    },
+    "items": [
+        {
+            "id": 193,
+            "numero": 1,
+            "nombre": "Servicio Almacenista Bodega Planta SAARA",
+            "unidad": "MES",
+            "cantidad": 1,
+            "valor_unitario": 35893652,
+            "costo_directo": 35893652
+        }
+    ],
+    "cuadre": {
+        "suma_items": 35893652,
+        "subtotal": 41755085.37,
+        "diferencia": -5861433.37,
+        "diferencia_esperada": -5861433.37,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 30,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

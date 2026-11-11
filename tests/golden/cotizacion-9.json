@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 9,
+    "escenario": "obra/aiu-visible",
+    "parametros_aiu": {
+        "contrato_obra": "SI",
+        "mostrar_aiu": "SI",
+        "administracion": 10,
+        "imprevistos": 10,
+        "utilidad": 10
+    },
+    "totales": {
+        "sin_aiu": 0,
+        "con_aiu": 0,
+        "con_iva": 0,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 14,
+            "numero": 1,
+            "nombre": "Item de Cotizacion 1",
+            "unidad": "1",
+            "cantidad": 1,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 0,
+        "subtotal": 0,
+        "diferencia": 0,
+        "diferencia_esperada": -0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 65,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

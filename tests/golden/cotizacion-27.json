@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 27,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 19
+    },
+    "totales": {
+        "sin_aiu": 49444838.08,
+        "con_aiu": 49444838.08,
+        "con_iva": 58839357.31,
+        "administracion": 4450035.43,
+        "imprevistos": 988896.76,
+        "utilidad": 9394519.23,
+        "iva": 9394519.23
+    },
+    "items": [
+        {
+            "id": 204,
+            "numero": 1,
+            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a API 576, ASME sección VIII Div I y Manuales de fabricante de válvulas de seguridad y alivio en estación Carupana",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 49444838.08,
+            "costo_directo": 38034490.83
+        }
+    ],
+    "cuadre": {
+        "suma_items": 49444838.08,
+        "subtotal": 49444838.08,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

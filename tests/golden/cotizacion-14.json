@@ -1,0 +1,68 @@
+{
+    "cotizacion_id": 14,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0.01,
+        "imprevistos": 0.01,
+        "utilidad": 0.01
+    },
+    "totales": {
+        "sin_aiu": 14209369.53,
+        "con_aiu": 14209369.53,
+        "con_iva": 16909149.74,
+        "administracion": 1420.94,
+        "imprevistos": 1420.94,
+        "utilidad": 1420.94,
+        "iva": 2699780.21
+    },
+    "items": [
+        {
+            "id": 143,
+            "numero": 1,
+            "nombre": "Supervisor",
+            "unidad": "Día",
+            "cantidad": 12,
+            "valor_unitario": 442822.81,
+            "costo_directo": 5312280
+        },
+        {
+            "id": 144,
+            "numero": 1,
+            "nombre": "Soldador",
+            "unidad": "Día",
+            "cantidad": 12,
+            "valor_unitario": 447664.26,
+            "costo_directo": 5370360
+        },
+        {
+            "id": 145,
+            "numero": 1,
+            "nombre": "Auxiliar de Soldadura",
+            "unidad": "Día",
+            "cantidad": 12,
+            "valor_unitario": 276852.03,
+            "costo_directo": 3321228
+        },
+        {
+            "id": 146,
+            "numero": 1,
+            "nombre": "Maquina de Soldar",
+            "unidad": "Día",
+            "cantidad": 12,
+            "valor_unitario": 16775.03,
+            "costo_directo": 201240
+        }
+    ],
+    "cuadre": {
+        "suma_items": 14209369.56,
+        "subtotal": 14209369.53,
+        "diferencia": 0.03,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 12,
+    "numero_items": 4,
+    "tiene_aiu": true
+}

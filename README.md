@@ -56,6 +56,30 @@ php artisan pruebas:preparar   # recrea el esquema y copia los datos reales
 php artisan test --compact
 ```
 
+### Golden masters: la referencia del cálculo
+
+`tests/golden/` guarda, para cada una de las 48 cotizaciones reales, los totales
+y el valor unitario de cada ítem **tal como los calcula el sistema actual**.
+
+Es la respuesta verificable a "¿cómo sé que no se quedó nada por fuera?": el
+dominio nuevo tendrá que reproducir esos mismos números, y lo que no cuadre
+aparece nombrado por cotización e ítem.
+
+Se regeneran **desde el sistema actual**, que es donde vive el cálculo de
+referencia:
+
+```bash
+cd C:/wamp64/www/estimaweb3_filament
+php artisan golden:generar --salida=../estimaweb3.1_filament_IA/tests/golden
+```
+
+Los snapshots se generan **ejecutando el cálculo**, no leyendo las columnas de
+la base: muchas cotizaciones arrastran totales guardados por versiones
+anteriores del código, y congelarlos congelaría errores ya corregidos.
+
+Regenerar ante un fallo solo tiene sentido si el cambio de números es
+deliberado y se revisó uno por uno.
+
 ### Las dos bases locales
 
 | Base | Contenido | ¿Se puede borrar? |

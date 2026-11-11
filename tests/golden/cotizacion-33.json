@@ -1,0 +1,77 @@
+{
+    "cotizacion_id": 33,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 8,
+        "imprevistos": 1,
+        "utilidad": 10
+    },
+    "totales": {
+        "sin_aiu": 82288500,
+        "con_aiu": 82288500,
+        "con_iva": 97923315,
+        "administracion": 6583080,
+        "imprevistos": 822885,
+        "utilidad": 8228850,
+        "iva": 15634815
+    },
+    "items": [
+        {
+            "id": 290,
+            "numero": 1,
+            "nombre": "BEGONIA",
+            "unidad": "Día",
+            "cantidad": 2,
+            "valor_unitario": 11007500,
+            "costo_directo": 18500000
+        },
+        {
+            "id": 291,
+            "numero": 2,
+            "nombre": "CAPACHOS",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 11721500,
+            "costo_directo": 9850000
+        },
+        {
+            "id": 292,
+            "numero": 3,
+            "nombre": "LA BELLEZA",
+            "unidad": "Día",
+            "cantidad": 3,
+            "valor_unitario": 11007500,
+            "costo_directo": 27750000
+        },
+        {
+            "id": 293,
+            "numero": 4,
+            "nombre": "PLANTA GAS LL32",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 11007500,
+            "costo_directo": 9250000
+        },
+        {
+            "id": 294,
+            "numero": 5,
+            "nombre": "Stand By ",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 4522000,
+            "costo_directo": 3800000
+        }
+    ],
+    "cuadre": {
+        "suma_items": 82288500,
+        "subtotal": 82288500,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 8,
+    "numero_items": 5,
+    "tiene_aiu": true
+}

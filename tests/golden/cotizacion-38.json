@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 38,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 877670.4,
+        "con_aiu": 877670.4,
+        "con_iva": 1044427.78,
+        "administracion": 50729.35,
+        "imprevistos": 4388.35,
+        "utilidad": 70213.63,
+        "iva": 166757.38
+    },
+    "items": [
+        {
+            "id": 229,
+            "numero": 1,
+            "nombre": "Mantenimiento preventivo de espectrofluorómetro JASCO",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 877670.4,
+            "costo_directo": 768000
+        }
+    ],
+    "cuadre": {
+        "suma_items": 877670.4,
+        "subtotal": 877670.4,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 30,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

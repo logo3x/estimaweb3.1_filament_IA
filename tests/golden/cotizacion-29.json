@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 29,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0
+    },
+    "totales": {
+        "sin_aiu": 127908148.89,
+        "con_aiu": 127908148.89,
+        "con_iva": 152210697.18,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 207,
+            "numero": 1,
+            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a ASME PTC25, API 576 Y API527 y Manuales de fabricante de válvulas de seguridad y alivio. Primer dia",
+            "unidad": "dia",
+            "cantidad": 1,
+            "valor_unitario": 10820140.33,
+            "costo_directo": 10820140.33
+        },
+        {
+            "id": 208,
+            "numero": 2,
+            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a ASME PTC25, API 576 Y API527 y Manuales de fabricante de válvulas de seguridad y alivio. Dia Adicional",
+            "unidad": "dia",
+            "cantidad": 30,
+            "valor_unitario": 3902933.62,
+            "costo_directo": 117088008.57
+        }
+    ],
+    "cuadre": {
+        "suma_items": 127908148.93,
+        "subtotal": 127908148.89,
+        "diferencia": 0.04,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 32,
+    "numero_items": 2,
+    "tiene_aiu": false
+}

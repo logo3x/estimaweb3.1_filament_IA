@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 36,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 156713171.95,
+        "con_aiu": 156713171.95,
+        "con_iva": 186488674.62,
+        "administracion": 9058021.34,
+        "imprevistos": 783565.86,
+        "utilidad": 12537053.76,
+        "iva": 29775502.67
+    },
+    "items": [
+        {
+            "id": 225,
+            "numero": 1,
+            "nombre": "Servicio Especial eficiencia de quema de gas natural en Teas",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 156713171.95,
+            "costo_directo": 137130882
+        }
+    ],
+    "cuadre": {
+        "suma_items": 156713171.95,
+        "subtotal": 156713171.95,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

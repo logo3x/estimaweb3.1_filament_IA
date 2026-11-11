@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 51,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0
+    },
+    "totales": {
+        "sin_aiu": 0,
+        "con_aiu": 0,
+        "con_iva": 0,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 289,
+            "numero": 1,
+            "nombre": "Servicio de operación -mantenimiento de sistema de generación Cohembi",
+            "unidad": "mes",
+            "cantidad": 12,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 0,
+        "subtotal": 0,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 365,
+    "numero_items": 1,
+    "tiene_aiu": false
+}

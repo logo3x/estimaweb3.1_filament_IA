@@ -1,0 +1,68 @@
+{
+    "cotizacion_id": 18,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0.01,
+        "imprevistos": 0.01,
+        "utilidad": 0.01
+    },
+    "totales": {
+        "sin_aiu": 4330177.81,
+        "con_aiu": 4330177.81,
+        "con_iva": 5152911.59,
+        "administracion": 433.02,
+        "imprevistos": 433.02,
+        "utilidad": 433.02,
+        "iva": 822733.78
+    },
+    "items": [
+        {
+            "id": 183,
+            "numero": 1,
+            "nombre": "Servicio profesionales de mantenimiento de valvulas ",
+            "unidad": "Dia",
+            "cantidad": 9,
+            "valor_unitario": 481130.87,
+            "costo_directo": 4328879.14
+        },
+        {
+            "id": 184,
+            "numero": 2,
+            "nombre": "Servico de banco de valvulas de seguridad y alivio . Incluye consumibles blandos",
+            "unidad": "dia",
+            "cantidad": 9,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 185,
+            "numero": 3,
+            "nombre": "Servicio de andamios",
+            "unidad": "dia",
+            "cantidad": 1,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 186,
+            "numero": 4,
+            "nombre": "Movilizacion y desmovilizacion de banco de valvulas y herramientas",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 4330177.83,
+        "subtotal": 4330177.81,
+        "diferencia": 0.02,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 9,
+    "numero_items": 4,
+    "tiene_aiu": true
+}

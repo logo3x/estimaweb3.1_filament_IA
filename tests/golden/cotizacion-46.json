@@ -1,0 +1,50 @@
+{
+    "cotizacion_id": 46,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 102999421.2,
+        "con_aiu": 102999421.2,
+        "con_iva": 122569311.23,
+        "administracion": 5953366.55,
+        "imprevistos": 514997.11,
+        "utilidad": 8239953.7,
+        "iva": 19569890.03
+    },
+    "items": [
+        {
+            "id": 258,
+            "numero": 1,
+            "nombre": "SCADAPack 474 Smart RTU completo (carcaza IP66 / NEMA 4X con Realflo Flow Computer",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 73618176.05,
+            "costo_directo": 64419125
+        },
+        {
+            "id": 259,
+            "numero": 2,
+            "nombre": "Servicio técnico para el montaje, configuración y puesta en servicio del equipo SCADAPack 474 Smart RTU completo",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 29381245.15,
+            "costo_directo": 25709875
+        }
+    ],
+    "cuadre": {
+        "suma_items": 102999421.2,
+        "subtotal": 102999421.2,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 90,
+    "numero_items": 2,
+    "tiene_aiu": true
+}

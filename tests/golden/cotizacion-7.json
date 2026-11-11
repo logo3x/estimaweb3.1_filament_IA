@@ -1,0 +1,77 @@
+{
+    "cotizacion_id": 7,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "0",
+        "mostrar_aiu": "1",
+        "administracion": 12,
+        "imprevistos": 3,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 0,
+        "con_aiu": 0,
+        "con_iva": 0,
+        "administracion": 0,
+        "imprevistos": 0,
+        "utilidad": 0,
+        "iva": 0
+    },
+    "items": [
+        {
+            "id": 9,
+            "numero": 1,
+            "nombre": "Servicio tipo 1",
+            "unidad": "Global",
+            "cantidad": 2,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 10,
+            "numero": 2,
+            "nombre": "Servicio tipo 2",
+            "unidad": "Global",
+            "cantidad": 4,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 11,
+            "numero": 3,
+            "nombre": "Servicio tipo 3",
+            "unidad": "Global",
+            "cantidad": 6,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 12,
+            "numero": 4,
+            "nombre": "Servicio tipo 4",
+            "unidad": "Global",
+            "cantidad": 8,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 191,
+            "numero": 4,
+            "nombre": "Servicio tipo 4",
+            "unidad": "Global",
+            "cantidad": 8,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 0,
+        "subtotal": 0,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 365,
+    "numero_items": 5,
+    "tiene_aiu": true
+}

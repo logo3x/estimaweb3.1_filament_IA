@@ -1,0 +1,59 @@
+{
+    "cotizacion_id": 37,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 0.01,
+        "imprevistos": 0.01,
+        "utilidad": 0.01
+    },
+    "totales": {
+        "sin_aiu": 1862919.71,
+        "con_aiu": 1862919.71,
+        "con_iva": 2216874.45,
+        "administracion": 186.29,
+        "imprevistos": 186.29,
+        "utilidad": 186.29,
+        "iva": 353954.74
+    },
+    "items": [
+        {
+            "id": 226,
+            "numero": 1,
+            "nombre": "TECNICO ELECTROMECANICO",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 984801.35,
+            "costo_directo": 984506
+        },
+        {
+            "id": 227,
+            "numero": 2,
+            "nombre": "AUXILIAR ELECTROMECANICO",
+            "unidad": "Día",
+            "cantidad": 1,
+            "valor_unitario": 442873.82,
+            "costo_directo": 442741
+        },
+        {
+            "id": 228,
+            "numero": 3,
+            "nombre": "MOVILIZACION",
+            "unidad": "UND",
+            "cantidad": 1,
+            "valor_unitario": 435244.53,
+            "costo_directo": 435114
+        }
+    ],
+    "cuadre": {
+        "suma_items": 1862919.7,
+        "subtotal": 1862919.71,
+        "diferencia": -0.01,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 3,
+    "tiene_aiu": true
+}

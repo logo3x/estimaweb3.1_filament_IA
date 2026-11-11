@@ -1,0 +1,68 @@
+{
+    "cotizacion_id": 6,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "0",
+        "mostrar_aiu": "1",
+        "administracion": 15,
+        "imprevistos": 3,
+        "utilidad": 7
+    },
+    "totales": {
+        "sin_aiu": 16851294.5,
+        "con_aiu": 16851294.5,
+        "con_iva": 20053040.46,
+        "administracion": 2527694.18,
+        "imprevistos": 505538.84,
+        "utilidad": 1179590.62,
+        "iva": 3201745.96
+    },
+    "items": [
+        {
+            "id": 127,
+            "numero": 1,
+            "nombre": "Mantenimiento Bombas Centrífugas",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 16851294.5,
+            "costo_directo": 16851294.5
+        },
+        {
+            "id": 128,
+            "numero": 2,
+            "nombre": "Mantenimiento Compresores",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 129,
+            "numero": 3,
+            "nombre": "Inspección de Válvulas",
+            "unidad": "Unidad",
+            "cantidad": 50,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        },
+        {
+            "id": 130,
+            "numero": 4,
+            "nombre": "Alineación de Equipos Rotativos",
+            "unidad": "Servicio",
+            "cantidad": 12,
+            "valor_unitario": 0,
+            "costo_directo": 0
+        }
+    ],
+    "cuadre": {
+        "suma_items": 16851294.5,
+        "subtotal": 16851294.5,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 365,
+    "numero_items": 4,
+    "tiene_aiu": true
+}

@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 49,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 5.78,
+        "imprevistos": 0.5,
+        "utilidad": 8
+    },
+    "totales": {
+        "sin_aiu": 825315.3,
+        "con_aiu": 825315.3,
+        "con_iva": 982125.21,
+        "administracion": 47703.22,
+        "imprevistos": 4126.58,
+        "utilidad": 66025.22,
+        "iva": 156809.91
+    },
+    "items": [
+        {
+            "id": 264,
+            "numero": 1,
+            "nombre": "SERVICIO ESPECIALIZADO EN METROLOGÍA RECALCULO DE AFORO",
+            "unidad": "Und",
+            "cantidad": 1,
+            "valor_unitario": 825315.3,
+            "costo_directo": 722187
+        }
+    ],
+    "cuadre": {
+        "suma_items": 825315.3,
+        "subtotal": 825315.3,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 1,
+    "numero_items": 1,
+    "tiene_aiu": true
+}

@@ -1,0 +1,41 @@
+{
+    "cotizacion_id": 34,
+    "escenario": "servicio/aiu-oculto",
+    "parametros_aiu": {
+        "contrato_obra": "NO",
+        "mostrar_aiu": "NO",
+        "administracion": 9,
+        "imprevistos": 2,
+        "utilidad": 15
+    },
+    "totales": {
+        "sin_aiu": 5821990.72,
+        "con_aiu": 5821990.72,
+        "con_iva": 6928168.96,
+        "administracion": 523979.17,
+        "imprevistos": 116439.81,
+        "utilidad": 873298.61,
+        "iva": 1106178.24
+    },
+    "items": [
+        {
+            "id": 222,
+            "numero": 1,
+            "nombre": "Análisis de Desempeño Dinámico a los motocompresores 7403A y la Unidad 7403B",
+            "unidad": "Global",
+            "cantidad": 1,
+            "valor_unitario": 5821990.72,
+            "costo_directo": 4620627.56
+        }
+    ],
+    "cuadre": {
+        "suma_items": 5821990.72,
+        "subtotal": 5821990.72,
+        "diferencia": 0,
+        "diferencia_esperada": 0,
+        "cuadra": true
+    },
+    "dias_dura_servicio": 5,
+    "numero_items": 1,
+    "tiene_aiu": true
+}
