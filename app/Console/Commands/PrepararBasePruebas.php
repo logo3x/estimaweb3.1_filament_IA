@@ -27,15 +27,26 @@ class PrepararBasePruebas extends Command
     protected $description = 'Recrea la base de pruebas con el esquema nuevo y los datos reales';
 
     /**
+     * Bases que este comando no puede recrear bajo ninguna circunstancia.
+     *
+     * @var list<string>
+     */
+    private const BASES_PROTEGIDAS = ['estimaweb31', 'cotizaciones'];
+
+    /**
      * Orden de insercion: cada tabla despues de aquellas a las que referencia.
      *
      * @var list<string>
      */
     private const ORDEN = [
-        'gerencias', 'users', 'turnos', 'epps', 'examenes_vacunas',
+        'gerencias', 'users', 'turnos', 'epps', 'examenes_vacunas', 'origen_factors',
         'datos_herramientas', 'datos_equipos', 'datos_consumibles', 'datos_comunicaciones',
+        'precargado_epps', 'precargado_heramientas', 'precargado_equipos', 'precargado_consumibles',
+        'precargado_item_epps', 'precargado_item_heramientas',
+        'precargado_item_equipos', 'precargado_item_consumibles',
         'cotizaciones', 'aius', 'item_cotizaciones',
-        'personals', 'per_aux_otros', 'personal_epps', 'personal_examenes_vacunas',
+        'personals', 'per_aux_otros', 'per_aux_convencionales',
+        'personal_epps', 'personal_examenes_vacunas',
         'herramientas', 'equipos', 'consumibles',
         'item_herramientas', 'item_equipos', 'item_consumibles',
         'vehiculos', 'oficinas', 'aseos', 'viaticos', 'servicios', 'otros', 'comunicaciones',
@@ -53,9 +64,27 @@ class PrepararBasePruebas extends Command
             return self::FAILURE;
         }
 
+        if (in_array($destino, self::BASES_PROTEGIDAS, true)) {
+            $this->error("'{$destino}' es la base de referencia: no se puede recrear.");
+            $this->line('Si se borro por accidente, recuperela con: php artisan datos:cargar');
+
+            return self::FAILURE;
+        }
+
         $this->info("Recreando el esquema de '{$destino}' desde las migraciones...");
 
-        $this->call('migrate:fresh', ['--force' => true, '--env' => 'testing']);
+        /**
+         * La conexion se apunta a la base destino ANTES de migrar.
+         *
+         * Pasar --env a $this->call() no sirve: el entorno ya quedo cargado al
+         * arrancar el proceso, asi que la opcion se ignora y migrate:fresh
+         * acaba borrando la base de la conexion actual. Asi se borro una vez
+         * la copia de referencia entera.
+         */
+        config(['database.connections.mysql.database' => $destino]);
+        DB::purge('mysql');
+
+        $this->call('migrate:fresh', ['--force' => true]);
 
         $this->newLine();
         $this->info("Copiando datos reales desde '{$origen}'...");
@@ -87,9 +116,16 @@ class PrepararBasePruebas extends Command
 
         try {
             foreach (self::ORDEN as $tabla) {
-                $esperadas = DB::table("{$origen}.{$tabla}")->count();
+                /**
+                 * Se consulta con SQL directo y no con DB::table("base.tabla"):
+                 * el query builder escapa el nombre completo entre comillas,
+                 * punto incluido, y acaba buscando una tabla que no existe.
+                 */
+                $esperadas = (int) DB::selectOne(
+                    "SELECT COUNT(*) AS n FROM `{$origen}`.`{$tabla}`"
+                )->n;
 
-                DB::table("{$destino}.{$tabla}")->delete();
+                DB::statement("DELETE FROM `{$destino}`.`{$tabla}`");
 
                 /** Solo las columnas presentes en el esquema nuevo. */
                 $columnas = array_map(
@@ -103,7 +139,9 @@ class PrepararBasePruebas extends Command
                     "INSERT INTO `{$destino}`.`{$tabla}` ({$lista}) SELECT {$lista} FROM `{$origen}`.`{$tabla}`"
                 );
 
-                $copiadas = DB::table("{$destino}.{$tabla}")->count();
+                $copiadas = (int) DB::selectOne(
+                    "SELECT COUNT(*) AS n FROM `{$destino}`.`{$tabla}`"
+                )->n;
 
                 if ($copiadas !== $esperadas) {
                     throw new RuntimeException(

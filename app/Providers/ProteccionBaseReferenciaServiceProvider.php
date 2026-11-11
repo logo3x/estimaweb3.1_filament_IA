@@ -45,7 +45,14 @@ class ProteccionBaseReferenciaServiceProvider extends ServiceProvider
                 return;
             }
 
-            $base = (string) config('database.connections.' . config('database.default') . '.database');
+            /**
+             * Se consulta la conexion VIVA, no la configuracion inicial.
+             *
+             * Un comando puede reapuntar la conexion antes de llamar a otro
+             * (es lo que hace pruebas:preparar), y entonces la configuracion
+             * de arranque ya no dice sobre que base se va a ejecutar.
+             */
+            $base = (string) \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
 
             if (in_array($base, self::BASES_DESECHABLES, true)) {
                 return;

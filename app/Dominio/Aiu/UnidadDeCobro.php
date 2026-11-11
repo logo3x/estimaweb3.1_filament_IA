@@ -3,20 +3,22 @@
 namespace App\Dominio\Aiu;
 
 /**
- * Unidad en que se cobra un recurso dentro de una cotizacion.
+ * Unidad de tiempo en que se cobra un recurso.
  *
- * Existe como enum, y no como texto suelto, por un fallo concreto del sistema
- * actual: alli la unidad se compara con cadenas en tres `if` encadenados sin
- * `else`, de modo que una unidad no prevista -- "Persona", "N/A" -- no entra
- * en ninguna rama y el recurso aporta CERO sin aviso. La cotizacion 7 tiene
- * 15 recursos bien cargados (salarios de 3,2 y 5,5 millones) y da un total de
- * cero; la 6 esta parcialmente afectada.
+ * Solo aplica a los recursos cuyo precio DEPENDE del tiempo: personal,
+ * herramientas y equipos. Los demas (vehiculos, servicios, viaticos, otros,
+ * consumibles) cobran por cantidad y su unidad es solo una etiqueta, por eso
+ * en los datos reales llevan "N/A" con toda normalidad.
  *
- * Es mas dificil de detectar que un error visible: nadie ve un mensaje, solo
- * un precio mas bajo de lo que deberia.
+ * Existe como enum, y no como texto suelto, por un fallo del sistema actual:
+ * alli la unidad se compara con cadenas en `if` encadenados sin `else`, de
+ * modo que una unidad no prevista no entra en ninguna rama y el recurso
+ * aporta CERO sin aviso. Nadie ve un mensaje de error: solo un precio mas
+ * bajo del que corresponde.
  *
- * Con un enum, una unidad desconocida falla al construirse en vez de
- * desaparecer en silencio.
+ * Alcance verificado sobre los datos reales: 13 revisiones en las
+ * cotizaciones 6 y 7, ambas datos de prueba (contienen nombres en latin y
+ * salarios de 90 pesos). Ninguna cotizacion real resulto afectada.
  */
 enum UnidadDeCobro: string
 {
@@ -25,13 +27,23 @@ enum UnidadDeCobro: string
     case Mes = 'Mes';
 
     /**
-     * Unidades que aparecen en los datos pero que el calculo nunca reconocio.
+     * Unidades que aparecen en los datos pero con las que no se puede
+     * calcular un precio por tiempo.
      *
-     * Se listan para poder detectarlas y avisar, no para darlas por validas.
+     * Se listan para detectarlas y avisar, no para darlas por validas.
      *
      * @var list<string>
      */
-    public const NO_RECONOCIDAS = ['Persona', 'N/A', 'Unidad', 'Global'];
+    public const NO_CALCULABLES = ['Persona', 'N/A', 'Unidad', 'Global', 'EA'];
+
+    /**
+     * Recursos cuyo precio depende de la unidad de tiempo.
+     *
+     * Para el resto, la unidad no interviene en el calculo.
+     *
+     * @var list<string>
+     */
+    public const RECURSOS_POR_TIEMPO = ['personal', 'herramienta', 'equipo'];
 
     /**
      * Construye la unidad desde el texto guardado en la base.

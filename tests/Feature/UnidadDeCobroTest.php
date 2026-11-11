@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Dominio\Aiu\UnidadDeCobro;
+use App\Models\Personal;
 use App\Models\Revision;
 use Tests\TestCase;
 
@@ -35,7 +36,7 @@ class UnidadDeCobroTest extends TestCase
      */
     public function test_detecta_las_unidades_que_hoy_se_ignoran(): void
     {
-        foreach (UnidadDeCobro::NO_RECONOCIDAS as $texto) {
+        foreach (UnidadDeCobro::NO_CALCULABLES as $texto) {
             $this->assertNull(
                 UnidadDeCobro::desdeTexto($texto),
                 "La unidad '{$texto}' deberia detectarse como no calculable."
@@ -55,45 +56,105 @@ class UnidadDeCobroTest extends TestCase
     }
 
     /**
-     * Deja constancia del alcance exacto en los datos reales.
+     * Solo tres tipos de recurso cobran por tiempo.
      *
-     * Si el numero crece, es que se siguen guardando unidades que el calculo
-     * no entiende.
+     * Para vehiculos, servicios, viaticos, otros y consumibles la unidad no
+     * interviene en el calculo: "N/A" ahi es correcto y no indica ningun
+     * problema. Confundir ambos casos lleva a buscar errores donde no los hay.
+     */
+    public function test_solo_tres_recursos_cobran_por_unidad_de_tiempo(): void
+    {
+        $this->assertSame(
+            ['personal', 'herramienta', 'equipo'],
+            UnidadDeCobro::RECURSOS_POR_TIEMPO
+        );
+
+        /** En los recursos por cantidad, "N/A" es lo habitual y esta bien. */
+        $porCantidad = Revision::query()
+            ->whereNotNull('id_viatico')
+            ->where('unidad', 'N/A')
+            ->count();
+
+        $this->assertGreaterThan(
+            0,
+            $porCantidad,
+            'Se esperaba que los viaticos usaran N/A: cobran por cantidad, no por tiempo.'
+        );
+    }
+
+    /**
+     * Deja constancia del alcance exacto del fallo en los datos reales.
+     *
+     * Solo cuenta los recursos que SI cobran por tiempo. Si el numero crece,
+     * es que se siguen guardando unidades con las que no se puede calcular.
      */
     public function test_el_alcance_de_las_unidades_no_calculables_no_crecio(): void
     {
-        $revisionesDePersonal = Revision::query()
-            ->whereNotNull('id_personal')
-            ->get(['id', 'id_cotizacion', 'unidad']);
+        $sensibles = [
+            'id_personal' => ['Dia Habil', 'Dia Calendario', 'Mes'],
+            'id_herramienta' => ['Dia Habil', 'Mes'],
+            'id_equipo' => ['Dia Habil', 'Mes'],
+        ];
 
-        $problematicas = $revisionesDePersonal
-            ->reject(fn (Revision $r): bool => UnidadDeCobro::esCalculable($r->unidad));
+        $afectadas = [];
+        $total = 0;
 
-        $this->assertCount(
-            9,
-            $problematicas,
-            'Cambio el numero de revisiones de personal con unidad no calculable.'
+        foreach ($sensibles as $columna => $validas) {
+            $malas = Revision::query()
+                ->whereNotNull($columna)
+                ->whereNotIn('unidad', $validas)
+                ->get(['id_cotizacion']);
+
+            $total += $malas->count();
+
+            foreach ($malas as $revision) {
+                $afectadas[$revision->id_cotizacion] = true;
+            }
+        }
+
+        $this->assertSame(
+            13,
+            $total,
+            'Cambio el numero de recursos por tiempo con unidad no calculable.'
         );
 
-        $cotizaciones = $problematicas
-            ->pluck('id_cotizacion')
-            ->unique()
-            ->sort()
-            ->values()
-            ->all();
+        $cotizaciones = array_keys($afectadas);
+        sort($cotizaciones);
 
         $this->assertSame(
             [6, 7],
             $cotizaciones,
-            'Aparecieron cotizaciones nuevas con unidades que el calculo ignora.'
+            'Aparecieron cotizaciones nuevas afectadas por el fallo de unidades.'
+        );
+    }
+
+    /**
+     * Las dos cotizaciones afectadas son datos de prueba, no trabajo real.
+     *
+     * Importa dejarlo asentado: el fallo existe y hay que corregirlo, pero
+     * ninguna cotizacion real llego al cliente con un precio incompleto. Se
+     * reconocen porque traen nombres de relleno en latin y salarios de dos
+     * cifras.
+     */
+    public function test_las_cotizaciones_afectadas_son_datos_de_prueba(): void
+    {
+        $salariosIrrisorios = Personal::query()
+            ->whereIn('id_cotizacion', [6, 7])
+            ->where('salario', '<', 1000)
+            ->count();
+
+        $this->assertGreaterThan(
+            0,
+            $salariosIrrisorios,
+            'Las cotizaciones 6 y 7 deberian contener registros de prueba (salarios de dos cifras).'
         );
     }
 
     /**
      * La cotizacion 7 es el caso de referencia: recursos cargados, total cero.
      *
-     * Sirve para comprobar, cuando el calculo nuevo este completo, que deja de
-     * dar cero.
+     * Sirve para comprobar, cuando el motor de costos nuevo este completo,
+     * que deja de dar cero.
      */
     public function test_la_cotizacion_7_tiene_recursos_pese_a_valer_cero(): void
     {
