@@ -130,9 +130,28 @@ final class CalculadoraNomina
             + $auxilioSinIncidenciaMes
             + $capacitacionMes;
 
+        /**
+         * El costo diario NO es el mensual dividido entre los dias.
+         *
+         * Cada componente se reparte sobre su propia base: el salario y los
+         * auxilios entre los dias de nomina, pero la dotacion y los examenes
+         * entre los dias de su duracion. Dividir el total daria un numero
+         * parecido pero distinto -- unos seis pesos sobre siete mil en los
+         * datos reales --, y la referencia es lo que hoy ve el usuario.
+         */
+        $costoDia = $baseMes / $diasDeReparto
+            + $prestacionesMes / $diasDeReparto
+            + $auxilioTransporte / $diasDeReparto
+            + $auxilioEducacion / $diasDeReparto
+            + $this->prorratearADia($persona->costoDotacion, $persona->duracionDotacion)
+            + $this->prorratearADia($persona->costoExamenes, $persona->duracionExamenes)
+            + $otrosAuxiliosMes / $diasDeReparto
+            + $auxilioSinIncidenciaMes / $diasDeReparto
+            + $capacitacionMes / $diasDeReparto;
+
         return new CostoPersona(
             porMes: $costoMes,
-            porDiaCalendario: $costoMes / $diasDeReparto,
+            porDiaCalendario: $costoDia,
             porDiaHabil: $this->porDiaHabil($costoMes, $persona->diasTrabajadosAlMes),
             salarioBase: $salarioMensual,
             recargos: $recargosMes,
@@ -214,6 +233,21 @@ final class CalculadoraNomina
         }
 
         return ($costo * self::DIAS_NOMINA_MES) / $duracionEnDias;
+    }
+
+    /**
+     * El mismo reparto, pero por dia.
+     *
+     * No es el mensual entre treinta: la dotacion se reparte entre los dias
+     * que dura, que es un numero distinto.
+     */
+    private function prorratearADia(float $costo, ?float $duracionEnDias): float
+    {
+        if ($duracionEnDias === null || $duracionEnDias <= 0) {
+            return 0.0;
+        }
+
+        return $costo / $duracionEnDias;
     }
 
     /**
