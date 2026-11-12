@@ -153,18 +153,19 @@ class PanelCotizacionesTest extends TestCase
     }
 
     /**
-     * No hay rutas de creacion ni edicion mientras el formulario no exista.
+     * Estan las cuatro pantallas del ciclo completo.
      *
-     * Ofrecerlas llevaria a guardar cotizaciones incompletas.
+     * Crear pide solo los datos de cabecera; los recursos se cargan en la
+     * pantalla de edicion, donde cada pestana sabe a que cotizacion
+     * pertenece sin depender de la sesion.
      */
-    public function test_no_hay_rutas_de_creacion_ni_edicion(): void
+    public function test_estan_las_cuatro_pantallas(): void
     {
         $paginas = array_keys(\App\Filament\Resources\Cotizacions\CotizacionResource::getPages());
 
-        $this->assertContains('index', $paginas);
-        $this->assertContains('view', $paginas);
-        $this->assertNotContains('create', $paginas);
-        $this->assertNotContains('edit', $paginas);
+        foreach (['index', 'create', 'view', 'edit'] as $pagina) {
+            $this->assertContains($pagina, $paginas, "Falta la pantalla '{$pagina}'.");
+        }
     }
 
     /** El listado no dispara una consulta por fila. */

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Cotizacions;
 
+use App\Filament\Resources\Cotizacions\Pages\CreateCotizacion;
+use App\Filament\Resources\Cotizacions\Pages\EditCotizacion;
 use App\Filament\Resources\Cotizacions\Pages\ListCotizacions;
 use App\Filament\Resources\Cotizacions\Pages\ViewCotizacion;
 use App\Filament\Resources\Cotizacions\Schemas\CotizacionForm;
@@ -73,24 +75,39 @@ class CotizacionResource extends Resource
 
     public static function getRelations(): array
     {
+        /**
+         * El orden importa: primero los items, porque sin ellos no hay a
+         * que asignar los recursos; luego el personal, que suele ser el mayor
+         * peso del precio.
+         */
         return [
-            //
+            RelationManagers\ItemsRelationManager::class,
+            RelationManagers\PersonalsRelationManager::class,
+            RelationManagers\HerramientasRelationManager::class,
+            RelationManagers\EquiposRelationManager::class,
+            RelationManagers\ConsumiblesRelationManager::class,
+            RelationManagers\VehiculosRelationManager::class,
+            RelationManagers\OficinasRelationManager::class,
+            RelationManagers\AseosRelationManager::class,
+            RelationManagers\ViaticosRelationManager::class,
+            RelationManagers\ServiciosRelationManager::class,
+            RelationManagers\ComunicacionesRelationManager::class,
+            RelationManagers\OtrosRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         /**
-         * Sin 'create' ni 'edit' todavia.
-         *
-         * Crear o editar una cotizacion exige el formulario por pasos con las
-         * once categorias de recurso y su reparto entre los items. Hasta que
-         * exista, dejar esas rutas activas ofreceria un formulario que
-         * guardaria cotizaciones incompletas.
+         * La creacion solo pide los datos de cabecera; los recursos se
+         * cargan en la pantalla de edicion, donde cada pestana sabe a que
+         * cotizacion pertenece.
          */
         return [
             'index' => ListCotizacions::route('/'),
+            'create' => CreateCotizacion::route('/create'),
             'view' => ViewCotizacion::route('/{record}'),
+            'edit' => EditCotizacion::route('/{record}/edit'),
         ];
     }
 }

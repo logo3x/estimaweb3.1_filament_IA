@@ -3,13 +3,14 @@
 namespace App\Filament\Resources\Cotizacions\Pages;
 
 use App\Filament\Resources\Cotizacions\CotizacionResource;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 /**
  * Listado de cotizaciones.
  *
- * Sin boton de crear mientras no exista el formulario por pasos: ofrecerlo
- * llevaria a un formulario incapaz de guardar una cotizacion completa.
+ * Crear pide solo los datos de cabecera; los recursos se cargan despues en
+ * la pantalla de edicion.
  */
 class ListCotizacions extends ListRecords
 {
@@ -22,6 +23,8 @@ class ListCotizacions extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [];
+        return [
+            CreateAction::make()->label('Nueva cotización'),
+        ];
     }
 }

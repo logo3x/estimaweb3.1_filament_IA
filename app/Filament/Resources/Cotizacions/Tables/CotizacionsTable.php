@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Cotizacions\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
