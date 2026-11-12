@@ -168,16 +168,27 @@ class FormularioCotizacionTest extends TestCase
         $cotizacion->update($originales);
     }
 
-    /** Los doce recursos aparecen como pestanas. */
-    public function test_estan_las_doce_pestanas_de_recursos(): void
+    /**
+     * Las trece pestanas: doce de recursos mas la de asignacion.
+     *
+     * El orden importa: los items primero, porque sin ellos no hay a que
+     * asignar; la asignacion al final, porque reparte lo que las anteriores
+     * cargaron.
+     */
+    public function test_estan_las_trece_pestanas(): void
     {
         $relaciones = \App\Filament\Resources\Cotizacions\CotizacionResource::getRelations();
 
-        $this->assertCount(12, $relaciones);
+        $this->assertCount(13, $relaciones);
 
-        /** Los items van primero: sin ellos no hay a que asignar recursos. */
         $this->assertSame(ItemsRelationManager::class, $relaciones[0]);
         $this->assertSame(PersonalsRelationManager::class, $relaciones[1]);
+
+        $this->assertSame(
+            \App\Filament\Resources\Cotizacions\RelationManagers\RevisionesRelationManager::class,
+            end($relaciones),
+            'La asignación debe ir al final: reparte lo que las demás pestañas cargaron.'
+        );
     }
 
     /** El gestor de items carga los de la cotizacion. */

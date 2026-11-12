@@ -93,6 +93,12 @@ class CotizacionResource extends Resource
             RelationManagers\ServiciosRelationManager::class,
             RelationManagers\ComunicacionesRelationManager::class,
             RelationManagers\OtrosRelationManager::class,
+            /**
+             * La asignacion va al final: reparte entre los items lo que las
+             * pestanas anteriores cargaron. Un recurso que no pase por aqui
+             * no cuenta en el precio.
+             */
+            RelationManagers\RevisionesRelationManager::class,
         ];
     }
 
