@@ -28,6 +28,14 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            /**
+             * Avatares generados en local.
+             *
+             * Filament los pide por defecto a ui-avatars.com, lo que envia el
+             * nombre de cada usuario a un tercero en cada carga y obligaria a
+             * abrir la politica de contenido para ese dominio.
+             */
+            ->defaultAvatarProvider(\App\Filament\AvatarLocal::class)
             ->colors([
                 'primary' => Color::Amber,
             ])
