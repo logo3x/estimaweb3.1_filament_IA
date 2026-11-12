@@ -40,6 +40,13 @@ class PrepararBasePruebas extends Command
      */
     private const ORDEN = [
         'gerencias', 'users', 'turnos', 'epps', 'examenes_vacunas', 'origen_factors',
+        /**
+         * Roles y permisos.
+         *
+         * Sin ellos, los 21 usuarios existen pero ninguno puede entrar al
+         * panel, y cualquier prueba de pantalla falla antes de empezar.
+         */
+        'roles', 'permissions', 'model_has_roles', 'model_has_permissions', 'role_has_permissions',
         'datos_herramientas', 'datos_equipos', 'datos_consumibles', 'datos_comunicaciones',
         'precargado_epps', 'precargado_heramientas', 'precargado_equipos', 'precargado_consumibles',
         'precargado_item_epps', 'precargado_item_heramientas',
