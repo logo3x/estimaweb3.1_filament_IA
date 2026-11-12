@@ -9,13 +9,17 @@ use PhpOffice\PhpWord\SimpleType\Jc;
 /**
  * Crea una plantilla de oferta con los marcadores que espera el generador.
  *
- * La plantilla real lleva el membrete y las condiciones de la empresa, y
- * vive en el servidor de produccion. Esta es un sustituto para desarrollo y
- * pruebas: tiene los mismos marcadores, de modo que el generador se puede
- * ejercitar sin esperar a que la definitiva este disponible.
+ * ESTA PLANTILLA ES DE PRUEBA. No es la de la empresa.
  *
- * Al pasar a produccion basta con sustituir el archivo por el real; el
- * contrato son los marcadores, no el diseno.
+ * La real lleva el membrete y las condiciones comerciales, ya existe y
+ * **no se modifica**: es el documento que se envia a los clientes. Vive en el
+ * servidor, en storage/app/public/template.docx, y no esta en el repositorio.
+ *
+ * Esta es un sustituto para desarrollo: tiene los mismos marcadores, de modo
+ * que el generador se puede ejercitar sin disponer de la definitiva.
+ *
+ * Al desplegar se sustituye el archivo por el real. Si algun marcador no
+ * coincide, **se corrige el codigo, nunca el .docx**.
  */
 class CrearPlantillaOferta extends Command
 {

@@ -17,6 +17,13 @@ use RuntimeException;
  * Parte de una plantilla .docx con el membrete y las condiciones de la
  * empresa, y rellena nueve marcadores de texto mas la tabla de precios.
  *
+ * LA PLANTILLA NO SE MODIFICA. Es el documento que ve el cliente, ya existe
+ * y se mantiene tal cual. Si un marcador no coincide, se ajusta este codigo
+ * al nombre que traiga la plantilla, nunca al reves. Los nueve marcadores de
+ * texto coinciden con los del sistema actual
+ * (NuevaCotizacion.php:2235-2246,2344); el de la tabla esta pendiente de
+ * verificar contra la plantilla real.
+ *
  * A diferencia del sistema actual, NO depende de ningun componente de
  * interfaz: alli la generacion vive dentro de un componente Livewire de
  * 4.122 lineas, y la pantalla nueva tiene que instanciarlo a mano y

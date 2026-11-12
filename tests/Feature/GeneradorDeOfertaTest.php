@@ -275,4 +275,40 @@ class GeneradorDeOfertaTest extends TestCase
 
         $generador->generar(Cotizacion::findOrFail(55));
     }
+
+    /**
+     * El generador no pide mas marcadores de los que la plantilla real trae.
+     *
+     * La plantilla de la empresa NO se modifica: es el documento que ve el
+     * cliente. Si alguien anade aqui un marcador nuevo, la plantilla real no
+     * lo tendra y saldria impreso en crudo en la oferta enviada.
+     *
+     * Esta lista sale del sistema actual, que lleva anos usando esa misma
+     * plantilla (NuevaCotizacion.php:2235-2246 y :2344).
+     */
+    public function test_no_exige_marcadores_que_la_plantilla_real_no_tiene(): void
+    {
+        $permitidos = [
+            'fecha', 'codigo', 'cliente', 'contacto', 'cargo',
+            'nombre', 'referencia', 'alcance', 'observaciones',
+            /** La tabla de precios; pendiente de confirmar su nombre en la plantilla real. */
+            'tabla',
+        ];
+
+        preg_match_all(
+            "/set(?:Value|ComplexBlock)\(\s*'([a-zA-Z_0-9]+)'/",
+            (string) file_get_contents(app_path('Dominio/Documentos/GeneradorDeOferta.php')),
+            $coincidencias
+        );
+
+        $sobran = array_diff(array_unique($coincidencias[1]), $permitidos);
+
+        $this->assertSame(
+            [],
+            array_values($sobran),
+            'El generador rellena marcadores que la plantilla de la empresa no tiene: '
+            . implode(', ', $sobran)
+            . '. La plantilla no se modifica; hay que ajustar el codigo.'
+        );
+    }
 }
