@@ -21,7 +21,7 @@
         {
             "id": 287,
             "numero": 1,
-            "nombre": "HERRAMIENTA DE MEDICIONES ELECTRICAS",
+            "nombre": "Item 1",
             "unidad": "UN",
             "cantidad": 1,
             "valor_unitario": 294537006,
@@ -30,7 +30,7 @@
         {
             "id": 288,
             "numero": 2,
-            "nombre": "HERRAMIENTAS MANUALES",
+            "nombre": "Item 2",
             "unidad": "UN",
             "cantidad": 1,
             "valor_unitario": 22176333,

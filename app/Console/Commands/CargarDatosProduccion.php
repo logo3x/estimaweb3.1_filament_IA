@@ -232,18 +232,30 @@ class CargarDatosProduccion extends Command
 
         $this->info("Base '{$base}' recreada. Importando (puede tardar)...");
 
+        /**
+         * La contrasena viaja por MYSQL_PWD y no como --password.
+         *
+         * Lo que se pasa en la linea de comandos queda visible en la lista de
+         * procesos del sistema: cualquier otro usuario de la maquina puede
+         * leerla con `ps` mientras dura la importacion, que aqui son minutos.
+         * MYSQL_PWD es el mecanismo que el propio cliente de MySQL ofrece
+         * para evitarlo.
+         */
         $proceso = Process::fromShellCommandline(
             sprintf(
-                '%s --host=%s --port=%s --user=%s %s %s < %s',
+                '%s --host=%s --port=%s --user=%s %s < %s',
                 $this->rutaCliente(),
                 escapeshellarg((string) $conexion['host']),
                 escapeshellarg((string) $conexion['port']),
                 escapeshellarg((string) $conexion['username']),
-                $conexion['password'] ? '--password=' . escapeshellarg((string) $conexion['password']) : '',
                 escapeshellarg($base),
                 escapeshellarg($sql)
             )
         );
+
+        if ($conexion['password']) {
+            $proceso->setEnv(['MYSQL_PWD' => (string) $conexion['password']]);
+        }
 
         $proceso->setTimeout(1800);
         $proceso->run();

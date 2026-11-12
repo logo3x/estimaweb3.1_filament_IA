@@ -21,7 +21,7 @@
         {
             "id": 302,
             "numero": 1,
-            "nombre": "Diagnóstico de la Gestión de Mantenimiento",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 12262086.25,

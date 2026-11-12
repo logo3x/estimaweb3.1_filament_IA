@@ -21,7 +21,7 @@
         {
             "id": 197,
             "numero": 1,
-            "nombre": "SERVICIO DE MANTENIMIENTO DE VÁLVULAS PVV- \"GLH\"  PRIMER DIA",
+            "nombre": "Item 1",
             "unidad": "UND",
             "cantidad": 1,
             "valor_unitario": 8414040.3,
@@ -30,7 +30,7 @@
         {
             "id": 198,
             "numero": 2,
-            "nombre": "SERVICIO DE MANTENIMIENTO DE VÁLVULAS PVV- \"GLH\"  DIA ADICIONAL",
+            "nombre": "Item 2",
             "unidad": "UND",
             "cantidad": 1,
             "valor_unitario": 6299410.3,

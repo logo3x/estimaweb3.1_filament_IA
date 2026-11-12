@@ -21,7 +21,7 @@
         {
             "id": 335,
             "numero": 5,
-            "nombre": "Omnis placeat sit ",
+            "nombre": "Item 5",
             "unidad": "Adipisci sit quaerat",
             "cantidad": 15,
             "valor_unitario": 0,
@@ -30,7 +30,7 @@
         {
             "id": 336,
             "numero": 24,
-            "nombre": "Animi architecto mo",
+            "nombre": "Item 24",
             "unidad": "Quasi culpa quo ips",
             "cantidad": 93,
             "valor_unitario": 0,
@@ -39,7 +39,7 @@
         {
             "id": 337,
             "numero": 64,
-            "nombre": "Sint autem sint lab",
+            "nombre": "Item 64",
             "unidad": "Explicabo Anim quia",
             "cantidad": 12,
             "valor_unitario": 0,

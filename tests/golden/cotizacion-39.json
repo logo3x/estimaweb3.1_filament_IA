@@ -21,7 +21,7 @@
         {
             "id": 231,
             "numero": 1,
-            "nombre": "Calibración de medidor de gas tipo turbina Dresser G1000",
+            "nombre": "Item 1",
             "unidad": "UND",
             "cantidad": 1,
             "valor_unitario": 10365426.85,

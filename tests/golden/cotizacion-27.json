@@ -21,7 +21,7 @@
         {
             "id": 204,
             "numero": 1,
-            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a API 576, ASME sección VIII Div I y Manuales de fabricante de válvulas de seguridad y alivio en estación Carupana",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 49444838.08,

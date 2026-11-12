@@ -21,7 +21,7 @@
         {
             "id": 193,
             "numero": 1,
-            "nombre": "Servicio Almacenista Bodega Planta SAARA",
+            "nombre": "Item 1",
             "unidad": "MES",
             "cantidad": 1,
             "valor_unitario": 35893652,

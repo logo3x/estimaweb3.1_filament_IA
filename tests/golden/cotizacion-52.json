@@ -21,7 +21,7 @@
         {
             "id": 295,
             "numero": 1,
-            "nombre": "BEGONIA",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 2,
             "valor_unitario": 11377500,
@@ -30,7 +30,7 @@
         {
             "id": 296,
             "numero": 2,
-            "nombre": "CAPACHOS",
+            "nombre": "Item 2",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 12115500,
@@ -39,7 +39,7 @@
         {
             "id": 297,
             "numero": 3,
-            "nombre": "LA BELLEZA",
+            "nombre": "Item 3",
             "unidad": "Día",
             "cantidad": 3,
             "valor_unitario": 11377500,
@@ -48,7 +48,7 @@
         {
             "id": 298,
             "numero": 4,
-            "nombre": "PLANTA GAS LL32",
+            "nombre": "Item 4",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 11377500,
@@ -57,7 +57,7 @@
         {
             "id": 299,
             "numero": 5,
-            "nombre": "DÍA STAND BY",
+            "nombre": "Item 5",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 4674000,

@@ -21,7 +21,7 @@
         {
             "id": 123,
             "numero": 1,
-            "nombre": "Servicio día de Profesionales de manteniendo de vlavulas de seguridad",
+            "nombre": "Item 1",
             "unidad": "dia",
             "cantidad": 9,
             "valor_unitario": 0,
@@ -30,7 +30,7 @@
         {
             "id": 124,
             "numero": 2,
-            "nombre": "Serivicio de banco de valvulas de seguridad y alivio",
+            "nombre": "Item 2",
             "unidad": "dia",
             "cantidad": 9,
             "valor_unitario": 0,
@@ -39,7 +39,7 @@
         {
             "id": 125,
             "numero": 3,
-            "nombre": "Servicio de andamios",
+            "nombre": "Item 3",
             "unidad": "dia",
             "cantidad": 9,
             "valor_unitario": 0,
@@ -48,7 +48,7 @@
         {
             "id": 126,
             "numero": 4,
-            "nombre": "Movilizacion y desmovilizacion de Banco de valvulas y Herramientas",
+            "nombre": "Item 4",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 0,

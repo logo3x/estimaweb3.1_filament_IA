@@ -21,7 +21,7 @@
         {
             "id": 241,
             "numero": 2,
-            "nombre": "Servicio de inspección, mantenimiento y verificación en banco de válvulas de seguridad y alivio. Dia adicional",
+            "nombre": "Item 2",
             "unidad": "Dia",
             "cantidad": 1,
             "valor_unitario": 0,
@@ -30,7 +30,7 @@
         {
             "id": 242,
             "numero": 1,
-            "nombre": "Servicio de inspección, mantenimiento y verificación en banco de válvulas de seguridad y alivio. Primer dia",
+            "nombre": "Item 1",
             "unidad": "dia",
             "cantidad": 1,
             "valor_unitario": 1455967.78,
@@ -39,7 +39,7 @@
         {
             "id": 243,
             "numero": 3,
-            "nombre": "Servicio de Torno x hora",
+            "nombre": "Item 3",
             "unidad": "Hora",
             "cantidad": 1,
             "valor_unitario": 0,

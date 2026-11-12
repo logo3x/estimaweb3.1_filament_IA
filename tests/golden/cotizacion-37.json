@@ -21,7 +21,7 @@
         {
             "id": 226,
             "numero": 1,
-            "nombre": "TECNICO ELECTROMECANICO",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 984801.35,
@@ -30,7 +30,7 @@
         {
             "id": 227,
             "numero": 2,
-            "nombre": "AUXILIAR ELECTROMECANICO",
+            "nombre": "Item 2",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 442873.82,
@@ -39,7 +39,7 @@
         {
             "id": 228,
             "numero": 3,
-            "nombre": "MOVILIZACION",
+            "nombre": "Item 3",
             "unidad": "UND",
             "cantidad": 1,
             "valor_unitario": 435244.53,

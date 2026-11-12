@@ -21,7 +21,7 @@
         {
             "id": 127,
             "numero": 1,
-            "nombre": "Mantenimiento Bombas Centrífugas",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 16851294.5,
@@ -30,7 +30,7 @@
         {
             "id": 128,
             "numero": 2,
-            "nombre": "Mantenimiento Compresores",
+            "nombre": "Item 2",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 0,
@@ -39,7 +39,7 @@
         {
             "id": 129,
             "numero": 3,
-            "nombre": "Inspección de Válvulas",
+            "nombre": "Item 3",
             "unidad": "Unidad",
             "cantidad": 50,
             "valor_unitario": 0,
@@ -48,7 +48,7 @@
         {
             "id": 130,
             "numero": 4,
-            "nombre": "Alineación de Equipos Rotativos",
+            "nombre": "Item 4",
             "unidad": "Servicio",
             "cantidad": 12,
             "valor_unitario": 0,

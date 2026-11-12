@@ -21,7 +21,7 @@
         {
             "id": 143,
             "numero": 1,
-            "nombre": "Supervisor",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 12,
             "valor_unitario": 442822.81,
@@ -30,7 +30,7 @@
         {
             "id": 144,
             "numero": 1,
-            "nombre": "Soldador",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 12,
             "valor_unitario": 447664.26,
@@ -39,7 +39,7 @@
         {
             "id": 145,
             "numero": 1,
-            "nombre": "Auxiliar de Soldadura",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 12,
             "valor_unitario": 276852.03,
@@ -48,7 +48,7 @@
         {
             "id": 146,
             "numero": 1,
-            "nombre": "Maquina de Soldar",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 12,
             "valor_unitario": 16775.03,

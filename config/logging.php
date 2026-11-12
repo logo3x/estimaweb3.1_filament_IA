@@ -58,6 +58,21 @@ return [
             'ignore_exceptions' => false,
         ],
 
+        /**
+         * Accesos y intentos fallidos.
+         *
+         * En un archivo aparte para que no se pierdan entre los mensajes de
+         * la aplicacion, y con retencion larga: una auditoria de acceso que
+         * solo cubre dos semanas no sirve de mucho.
+         */
+        'seguridad' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/seguridad.log'),
+            'level' => 'info',
+            'days' => 180,
+            'replace_placeholders' => true,
+        ],
+
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

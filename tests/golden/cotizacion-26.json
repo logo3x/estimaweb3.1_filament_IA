@@ -21,7 +21,7 @@
         {
             "id": 202,
             "numero": 1,
-            "nombre": "Servicio de diagnostico de valvulas de Control. Primer dia",
+            "nombre": "Item 1",
             "unidad": "dia",
             "cantidad": 1,
             "valor_unitario": 4408828.49,
@@ -30,7 +30,7 @@
         {
             "id": 203,
             "numero": 2,
-            "nombre": "Servicio de diagnóstico de válvulas de control. Dia Adicional",
+            "nombre": "Item 2",
             "unidad": "dia",
             "cantidad": 1,
             "valor_unitario": 2871188.17,

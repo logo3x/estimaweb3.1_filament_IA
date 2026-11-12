@@ -21,7 +21,7 @@
         {
             "id": 300,
             "numero": 1,
-            "nombre": "Servicio de Ultrasonido en 43 Estructuras",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 15481261.33,
@@ -30,7 +30,7 @@
         {
             "id": 301,
             "numero": 2,
-            "nombre": "Día de Stand By",
+            "nombre": "Item 2",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 1462007.04,

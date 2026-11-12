@@ -21,7 +21,7 @@
         {
             "id": 258,
             "numero": 1,
-            "nombre": "SCADAPack 474 Smart RTU completo (carcaza IP66 / NEMA 4X con Realflo Flow Computer",
+            "nombre": "Item 1",
             "unidad": "Und",
             "cantidad": 1,
             "valor_unitario": 73618176.05,
@@ -30,7 +30,7 @@
         {
             "id": 259,
             "numero": 2,
-            "nombre": "Servicio técnico para el montaje, configuración y puesta en servicio del equipo SCADAPack 474 Smart RTU completo",
+            "nombre": "Item 2",
             "unidad": "Und",
             "cantidad": 1,
             "valor_unitario": 29381245.15,

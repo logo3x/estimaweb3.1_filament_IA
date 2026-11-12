@@ -21,7 +21,7 @@
         {
             "id": 188,
             "numero": 1,
-            "nombre": "Recorredor MONC 14X14 12H ",
+            "nombre": "Item 1",
             "unidad": "MES",
             "cantidad": 1,
             "valor_unitario": 29675146.61,
@@ -30,7 +30,7 @@
         {
             "id": 189,
             "numero": 1,
-            "nombre": "Recorredor MONC 5X2 8 H ",
+            "nombre": "Item 1",
             "unidad": "MES",
             "cantidad": 1,
             "valor_unitario": 20637508.35,

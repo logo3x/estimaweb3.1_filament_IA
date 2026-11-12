@@ -21,7 +21,7 @@
         {
             "id": 57,
             "numero": 1,
-            "nombre": "Mantenimineto Locativo Planta Fotovoltaica Molino Aguazul",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 8677.16,
@@ -30,7 +30,7 @@
         {
             "id": 58,
             "numero": 2,
-            "nombre": "Servicio Especializado SCADA",
+            "nombre": "Item 2",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 0,

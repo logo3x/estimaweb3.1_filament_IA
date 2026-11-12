@@ -12,7 +12,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        /**
+         * Cabeceras de seguridad en TODAS las respuestas.
+         *
+         * Se registran como middleware global y no en el grupo "web": el
+         * panel de Filament define su propia pila de middleware, asi que lo
+         * anadido a "web" no llega a sus rutas, que son justamente las que
+         * hay que proteger.
+         */
+        $middleware->append(\App\Http\Middleware\CabecerasDeSeguridad::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

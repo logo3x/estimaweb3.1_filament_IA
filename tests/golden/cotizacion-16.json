@@ -21,7 +21,7 @@
         {
             "id": 105,
             "numero": 1,
-            "nombre": "Mantenimiento Locativo Planta Fotovoltaica Molino Aguazul",
+            "nombre": "Item 1",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 0,
@@ -30,7 +30,7 @@
         {
             "id": 106,
             "numero": 1,
-            "nombre": "Servicio Especializado SCADA",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 1,
             "valor_unitario": 0,

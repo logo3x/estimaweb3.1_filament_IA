@@ -33,3 +33,10 @@ Thumbs.db
 # Respaldos de produccion importados localmente (datos reales, nunca a git)
 /storage/app/respaldos
 *.sql
+
+# Datos reales de produccion: nunca al repositorio.
+# Los golden masters SI se versionan, pero anonimizados con
+# `php artisan golden:anonimizar`. Ver tests/golden/README.md
+/storage/app/respaldos
+/tests/golden/*.sql
+*.sql.zip

@@ -21,7 +21,7 @@
         {
             "id": 183,
             "numero": 1,
-            "nombre": "Servicio profesionales de mantenimiento de valvulas ",
+            "nombre": "Item 1",
             "unidad": "Dia",
             "cantidad": 9,
             "valor_unitario": 481130.87,
@@ -30,7 +30,7 @@
         {
             "id": 184,
             "numero": 2,
-            "nombre": "Servico de banco de valvulas de seguridad y alivio . Incluye consumibles blandos",
+            "nombre": "Item 2",
             "unidad": "dia",
             "cantidad": 9,
             "valor_unitario": 0,
@@ -39,7 +39,7 @@
         {
             "id": 185,
             "numero": 3,
-            "nombre": "Servicio de andamios",
+            "nombre": "Item 3",
             "unidad": "dia",
             "cantidad": 1,
             "valor_unitario": 0,
@@ -48,7 +48,7 @@
         {
             "id": 186,
             "numero": 4,
-            "nombre": "Movilizacion y desmovilizacion de banco de valvulas y herramientas",
+            "nombre": "Item 4",
             "unidad": "Global",
             "cantidad": 1,
             "valor_unitario": 0,

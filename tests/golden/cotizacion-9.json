@@ -32,7 +32,7 @@
         "suma_items": 0,
         "subtotal": 0,
         "diferencia": 0,
-        "diferencia_esperada": -0,
+        "diferencia_esperada": 0,
         "cuadra": true
     },
     "dias_dura_servicio": 65,

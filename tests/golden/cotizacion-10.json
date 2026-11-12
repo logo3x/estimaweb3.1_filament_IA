@@ -21,7 +21,7 @@
         {
             "id": 25,
             "numero": 1,
-            "nombre": "Servicio de monitoreo ",
+            "nombre": "Item 1",
             "unidad": "dia ",
             "cantidad": 5,
             "valor_unitario": 0,
@@ -30,7 +30,7 @@
         {
             "id": 26,
             "numero": 2,
-            "nombre": "Traslado del personal ",
+            "nombre": "Item 2",
             "unidad": "recorrido",
             "cantidad": 2,
             "valor_unitario": 0,
@@ -41,7 +41,7 @@
         "suma_items": 0,
         "subtotal": 0,
         "diferencia": 0,
-        "diferencia_esperada": -0,
+        "diferencia_esperada": 0,
         "cuadra": true
     },
     "dias_dura_servicio": 5,

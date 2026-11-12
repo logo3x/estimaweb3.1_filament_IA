@@ -21,7 +21,7 @@
         {
             "id": 39,
             "numero": 1,
-            "nombre": "Servicio de monitoreo",
+            "nombre": "Item 1",
             "unidad": "Día",
             "cantidad": 5,
             "valor_unitario": 5447695.27,
@@ -30,7 +30,7 @@
         {
             "id": 40,
             "numero": 2,
-            "nombre": "Servicio de transporte ",
+            "nombre": "Item 2",
             "unidad": "Recorrido",
             "cantidad": 2,
             "valor_unitario": 0,

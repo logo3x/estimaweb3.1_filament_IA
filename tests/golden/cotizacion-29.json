@@ -21,7 +21,7 @@
         {
             "id": 207,
             "numero": 1,
-            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a ASME PTC25, API 576 Y API527 y Manuales de fabricante de válvulas de seguridad y alivio. Primer dia",
+            "nombre": "Item 1",
             "unidad": "dia",
             "cantidad": 1,
             "valor_unitario": 10820140.33,
@@ -30,7 +30,7 @@
         {
             "id": 208,
             "numero": 2,
-            "nombre": "Servicio de Inspección, mantenimiento, verificación en banco conforme a ASME PTC25, API 576 Y API527 y Manuales de fabricante de válvulas de seguridad y alivio. Dia Adicional",
+            "nombre": "Item 2",
             "unidad": "dia",
             "cantidad": 30,
             "valor_unitario": 3902933.62,

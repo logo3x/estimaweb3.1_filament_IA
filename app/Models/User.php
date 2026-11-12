@@ -41,14 +41,32 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
+     * Roles que pueden entrar al panel.
+     *
+     * Es una lista explicita a proposito: antes bastaba con tener cualquier
+     * rol, de modo que un rol creado para otra cosa daba acceso completo sin
+     * que nadie lo decidiera. Anadir un rol aqui es una decision consciente.
+     *
+     * @var list<string>
+     */
+    public const ROLES_CON_ACCESO_AL_PANEL = [
+        'super_admin',
+        'Administrador',
+        'Creador',
+        'Gerente',
+        'Director',
+    ];
+
+    /**
      * Quien puede entrar al panel.
      *
-     * Hoy basta con tener algun rol asignado. Afinar esta regla aqui, no en
-     * middleware suelto, para que local y produccion se comporten igual.
+     * Esta regla vive aqui, y no en un middleware suelto, para que local y
+     * produccion se comporten igual: sin ella, el panel deja entrar en local
+     * y responde 403 despues del login en produccion.
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->roles()->exists();
+        return $this->hasAnyRole(self::ROLES_CON_ACCESO_AL_PANEL);
     }
 
     /** @return BelongsTo<Gerencia, $this> */
