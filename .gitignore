@@ -40,3 +40,8 @@ Thumbs.db
 /storage/app/respaldos
 /tests/golden/*.sql
 *.sql.zip
+
+# Documentos generados y plantilla local.
+# La plantilla real lleva el membrete de la empresa y vive en el servidor.
+/storage/app/ofertas
+/storage/app/plantillas

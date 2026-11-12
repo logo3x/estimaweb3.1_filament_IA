@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Cotizacions\Pages;
 
 use App\Dominio\CalcularCotizacion;
+use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -66,6 +67,34 @@ class EditCotizacion extends EditRecord
                     }
 
                     $aviso->send();
+                }),
+
+            /**
+             * Descarga la oferta en Word.
+             *
+             * El documento se genera al vuelo con los totales del dominio,
+             * no con las columnas guardadas: asi nunca se envia al cliente
+             * un precio desactualizado.
+             */
+            Action::make('descargarOferta')
+                ->label('Descargar oferta')
+                ->icon('heroicon-o-document-arrow-down')
+                ->color('primary')
+                ->action(function () {
+                    try {
+                        $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
+                    } catch (\RuntimeException $e) {
+                        Notification::make()
+                            ->danger()
+                            ->title('No se pudo generar la oferta')
+                            ->body($e->getMessage())
+                            ->persistent()
+                            ->send();
+
+                        return null;
+                    }
+
+                    return response()->download($archivo)->deleteFileAfterSend();
                 }),
 
             ViewAction::make()->label('Ver detalle'),

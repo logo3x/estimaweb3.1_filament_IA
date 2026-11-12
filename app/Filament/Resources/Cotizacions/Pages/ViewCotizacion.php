@@ -4,7 +4,11 @@ namespace App\Filament\Resources\Cotizacions\Pages;
 
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\CotizacionCalculada;
+use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Schemas\Components\Grid;
@@ -34,7 +38,34 @@ class ViewCotizacion extends ViewRecord
     /** Sin acciones mientras la edicion no exista. */
     protected function getHeaderActions(): array
     {
-        return [];
+        return [
+            /**
+             * El documento se genera al vuelo con los totales del dominio,
+             * no con las columnas guardadas: asi nunca se envia al cliente
+             * un precio desactualizado.
+             */
+            Action::make('descargarOferta')
+                ->label('Descargar oferta')
+                ->icon('heroicon-o-document-arrow-down')
+                ->action(function () {
+                    try {
+                        $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
+                    } catch (\RuntimeException $e) {
+                        Notification::make()
+                            ->danger()
+                            ->title('No se pudo generar la oferta')
+                            ->body($e->getMessage())
+                            ->persistent()
+                            ->send();
+
+                        return null;
+                    }
+
+                    return response()->download($archivo)->deleteFileAfterSend();
+                }),
+
+            EditAction::make(),
+        ];
     }
 
     /**

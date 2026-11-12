@@ -186,4 +186,23 @@ class PanelCotizacionesTest extends TestCase
             "El listado disparo {$consultas} consultas para diez filas."
         );
     }
+
+    /**
+     * La oferta se descarga desde el panel.
+     *
+     * El documento se genera al vuelo con los totales del dominio, no con
+     * las columnas guardadas, asi que nunca se envia un precio viejo.
+     */
+    public function test_se_puede_descargar_la_oferta(): void
+    {
+        $this->comoUsuario();
+
+        if (! is_file(storage_path('app/plantillas/oferta.docx'))) {
+            $this->artisan('plantilla:oferta');
+        }
+
+        Livewire::test(ViewCotizacion::class, ['record' => 55])
+            ->callAction('descargarOferta')
+            ->assertOk();
+    }
 }
