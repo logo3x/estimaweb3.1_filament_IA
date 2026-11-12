@@ -187,6 +187,127 @@ class PanelCotizacionesTest extends TestCase
         );
     }
 
+    /** Un gerente de la gerencia indicada. */
+    private function comoGerente(): \App\Models\User
+    {
+        $gerente = \App\Models\User::factory()->create(['id_gerencia' => '4']);
+        $gerente->assignRole('Gerente');
+
+        $this->actingAs($gerente);
+
+        return $gerente;
+    }
+
+    /**
+     * Pone la cotizacion en un estado y deja la base como estaba.
+     *
+     * Son datos reales de produccion copiados en local: no se quedan
+     * modificados al terminar la prueba.
+     */
+    private function conEstado(array $estado, callable $prueba): void
+    {
+        $cotizacion = Cotizacion::findOrFail(55);
+
+        $original = $cotizacion->only([
+            'gerencia', 'aprobacion1', 'aprobacion2',
+            'aprobacion1_user_id', 'aprobacion2_user_id',
+            'aprobacion1_comentarios', 'aprobacion2_comentarios',
+            'aprobacion1_fecha', 'aprobacion2_fecha',
+        ]);
+
+        try {
+            $cotizacion->forceFill($estado)->save();
+
+            $prueba($cotizacion);
+        } finally {
+            $cotizacion->forceFill($original)->save();
+        }
+    }
+
+    /**
+     * Los botones de aprobacion aparecen segun el estado y el rol.
+     *
+     * Comprueba el enganche entre el dominio y la pantalla: que el
+     * visible() de cada boton pregunte a las reglas correctas.
+     */
+    public function test_los_botones_de_aprobacion_dependen_del_estado(): void
+    {
+        $this->comoGerente();
+
+        $this->conEstado(
+            ['gerencia' => '4', 'aprobacion1' => 'PENDIENTE', 'aprobacion2' => null],
+            function (): void {
+                Livewire::test(ViewCotizacion::class, ['record' => 55])
+                    ->assertActionVisible('aprobarTecnica')
+                    ->assertActionVisible('rechazarTecnica')
+                    ->assertActionHidden('aprobarFinanciera')
+                    ->assertActionHidden('reabrir');
+            }
+        );
+
+        /** Ya aprobada: no queda nada que decidir, ni se edita. */
+        $this->conEstado(
+            ['aprobacion1' => 'SI', 'aprobacion2' => 'SI'],
+            function (): void {
+                Livewire::test(ViewCotizacion::class, ['record' => 55])
+                    ->assertActionHidden('aprobarTecnica')
+                    ->assertActionHidden('edit');
+            }
+        );
+    }
+
+    /** Aprobar desde la pantalla deja el rastro en la base. */
+    public function test_se_puede_aprobar_desde_la_pantalla(): void
+    {
+        $gerente = $this->comoGerente();
+
+        $this->conEstado(
+            ['gerencia' => '4', 'aprobacion1' => 'PENDIENTE', 'aprobacion2' => null],
+            function (Cotizacion $cotizacion) use ($gerente): void {
+                Livewire::test(ViewCotizacion::class, ['record' => 55])
+                    ->callAction('aprobarTecnica', ['comentarios' => 'Revisada.'])
+                    ->assertHasNoActionErrors();
+
+                $cotizacion->refresh();
+
+                $this->assertSame('SI', $cotizacion->aprobacion1);
+                $this->assertSame($gerente->id, $cotizacion->aprobacion1_user_id);
+                $this->assertSame('PENDIENTE', $cotizacion->aprobacion2);
+            }
+        );
+    }
+
+    /** Un rechazo sin motivo no se guarda. */
+    public function test_rechazar_sin_motivo_no_pasa_la_validacion(): void
+    {
+        $this->comoGerente();
+
+        $this->conEstado(
+            ['gerencia' => '4', 'aprobacion1' => 'PENDIENTE', 'aprobacion2' => null],
+            function (Cotizacion $cotizacion): void {
+                Livewire::test(ViewCotizacion::class, ['record' => 55])
+                    ->callAction('rechazarTecnica', ['comentarios' => ''])
+                    ->assertHasActionErrors(['comentarios']);
+
+                $this->assertSame('PENDIENTE', $cotizacion->refresh()->aprobacion1);
+            }
+        );
+    }
+
+    /** No se entra a editar una cotizacion aprobada. */
+    public function test_editar_una_aprobada_redirige_al_detalle(): void
+    {
+        $this->comoUsuario();
+
+        $this->conEstado(
+            ['aprobacion1' => 'SI', 'aprobacion2' => 'SI'],
+            function (): void {
+                Livewire::test(\App\Filament\Resources\Cotizacions\Pages\EditCotizacion::class, ['record' => 55])
+                    ->assertRedirect();
+            }
+        );
+    }
+
     /**
      * La oferta se descarga desde el panel.
      *

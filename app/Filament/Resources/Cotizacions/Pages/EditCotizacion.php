@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Cotizacions\Pages;
 
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
+use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -101,8 +102,40 @@ class EditCotizacion extends EditRecord
 
             DeleteAction::make()
                 ->requiresConfirmation()
-                ->modalDescription('Se borrarán también todos sus ítems, recursos y asignaciones.'),
+                ->modalDescription('Se borrarán también todos sus ítems, recursos y asignaciones.')
+                /** Lo que ya se aprobo no se borra. */
+                ->visible(fn (): bool => $this->getRecord()->puedeSerEditadaPor(auth()->user())),
+
+            ...AccionesDeAprobacion::todas(),
         ];
+    }
+
+    /**
+     * No se entra a editar lo que el flujo tiene bloqueado.
+     *
+     * Filament llama a esto antes de montar la pagina. Sin la
+     * comprobacion, una cotizacion aprobada se abriria en modo edicion y
+     * el usuario descubriria el bloqueo al intentar guardar.
+     */
+    public function mount(int|string $record): void
+    {
+        parent::mount($record);
+
+        if ($this->getRecord()->puedeSerEditadaPor(auth()->user())) {
+            return;
+        }
+
+        $motivo = (new \App\Dominio\Aprobaciones\ReglasDeAprobacion())
+            ->motivoDelBloqueo($this->getRecord(), auth()->user());
+
+        Notification::make()
+            ->warning()
+            ->title('Cotización bloqueada')
+            ->body($motivo)
+            ->persistent()
+            ->send();
+
+        $this->redirect(CotizacionResource::getUrl('view', ['record' => $this->getRecord()]));
     }
 
     protected function getSavedNotificationTitle(): ?string

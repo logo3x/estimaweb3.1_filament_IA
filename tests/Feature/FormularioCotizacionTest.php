@@ -21,11 +21,21 @@ use Tests\TestCase;
  */
 class FormularioCotizacionTest extends TestCase
 {
+    /**
+     * Un usuario que SI puede editar la cotizacion de las pruebas.
+     *
+     * La 55 esta esperando aprobacion tecnica, y en ese estado solo la toca
+     * el gerente de su gerencia. Antes estas pruebas tomaban al primer
+     * usuario con acceso al panel y daban por hecho que podria editar
+     * cualquier cosa; ahora el flujo de aprobacion lo impide, que es
+     * justamente lo que debe hacer.
+     */
     private function comoUsuario(): User
     {
-        $usuario = User::query()
-            ->whereHas('roles', fn ($q) => $q->whereIn('name', User::ROLES_CON_ACCESO_AL_PANEL))
-            ->firstOrFail();
+        $gerencia = Cotizacion::query()->whereKey(55)->value('gerencia');
+
+        $usuario = User::factory()->create(['id_gerencia' => $gerencia]);
+        $usuario->assignRole('Gerente');
 
         $this->actingAs($usuario);
 
@@ -102,6 +112,22 @@ class FormularioCotizacionTest extends TestCase
             ])
             ->call('create')
             ->assertHasFormErrors(['cliente', 'codigo', 'nombre', 'dias_dura_servicio']);
+    }
+
+    /**
+     * El flujo de aprobacion cierra la pantalla de edicion.
+     *
+     * Quien no tiene permiso en el estado actual no entra: se le redirige
+     * al detalle con el motivo. En el sistema actual la pantalla se abre
+     * igual y el bloqueo solo aparece al intentar guardar.
+     */
+    public function test_quien_no_tiene_permiso_no_entra_a_editar(): void
+    {
+        $ajeno = User::factory()->create(['id_gerencia' => '8']);
+        $ajeno->assignRole('Creador');
+        $this->actingAs($ajeno);
+
+        Livewire::test(EditCotizacion::class, ['record' => 55])->assertRedirect();
     }
 
     /** La pantalla de edicion carga con los datos de la cotizacion. */

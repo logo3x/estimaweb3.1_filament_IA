@@ -87,6 +87,27 @@ class Cotizacion extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    /**
+     * En que punto del flujo de aprobacion esta.
+     *
+     * Se deriva de las dos columnas en vez de leer 'estado', que en
+     * produccion esta vacia en 46 de 48 cotizaciones.
+     */
+    public function estadoAprobacion(): \App\Dominio\Aprobaciones\EstadoAprobacion
+    {
+        return \App\Dominio\Aprobaciones\EstadoAprobacion::desdeColumnas(
+            $this->aprobacion1,
+            $this->aprobacion2,
+        );
+    }
+
+    /** Si el usuario puede modificar su contenido. */
+    public function puedeSerEditadaPor(?User $usuario): bool
+    {
+        return (new \App\Dominio\Aprobaciones\ReglasDeAprobacion())
+            ->puedeEditar($this, $usuario);
+    }
+
     public function aprobadorTecnico(): BelongsTo
     {
         return $this->belongsTo(User::class, 'aprobacion1_user_id');

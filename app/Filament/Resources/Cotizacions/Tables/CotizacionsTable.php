@@ -6,6 +6,8 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use App\Dominio\Aprobaciones\EstadoAprobacion;
+use App\Models\Cotizacion;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -65,36 +67,19 @@ class CotizacionsTable
                     ->sortable()
                     ->toggleable(),
 
-                TextColumn::make('estado')
+                /**
+                 * El estado del flujo, derivado por el dominio.
+                 *
+                 * Antes habia dos columnas: 'estado' (vacia en 46 de 48
+                 * cotizaciones) y una que repetia a mano las comparaciones
+                 * de 'SI'/'NO'. Ahora ambas salen del mismo enum que usa el
+                 * resto del sistema.
+                 */
+                TextColumn::make('estado_aprobacion')
                     ->label('Estado')
                     ->badge()
-                    ->color(fn (?string $state): string => match ($state) {
-                        'Aprobada' => 'success',
-                        'Rechazada' => 'danger',
-                        'En elaboración' => 'warning',
-                        default => 'gray',
-                    })
-                    ->placeholder('Sin estado')
-                    ->sortable(),
-
-                /**
-                 * Estado del flujo de aprobacion en una sola columna.
-                 *
-                 * Son dos niveles, tecnico y financiero, y lo que interesa de
-                 * un vistazo es si falta alguno.
-                 */
-                TextColumn::make('aprobacion1')
-                    ->label('Aprobaciones')
-                    ->badge()
-                    ->formatStateUsing(fn ($state, $record): string => match (true) {
-                        $record->aprobacion1 === 'SI' && $record->aprobacion2 === 'SI' => 'Completa',
-                        $record->aprobacion1 === 'SI' => 'Falta financiera',
-                        $record->aprobacion2 === 'SI' => 'Falta técnica',
-                        default => 'Pendiente',
-                    })
-                    ->color(fn ($state, $record): string => $record->aprobacion1 === 'SI' && $record->aprobacion2 === 'SI'
-                        ? 'success'
-                        : 'warning')
+                    ->state(fn (Cotizacion $record): string => $record->estadoAprobacion()->etiquetaCorta())
+                    ->color(fn (Cotizacion $record): string => $record->estadoAprobacion()->color())
                     ->toggleable(),
 
                 TextColumn::make('aiu_valortotal_con_iva')
@@ -137,13 +122,25 @@ class CotizacionsTable
                         ->pluck('gerencia', 'gerencia')
                         ->all()),
 
-                SelectFilter::make('estado')
+                /**
+                 * Filtra por el estado del flujo, no por la columna
+                 * 'estado': esa esta vacia en casi todas las filas, de modo
+                 * que el filtro anterior no devolvia nada.
+                 */
+                SelectFilter::make('estado_aprobacion')
                     ->label('Estado')
-                    ->options([
-                        'En elaboración' => 'En elaboración',
-                        'Aprobada' => 'Aprobada',
-                        'Rechazada' => 'Rechazada',
-                    ]),
+                    ->options(fn (): array => collect(EstadoAprobacion::cases())
+                        ->mapWithKeys(fn (EstadoAprobacion $e): array => [$e->value => $e->etiqueta()])
+                        ->all())
+                    ->query(function ($query, array $data) {
+                        if (blank($data['value'] ?? null)) {
+                            return $query;
+                        }
+
+                        return $query->where(
+                            fn ($q) => EstadoAprobacion::from($data['value'])->aplicarFiltro($q)
+                        );
+                    }),
             ])
             ->recordActions([
                 /**

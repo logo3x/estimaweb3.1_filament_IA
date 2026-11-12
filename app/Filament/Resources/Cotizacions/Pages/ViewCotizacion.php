@@ -6,6 +6,7 @@ use App\Dominio\CalcularCotizacion;
 use App\Dominio\CotizacionCalculada;
 use App\Dominio\Documentos\ConversorAPdf;
 use App\Dominio\Documentos\GeneradorDeOferta;
+use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
@@ -82,7 +83,11 @@ class ViewCotizacion extends ViewRecord
                     return response()->download($archivo)->deleteFileAfterSend();
                 }),
 
-            EditAction::make(),
+            EditAction::make()
+                /** Lo aprobado no se edita; el boton no debe ni aparecer. */
+                ->visible(fn (): bool => $this->getRecord()->puedeSerEditadaPor(auth()->user())),
+
+            ...AccionesDeAprobacion::todas(),
         ];
     }
 
@@ -116,7 +121,16 @@ class ViewCotizacion extends ViewRecord
                 ->schema([
                     TextEntry::make('id')->label('No.'),
                     TextEntry::make('codigo')->label('Código'),
-                    TextEntry::make('estado')->label('Estado')->badge()->placeholder('Sin estado'),
+                    /**
+                     * El estado se deriva del flujo, no se lee de la columna
+                     * 'estado': en produccion esta vacia en 46 de 48 filas.
+                     */
+                    TextEntry::make('estado_aprobacion')
+                        ->label('Estado')
+                        ->badge()
+                        ->color(fn (): string => $this->getRecord()->estadoAprobacion()->color())
+                        ->state(fn (): string => $this->getRecord()->estadoAprobacion()->etiquetaCorta())
+                        ->helperText(fn (): string => $this->getRecord()->estadoAprobacion()->explicacion()),
                     TextEntry::make('cliente')->label('Cliente'),
                     TextEntry::make('contacto')->label('Contacto')->placeholder('—'),
                     TextEntry::make('cargo')->label('Cargo'),
@@ -210,7 +224,7 @@ class ViewCotizacion extends ViewRecord
                 ]),
 
             Section::make('Aprobaciones')
-                ->columns(2)
+                ->columns(3)
                 ->collapsible()
                 ->schema([
                     TextEntry::make('aprobacion1')
@@ -220,6 +234,19 @@ class ViewCotizacion extends ViewRecord
                     TextEntry::make('aprobadorTecnico.name')
                         ->label('Aprobada por')
                         ->placeholder('—'),
+                    TextEntry::make('aprobacion1_fecha')
+                        ->label('Fecha')
+                        ->dateTime('d/m/Y H:i')
+                        ->placeholder('—'),
+                    /**
+                     * El motivo de un rechazo es lo que dice que corregir.
+                     * Hoy se guarda pero no se muestra en ninguna pantalla.
+                     */
+                    TextEntry::make('aprobacion1_comentarios')
+                        ->label('Comentarios')
+                        ->placeholder('—')
+                        ->columnSpanFull(),
+
                     TextEntry::make('aprobacion2')
                         ->label('Financiera')
                         ->badge()
@@ -227,6 +254,14 @@ class ViewCotizacion extends ViewRecord
                     TextEntry::make('aprobadorFinanciero.name')
                         ->label('Aprobada por')
                         ->placeholder('—'),
+                    TextEntry::make('aprobacion2_fecha')
+                        ->label('Fecha')
+                        ->dateTime('d/m/Y H:i')
+                        ->placeholder('—'),
+                    TextEntry::make('aprobacion2_comentarios')
+                        ->label('Comentarios')
+                        ->placeholder('—')
+                        ->columnSpanFull(),
                 ]),
         ]);
     }
