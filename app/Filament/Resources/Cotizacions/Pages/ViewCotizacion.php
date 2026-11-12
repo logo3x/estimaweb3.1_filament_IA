@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Cotizacions\Pages;
 
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\CotizacionCalculada;
+use App\Dominio\Documentos\ConversorAPdf;
 use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
@@ -45,18 +46,35 @@ class ViewCotizacion extends ViewRecord
              * un precio desactualizado.
              */
             Action::make('descargarOferta')
-                ->label('Descargar oferta')
+                ->label('Word')
                 ->icon('heroicon-o-document-arrow-down')
                 ->action(function () {
                     try {
                         $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
                     } catch (\RuntimeException $e) {
-                        Notification::make()
-                            ->danger()
-                            ->title('No se pudo generar la oferta')
-                            ->body($e->getMessage())
-                            ->persistent()
-                            ->send();
+                        $this->avisarDelFallo($e);
+
+                        return null;
+                    }
+
+                    return response()->download($archivo)->deleteFileAfterSend();
+                }),
+
+            /**
+             * El PDF se obtiene convirtiendo el Word, asi que ambos muestran
+             * las mismas cifras. El Word sigue siendo el documento
+             * principal: la conversion pierde algo de fidelidad porque en un
+             * hosting compartido no hay Word ni LibreOffice.
+             */
+            Action::make('descargarPdf')
+                ->label('PDF')
+                ->icon('heroicon-o-document-text')
+                ->color('gray')
+                ->action(function () {
+                    try {
+                        $archivo = ConversorAPdf::crear()->desdeCotizacion($this->getRecord());
+                    } catch (\RuntimeException $e) {
+                        $this->avisarDelFallo($e);
 
                         return null;
                     }
@@ -66,6 +84,17 @@ class ViewCotizacion extends ViewRecord
 
             EditAction::make(),
         ];
+    }
+
+    /** Un fallo al generar el documento se explica, no se traga. */
+    private function avisarDelFallo(\RuntimeException $error): void
+    {
+        Notification::make()
+            ->danger()
+            ->title('No se pudo generar el documento')
+            ->body($error->getMessage())
+            ->persistent()
+            ->send();
     }
 
     /**
