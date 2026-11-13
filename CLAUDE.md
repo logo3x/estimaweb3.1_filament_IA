@@ -45,3 +45,20 @@ php artisan boost:install
 
 Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
 </laravel-boost-guidelines>
+
+## Bases de datos locales (regla del proyecto)
+
+Hay **dos** bases locales y no son intercambiables:
+
+| Base | Para qué | Se puede escribir |
+|---|---|---|
+| `estimaweb31` | **REFERENCIA.** Copia de producción que se deja intacta para comparar el cálculo viejo con el nuevo. | **No.** Ni desde la app, ni al probar en el navegador. |
+| `estimaweb31_test` | **DESECHABLE.** Donde trabajan la aplicación y las pruebas. | Sí. Se recrea con `php artisan pruebas:preparar`. |
+
+El `.env` y `phpunit.xml` apuntan **los dos** a `estimaweb31_test`. Si apunta la
+aplicación a la referencia, cualquier prueba en el navegador escribe ahí y
+contamina los datos con los que se verifica el cálculo; ya ocurrió dos veces y
+costó detectarlo, porque el dato parece legítimo.
+
+`php artisan pruebas:preparar` recrea la desechable desde la referencia, de modo
+que recuperar un estado limpio es inmediato.

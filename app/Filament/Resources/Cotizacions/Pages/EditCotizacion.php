@@ -113,20 +113,25 @@ class EditCotizacion extends EditRecord
     /**
      * No se entra a editar lo que el flujo tiene bloqueado.
      *
-     * Filament llama a esto antes de montar la pagina. Sin la
-     * comprobacion, una cotizacion aprobada se abriria en modo edicion y
-     * el usuario descubriria el bloqueo al intentar guardar.
+     * Se sustituye la autorizacion de Filament, que respondería un 403
+     * seco. Aqui interesa lo contrario: llevar al detalle y explicar por
+     * que no se puede -esta en aprobacion, ya se aprobo-, que es
+     * informacion util y no un error del usuario.
+     *
+     * Va en authorizeAccess() y no en mount() porque Filament lo llama
+     * tambien en cada peticion de Livewire: puesto solo en mount(), una
+     * peticion posterior volveria a dar el 403.
      */
-    public function mount(int|string $record): void
+    protected function authorizeAccess(): void
     {
-        parent::mount($record);
+        $cotizacion = $this->getRecord();
 
-        if ($this->getRecord()->puedeSerEditadaPor(auth()->user())) {
+        if ($cotizacion->puedeSerEditadaPor(auth()->user())) {
             return;
         }
 
         $motivo = (new \App\Dominio\Aprobaciones\ReglasDeAprobacion())
-            ->motivoDelBloqueo($this->getRecord(), auth()->user());
+            ->motivoDelBloqueo($cotizacion, auth()->user());
 
         Notification::make()
             ->warning()
@@ -135,7 +140,7 @@ class EditCotizacion extends EditRecord
             ->persistent()
             ->send();
 
-        $this->redirect(CotizacionResource::getUrl('view', ['record' => $this->getRecord()]));
+        $this->redirect(CotizacionResource::getUrl('view', ['record' => $cotizacion]));
     }
 
     protected function getSavedNotificationTitle(): ?string

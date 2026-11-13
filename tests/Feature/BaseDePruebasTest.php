@@ -87,6 +87,27 @@ class BaseDePruebasTest extends TestCase
      * Comprueba contra la base de referencia, no contra numeros fijos, para
      * que siga valiendo cuando se refresque el respaldo.
      */
+    /**
+     * Las pruebas no dejan usuarios acumulados.
+     *
+     * Varias crean usuarios con la factoria. Las que usan transacciones los
+     * deshacen, pero una peticion HTTP corre fuera de la transaccion y los
+     * deja. Doscientos usuarios sueltos no rompen nada, pero enturbian
+     * cualquier conteo y esconden diferencias reales con la referencia.
+     *
+     * Si esto falla: php artisan pruebas:preparar
+     */
+    public function test_no_quedan_usuarios_de_prueba_acumulados(): void
+    {
+        $deLaFactoria = DB::table('users')->where('email', 'like', '%@example.%')->count();
+
+        $this->assertLessThan(
+            100,
+            $deLaFactoria,
+            "Hay {$deLaFactoria} usuarios de prueba acumulados. Ejecute: php artisan pruebas:preparar"
+        );
+    }
+
     public function test_los_datos_se_copiaron_completos(): void
     {
         $referencia = 'estimaweb31';
