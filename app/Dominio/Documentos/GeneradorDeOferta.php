@@ -110,6 +110,12 @@ final class GeneradorDeOferta
      * Vienen en HTML del editor de texto enriquecido. Se verifico sobre los
      * datos reales: las 47 cotizaciones con observaciones usan ese formato.
      *
+     * No se usa setComplexBlock porque sustituye el marcador por UN solo
+     * elemento: unas observaciones con dos titulos y una lista producen
+     * cinco, de los que se colocaria el primero y se perderian cuatro,
+     * ademas de quedar el titulo pegado al parrafo siguiente. Aqui se
+     * escriben todos.
+     *
      * Si el HTML resulta invalido, se cae a texto plano antes que dejar el
      * documento sin generar.
      */
@@ -123,14 +129,53 @@ final class GeneradorDeOferta
             return;
         }
 
-        $seccion = (new \PhpOffice\PhpWord\PhpWord)->addSection();
-
         try {
+            $seccion = (new \PhpOffice\PhpWord\PhpWord)->addSection();
+
             Html::addHtml($seccion, $this->limpiarHtml($observaciones), false, false);
-            $plantilla->setComplexBlock('observaciones', $seccion);
+
+            $xml = $this->xmlDeLosBloques($seccion->getElements());
+
+            if ($xml === '') {
+                $plantilla->setValue('observaciones', strip_tags($observaciones));
+
+                return;
+            }
+
+            $plantilla->replaceXmlBlock('observaciones', $xml, 'w:p');
         } catch (\Throwable) {
             $plantilla->setValue('observaciones', strip_tags($observaciones));
         }
+    }
+
+    /**
+     * El XML de Word de una lista de elementos, uno tras otro.
+     *
+     * Es lo que hace setComplexBlock internamente, pero para todos los
+     * elementos en vez de para uno.
+     *
+     * @param array<\PhpOffice\PhpWord\Element\AbstractElement> $elementos
+     */
+    private function xmlDeLosBloques(array $elementos): string
+    {
+        $xml = '';
+
+        foreach ($elementos as $elemento) {
+            $nombre = (new \ReflectionClass($elemento))->getShortName();
+            $escritor = 'PhpOffice\\PhpWord\\Writer\\Word2007\\Element\\' . $nombre;
+
+            if (! class_exists($escritor)) {
+                continue;
+            }
+
+            $destino = new \PhpOffice\PhpWord\Shared\XMLWriter;
+
+            (new $escritor($destino, $elemento, false))->write();
+
+            $xml .= $destino->getData();
+        }
+
+        return $xml;
     }
 
     /**

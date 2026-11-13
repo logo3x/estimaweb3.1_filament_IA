@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Models\Cotizacion;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\DataProvider;
 use RuntimeException;
 use Tests\TestCase;
@@ -231,6 +232,77 @@ class GeneradorDeOfertaTest extends TestCase
         } finally {
             $cotizacion->update(['observaciones' => $original]);
         }
+    }
+
+    /**
+     * Las observaciones llegan COMPLETAS, no solo su primer bloque.
+     *
+     * setComplexBlock sustituye el marcador por un unico elemento: unas
+     * observaciones con dos titulos y una lista producen cinco, de los que
+     * colocaba el primero y perdia cuatro, dejando ademas el titulo pegado
+     * al parrafo siguiente. Se enviaba al cliente una oferta truncada.
+     */
+    public function test_las_observaciones_llegan_completas(): void
+    {
+        $cotizacion = Cotizacion::findOrFail(55);
+        $original = $cotizacion->observaciones;
+
+        $cotizacion->update([
+            'observaciones' => '<h1>Primer título</h1><p>Texto del primero.</p>'
+                . '<h1>Segundo título</h1><ul><li>Punto A</li><li>Punto B</li></ul>'
+                . '<p>Cierre final.</p>',
+        ]);
+
+        try {
+            $archivo = $this->generar($cotizacion->fresh());
+            $texto = $this->textoDe($archivo);
+
+            /** Ningun bloque se pierde por el camino. */
+            foreach (['Primer título', 'Texto del primero.', 'Segundo título', 'Punto A', 'Punto B', 'Cierre final.'] as $fragmento) {
+                $this->assertStringContainsString(
+                    $fragmento,
+                    $texto,
+                    "Se perdió '{$fragmento}' de las observaciones."
+                );
+            }
+
+            /** Y cada uno es su propio parrafo: no quedan pegados. */
+            $this->assertStringNotContainsString(
+                'Primer títuloTexto',
+                $texto,
+                'El título quedó pegado al párrafo siguiente.'
+            );
+        } finally {
+            $cotizacion->update(['observaciones' => $original]);
+        }
+    }
+
+    /**
+     * Las observaciones reales de produccion no se truncan.
+     *
+     * Se toma una cotizacion cualquiera que tenga apartados con formato:
+     * no se fija una en concreto porque otras pruebas alteran la 55
+     * temporalmente y el resultado dependeria del orden de ejecucion.
+     */
+    public function test_las_observaciones_reales_conservan_sus_apartados(): void
+    {
+        $cotizacion = Cotizacion::query()
+            ->where('observaciones', 'like', '%<h1>%')
+            ->where('observaciones', 'like', '%<li>%')
+            ->orderByDesc(DB::raw('LENGTH(observaciones)'))
+            ->first();
+
+        $this->assertNotNull($cotizacion, 'Ninguna cotización tiene observaciones con formato.');
+
+        $xml = $this->xmlDe($this->generar($cotizacion));
+
+        preg_match_all('/<w:p[ >]/', $xml, $parrafos);
+
+        $this->assertGreaterThan(
+            30,
+            count($parrafos[0]),
+            'El documento tiene muy pocos párrafos: las observaciones se truncaron.'
+        );
     }
 
     /** Sin observaciones tampoco falla. */
