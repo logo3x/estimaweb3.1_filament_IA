@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use PhpOffice\PhpWord\Settings as AjustesWord;
 
@@ -15,6 +16,23 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configurarGeneracionDeWord();
+        $this->registrarCorreoPorGraph();
+    }
+
+    /**
+     * Registra el transporte de correo por Microsoft 365.
+     *
+     * Laravel no trae uno: se añade aqui para que `MAIL_MAILER=graph`
+     * funcione como cualquier otro.
+     */
+    private function registrarCorreoPorGraph(): void
+    {
+        Mail::extend('graph', fn (array $configuracion): \App\Correo\TransporteMicrosoftGraph => new \App\Correo\TransporteMicrosoftGraph(
+            tenantId: (string) ($configuracion['tenant_id'] ?? ''),
+            clientId: (string) ($configuracion['client_id'] ?? ''),
+            clientSecret: (string) ($configuracion['client_secret'] ?? ''),
+            remitente: (string) ($configuracion['sender'] ?? ''),
+        ));
     }
 
     /**

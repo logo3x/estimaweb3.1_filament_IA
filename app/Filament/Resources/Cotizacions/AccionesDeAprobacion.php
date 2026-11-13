@@ -4,12 +4,16 @@ namespace App\Filament\Resources\Cotizacions;
 
 use App\Dominio\Aprobaciones\EstadoAprobacion;
 use App\Dominio\Aprobaciones\FlujoDeAprobacion;
+use App\Correo\NotificadorDeAprobaciones;
+use App\Correo\ResultadoDelAviso;
 use App\Dominio\Aprobaciones\ReglasDeAprobacion;
 use App\Models\Cotizacion;
 use DomainException;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 /**
  * Los botones del flujo de aprobacion.
@@ -59,7 +63,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeEnviarAAprobacion($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->enviarAAprobacion($record, auth()->user(), $data['comentarios'] ?? null),
-                'Enviada a aprobación técnica'
+                'Enviada a aprobación técnica',
+                $data['comentarios'] ?? null
             ));
     }
 
@@ -75,7 +80,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeDecidirTecnica($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->aprobarTecnica($record, auth()->user(), $data['comentarios'] ?? null),
-                'Aprobada técnicamente'
+                'Aprobada técnicamente',
+                $data['comentarios'] ?? null
             ));
     }
 
@@ -91,7 +97,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeDecidirTecnica($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->rechazarTecnica($record, auth()->user(), $data['comentarios'] ?? ''),
-                'Devuelta al autor'
+                'Devuelta al autor',
+                $data['comentarios'] ?? ''
             ));
     }
 
@@ -108,7 +115,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeDecidirFinanciera($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->aprobarFinanciera($record, auth()->user(), $data['comentarios'] ?? null),
-                'Aprobada'
+                'Aprobada',
+                $data['comentarios'] ?? null
             ));
     }
 
@@ -124,7 +132,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeDecidirFinanciera($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->rechazarFinanciera($record, auth()->user(), $data['comentarios'] ?? ''),
-                'Devuelta al gerente'
+                'Devuelta al gerente',
+                $data['comentarios'] ?? ''
             ));
     }
 
@@ -142,7 +151,8 @@ final class AccionesDeAprobacion
             ->visible(fn (Cotizacion $record): bool => self::reglas()->puedeReabrir($record, auth()->user()))
             ->action(fn (Cotizacion $record, array $data) => self::ejecutar(
                 fn () => FlujoDeAprobacion::crear()->reabrir($record, auth()->user(), $data['comentarios'] ?? ''),
-                'Reabierta'
+                'Reabierta',
+                $data['comentarios'] ?? ''
             ));
     }
 
@@ -161,7 +171,7 @@ final class AccionesDeAprobacion
      * El dominio lanza DomainException cuando el usuario no tiene permiso;
      * sin esto el usuario veria una pantalla de error.
      */
-    private static function ejecutar(callable $transicion, string $titulo): void
+    private static function ejecutar(callable $transicion, string $titulo, ?string $comentarios = null): void
     {
         try {
             $cotizacion = $transicion();
@@ -176,11 +186,48 @@ final class AccionesDeAprobacion
             return;
         }
 
-        Notification::make()
+        $aviso = self::avisarPorCorreo($cotizacion, $comentarios);
+
+        $notificacion = Notification::make()
             ->success()
             ->title($titulo)
-            ->body('Estado: ' . $cotizacion->estadoAprobacion()->etiqueta())
-            ->send();
+            ->body($cotizacion->estadoAprobacion()->etiqueta() . '. ' . $aviso->resumen());
+
+        /**
+         * Si algun correo no salio, se dice en pantalla y el mensaje se
+         * queda hasta que lo cierren: quien aprueba da por hecho que al
+         * siguiente ya le avisaron.
+         */
+        if ($aviso->huboFallos()) {
+            $notificacion->warning()->persistent();
+        }
+
+        $notificacion->send();
+    }
+
+    /**
+     * Avisa por correo a quien le toca actuar.
+     *
+     * Un fallo de correo no deshace la aprobacion, que ya esta guardada;
+     * solo cambia lo que se le dice al usuario.
+     */
+    private static function avisarPorCorreo(Cotizacion $cotizacion, ?string $comentarios): ResultadoDelAviso
+    {
+        try {
+            return NotificadorDeAprobaciones::crear()->avisar(
+                cotizacion: $cotizacion,
+                estado: $cotizacion->estadoAprobacion(),
+                autorDeLaAccion: auth()->user(),
+                comentarios: $comentarios,
+            );
+        } catch (Throwable $e) {
+            Log::error('Fallo al preparar los avisos de aprobación.', [
+                'cotizacion' => $cotizacion->id,
+                'motivo' => $e->getMessage(),
+            ]);
+
+            return new ResultadoDelAviso(0, ['(no se pudo preparar el envío)']);
+        }
     }
 
     /** El distintivo de estado, para listados e infolists. */

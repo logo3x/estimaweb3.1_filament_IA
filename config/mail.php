@@ -37,6 +37,22 @@ return [
 
     'mailers' => [
 
+        /**
+         * Correo por la API de Microsoft 365.
+         *
+         * Va por HTTPS, de modo que funciona en un hosting compartido sin
+         * depender de que abran los puertos de SMTP, y el correo sale del
+         * buzon corporativo en vez de un servidor compartido, que es lo que
+         * suele acabar en la bandeja de no deseado.
+         */
+        'graph' => [
+            'transport' => 'graph',
+            'tenant_id' => env('MAIL_GRAPH_TENANT_ID'),
+            'client_id' => env('MAIL_GRAPH_CLIENT_ID'),
+            'client_secret' => env('MAIL_GRAPH_CLIENT_SECRET'),
+            'sender' => env('MAIL_GRAPH_SENDER', env('MAIL_FROM_ADDRESS')),
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
