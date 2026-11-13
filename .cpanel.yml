@@ -1,0 +1,67 @@
+---
+# Despliegue automatico de cPanel (Git Version Control).
+#
+# cPanel lee este archivo al pulsar "Deploy HEAD Commit" y ejecuta las tareas
+# de abajo. Sin el, el boton de desplegar no aparece.
+#
+# ─────────────────────────────────────────────────────────────────────────
+# ANTES DE USARLO hay que sustituir USUARIO por el nombre real de la cuenta
+# de cPanel. Se ve en el panel, arriba a la derecha, o en la ruta del
+# gestor de archivos: /home/USUARIO/
+# ─────────────────────────────────────────────────────────────────────────
+#
+# Como esta montado:
+#
+#   /home/USUARIO/estimaweb/      <- el repositorio entero (fuera de la web)
+#   /home/USUARIO/public_html/    <- apunta a estimaweb/public
+#
+# La aplicacion NO va dentro de public_html: ahi solo debe quedar lo que el
+# navegador puede pedir. El resto (codigo, .env, storage) queda por encima,
+# donde nadie lo alcanza desde fuera.
+#
+# No hay `composer install` ni `npm run build` en estas tareas a proposito:
+# en este hosting no hay terminal. Las librerias y los assets viajan ya
+# dentro del repositorio; se regeneran ANTES de hacer commit, en local, con:
+#
+#     php artisan desplegar:preparar
+#
+# Las cachés y las migraciones se disparan desde el módulo de mantenimiento
+# del propio panel, no desde aquí.
+
+deployment:
+  tasks:
+    - export RAIZ=/home/USUARIO/estimaweb
+
+    # El repositorio desplegado es la aplicacion. Se copia todo salvo lo que
+    # es exclusivo del servidor y no debe pisarse nunca:
+    #   .env                      la configuracion real (claves, base de datos)
+    #   storage/                  documentos generados, logs, cache, sesiones
+    #   public/storage            enlace a los archivos subidos
+    - /bin/rsync -a --delete
+      --exclude='.env'
+      --exclude='.git/'
+      --exclude='storage/'
+      --exclude='public/storage'
+      /home/USUARIO/repositorios/estimaweb/ "$RAIZ/"
+
+    # Las carpetas que Laravel necesita poder escribir. rsync no las trae
+    # porque storage/ esta excluido, asi que se garantizan aqui.
+    - /bin/mkdir -p "$RAIZ/storage/app/public"
+    - /bin/mkdir -p "$RAIZ/storage/app/ofertas"
+    - /bin/mkdir -p "$RAIZ/storage/app/plantillas"
+    - /bin/mkdir -p "$RAIZ/storage/framework/cache/data"
+    - /bin/mkdir -p "$RAIZ/storage/framework/sessions"
+    - /bin/mkdir -p "$RAIZ/storage/framework/views"
+    - /bin/mkdir -p "$RAIZ/storage/logs"
+    - /bin/mkdir -p "$RAIZ/bootstrap/cache"
+
+    - /bin/chmod -R 775 "$RAIZ/storage" "$RAIZ/bootstrap/cache"
+
+    # Las cachés viejas apuntan al código anterior: si sobreviven al
+    # despliegue, el sitio sigue sirviendo lo de antes o directamente falla.
+    - /bin/rm -f "$RAIZ/bootstrap/cache/config.php"
+    - /bin/rm -f "$RAIZ/bootstrap/cache/routes-v7.php"
+    - /bin/rm -f "$RAIZ/bootstrap/cache/packages.php"
+    - /bin/rm -f "$RAIZ/bootstrap/cache/services.php"
+    - /bin/rm -rf "$RAIZ/storage/framework/views"
+    - /bin/mkdir -p "$RAIZ/storage/framework/views"

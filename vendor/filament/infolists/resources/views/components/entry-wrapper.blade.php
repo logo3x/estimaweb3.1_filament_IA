@@ -1,0 +1,149 @@
+@props([
+    'alignment' => null,
+    'entry' => null,
+    'hasInlineLabel' => null,
+    'label' => null,
+    'labelSrOnly' => null,
+])
+
+@php
+    use Filament\Support\Enums\Alignment;
+    use Filament\Support\View\ComponentAttributeBag as FilamentComponentAttributeBag;
+    use Illuminate\View\ComponentSlot;
+
+    if ($entry) {
+        $action ??= $entry->getAction();
+        $alignment ??= $entry->getAlignment();
+        $hasInlineLabel ??= $entry->hasInlineLabel();
+        $label ??= $entry->getLabel();
+        $labelSrOnly ??= $entry->isLabelHidden();
+        $url ??= $entry->getUrl();
+        $shouldOpenUrlInNewTab ??= $entry->shouldOpenUrlInNewTab();
+    }
+
+    if (! $alignment instanceof Alignment) {
+        $alignment = filled($alignment) ? (Alignment::tryFrom($alignment) ?? $alignment) : null;
+    }
+
+    $beforeLabelContainer = $entry?->getChildSchema($entry::BEFORE_LABEL_SCHEMA_KEY)?->toHtmlString();
+    $afterLabelContainer = $entry?->getChildSchema($entry::AFTER_LABEL_SCHEMA_KEY)?->toHtmlString();
+
+    $aboveContentSchema = $entry?->getChildSchema($entry::ABOVE_CONTENT_SCHEMA_KEY);
+    $hasAboveContentSchema = $entry?->hasChildSchemaConfiguration($entry::ABOVE_CONTENT_SCHEMA_KEY) || $aboveContentSchema;
+
+    $beforeContentContainer = $entry?->getChildSchema($entry::BEFORE_CONTENT_SCHEMA_KEY);
+    $hasBeforeContentSchema = $entry?->hasChildSchemaConfiguration($entry::BEFORE_CONTENT_SCHEMA_KEY) || $beforeContentContainer;
+    $beforeContentContainer = $beforeContentContainer?->toHtmlString();
+
+    $afterContentContainer = $entry?->getChildSchema($entry::AFTER_CONTENT_SCHEMA_KEY)?->toHtmlString();
+@endphp
+
+<div
+    {{
+        $attributes
+            ->merge($entry?->getExtraEntryWrapperAttributes() ?? [], escape: false)
+            ->class([
+                'fi-in-entry',
+                'fi-in-entry-has-inline-label' => $hasInlineLabel,
+            ])
+    }}
+>
+    @if ($label && $labelSrOnly)
+        <div class="fi-in-entry-label fi-sr-only" role="term">
+            {{ $label }}
+        </div>
+    @endif
+
+    <div class="fi-in-entry-label-col">
+        {{ $entry?->getChildSchema($entry::ABOVE_LABEL_SCHEMA_KEY) }}
+
+        @if (($label && (! $labelSrOnly)) || $beforeLabelContainer || $afterLabelContainer)
+            <div
+                @class([
+                    'fi-in-entry-label-ctn',
+                    ($label instanceof ComponentSlot) ? $label->attributes->get('class') : null,
+                ])
+            >
+                {{ $beforeLabelContainer }}
+
+                @if ($label && (! $labelSrOnly))
+                    <div
+                        {{
+                            (
+                                ($label instanceof ComponentSlot)
+                                ? $label->attributes
+                                : (new FilamentComponentAttributeBag)
+                            )
+                                ->class(['fi-in-entry-label'])
+                        }}
+                        role="term"
+                    >
+                        {{ $label }}
+                    </div>
+                @endif
+
+                {{ $afterLabelContainer }}
+            </div>
+        @endif
+
+        {{ $entry?->getChildSchema($entry::BELOW_LABEL_SCHEMA_KEY) }}
+    </div>
+
+    <div class="fi-in-entry-content-col">
+        @if ($hasAboveContentSchema)
+            <div class="fi-in-entry-content-slot">
+                {{ $aboveContentSchema }}
+            </div>
+        @endif
+
+        <div class="fi-in-entry-content-ctn" role="definition">
+            @if ($hasBeforeContentSchema)
+                <div class="fi-in-entry-content-slot">
+                    {{ $beforeContentContainer }}
+                </div>
+            @endif
+
+            @if (filled($url))
+                <a
+                    {{ \Filament\Support\generate_href_html($url, $shouldOpenUrlInNewTab) }}
+                    @class([
+                        'fi-in-entry-content',
+                        (($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : (is_string($alignment) ? $alignment : '')),
+                    ])
+                >
+                    {{ $slot }}
+                </a>
+            @elseif (filled($action))
+                @php
+                    $wireClickAction = $action->getLivewireClickHandler();
+                @endphp
+
+                <button
+                    type="button"
+                    wire:click="{{ $wireClickAction }}"
+                    wire:loading.attr="disabled"
+                    wire:target="{{ $wireClickAction }}"
+                    @class([
+                        'fi-in-entry-content',
+                        (($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : (is_string($alignment) ? $alignment : '')),
+                    ])
+                >
+                    {{ $slot }}
+                </button>
+            @else
+                <div
+                    @class([
+                        'fi-in-entry-content',
+                        (($alignment instanceof Alignment) ? "fi-align-{$alignment->value}" : (is_string($alignment) ? $alignment : '')),
+                    ])
+                >
+                    {{ $slot }}
+                </div>
+            @endif
+
+            {{ $afterContentContainer }}
+        </div>
+
+        {{ $entry?->getChildSchema($entry::BELOW_CONTENT_SCHEMA_KEY) }}
+    </div>
+</div>

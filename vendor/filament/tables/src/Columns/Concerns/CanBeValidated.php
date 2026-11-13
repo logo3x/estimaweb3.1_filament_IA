@@ -1,0 +1,109 @@
+<?php
+
+namespace Filament\Tables\Columns\Concerns;
+
+use Closure;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
+trait CanBeValidated
+{
+    /**
+     * @var array<mixed> | Closure
+     */
+    protected array | Closure $rules = [];
+
+    protected string | Closure | null $validationAttribute = null;
+
+    /**
+     * @var array<string, string | Closure>
+     */
+    protected array $validationMessages = [];
+
+    /**
+     * @param  array<mixed> | Closure  $rules
+     */
+    public function rules(array | Closure $rules): static
+    {
+        $this->rules = $rules;
+
+        return $this;
+    }
+
+    public function validationAttribute(string | Closure | null $label): static
+    {
+        $this->validationAttribute = $label;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, string | Closure>  $messages
+     */
+    public function validationMessages(array $messages): static
+    {
+        $this->validationMessages = $messages;
+
+        return $this;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getRules(): array
+    {
+        $rules = $this->evaluate($this->rules);
+
+        if (! in_array('required', $rules)) {
+            $rules[] = 'nullable';
+        }
+
+        return $rules;
+    }
+
+    public function validate(mixed $input): void
+    {
+        $originalState = $this->getStateUsingCallback();
+
+        $this->getStateUsing($input);
+        $this->clearCachedState();
+
+        try {
+            Validator::make(
+                ['input' => $input],
+                ['input' => $this->getRules()],
+                ['input' => $this->getValidationMessages()],
+                ['input' => $this->getValidationAttribute()],
+            )->validate();
+        } finally {
+            $this->getStateUsing($originalState);
+            $this->clearCachedState();
+        }
+    }
+
+    public function getValidationAttribute(): string
+    {
+        if (($validationAttribute = $this->evaluate($this->validationAttribute)) !== null) {
+            return $validationAttribute;
+        }
+
+        $label = $this->getLabel();
+
+        return Str::lcfirst($label instanceof Htmlable ? $label->toHtml() : $label);
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getValidationMessages(): array
+    {
+        $messages = [];
+
+        foreach ($this->validationMessages as $rule => $message) {
+            $messages[$rule] = $this->evaluate($message);
+        }
+
+        return array_filter($messages);
+    }
+}

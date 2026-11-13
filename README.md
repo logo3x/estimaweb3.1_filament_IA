@@ -113,6 +113,44 @@ repositorio (`.gitignore`).
 
 ## Despliegue
 
-El hosting de destino es **cPanel sin acceso SSH**. El despliegue se hace con *Git
-Version Control* del panel, y el mantenimiento (cachés, migraciones) desde un módulo
-dentro de la propia aplicación, no por terminal.
+El hosting de destino es **cPanel sin acceso SSH**. No hay terminal: desplegar es un
+`git pull` desde *Git Version Control* del panel, y el mantenimiento (cachés,
+migraciones) se hace desde un módulo dentro de la propia aplicación.
+
+Eso obliga a algo poco habitual: **las librerías y los assets viajan dentro del
+repositorio**. Allí no se puede ejecutar `composer install` ni `npm run build`, de
+modo que todo lo que la aplicación necesita para arrancar tiene que estar ya
+commiteado. Por eso `vendor/`, `public/build/` y los assets de Filament **no** están
+en `.gitignore`.
+
+### Antes de publicar
+
+```bash
+php artisan desplegar:preparar
+```
+
+Instala las dependencias de Node, compila los assets, publica los de Filament y deja
+`vendor/` **sin librerías de desarrollo** (phpunit, faker y compañía: 19 MB que no
+pintan nada en producción). Después, commit y push como siempre.
+
+Con `--revisar` solo comprueba, sin regenerar nada.
+
+> Al terminar, `vendor/` queda sin phpunit, así que **las pruebas no corren hasta
+> restaurarlo** con un `composer install` normal. El comando lo recuerda al acabar.
+
+### En el servidor
+
+`.cpanel.yml` describe qué copia cPanel y dónde. **Hay que sustituir `USUARIO` por el
+nombre real de la cuenta** antes del primer despliegue.
+
+La aplicación vive *fuera* de `public_html`, que apunta a su carpeta `public/`. El
+despliegue nunca pisa `.env` ni `storage/`: ahí están la configuración real y los
+documentos generados.
+
+Lo que **no** viaja en el repositorio y vive solo en el servidor:
+
+| Qué | Por qué |
+|---|---|
+| `.env` | Claves y datos de conexión reales |
+| `storage/` | Documentos generados, archivos subidos, logs |
+| `storage/app/plantillas/oferta.docx` | La plantilla con el membrete de la empresa |
