@@ -7,6 +7,7 @@ use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
@@ -29,85 +30,115 @@ class EditCotizacion extends EditRecord
         return 'Cotización ' . $this->getRecord()->id;
     }
 
+    /**
+     * Los botones de la cabecera, por orden de importancia.
+     *
+     * Antes eran seis en fila, tres de ellos en amarillo compitiendo por la
+     * atencion y "Borrar" en rojo pegado a la accion principal, facil de
+     * pulsar por error.
+     *
+     * Ahora queda a la vista solo lo que se usa a diario: la accion del
+     * flujo que toque en este momento -enviar, aprobar, rechazar- y
+     * descargar la oferta. El resto se recoge en un menu.
+     */
     protected function getHeaderActions(): array
     {
         return [
-            /**
-             * Recalcular y guardar los totales.
-             *
-             * La pantalla de consulta siempre recalcula en vivo, pero el
-             * listado lee las columnas guardadas: esta accion las pone al
-             * dia despues de cambiar recursos.
-             */
-            Action::make('recalcular')
-                ->label('Recalcular totales')
-                ->icon('heroicon-o-calculator')
-                ->color('gray')
-                ->action(function (): void {
-                    $resultado = CalcularCotizacion::crear()->para($this->getRecord());
-
-                    $this->getRecord()->update([
-                        'valor_total' => $resultado->totales->costoDirecto,
-                        'valor_total_con_aiu' => $resultado->totales->subtotal,
-                        'aiu_administracion' => $resultado->totales->administracion,
-                        'aiu_imprevistos' => $resultado->totales->imprevistos,
-                        'aiu_utilidad' => $resultado->totales->utilidad,
-                        'aiu_iva' => $resultado->totales->iva,
-                        'aiu_valortotal_con_iva' => $resultado->totales->total,
-                    ]);
-
-                    $aviso = Notification::make()
-                        ->success()
-                        ->title('Totales actualizados')
-                        ->body('Total: $' . number_format($resultado->totales->total, 2, ',', '.'));
-
-                    if ($resultado->tieneAvisos()) {
-                        $aviso->warning()
-                            ->title('Totales actualizados, con avisos')
-                            ->body(count($resultado->avisos) . ' recurso(s) no se pudieron calcular. Revise la pantalla de consulta.');
-                    }
-
-                    $aviso->send();
-                }),
-
-            /**
-             * Descarga la oferta en Word.
-             *
-             * El documento se genera al vuelo con los totales del dominio,
-             * no con las columnas guardadas: asi nunca se envia al cliente
-             * un precio desactualizado.
-             */
-            Action::make('descargarOferta')
-                ->label('Descargar oferta')
-                ->icon('heroicon-o-document-arrow-down')
-                ->color('primary')
-                ->action(function () {
-                    try {
-                        $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
-                    } catch (\RuntimeException $e) {
-                        Notification::make()
-                            ->danger()
-                            ->title('No se pudo generar la oferta')
-                            ->body($e->getMessage())
-                            ->persistent()
-                            ->send();
-
-                        return null;
-                    }
-
-                    return response()->download($archivo)->deleteFileAfterSend();
-                }),
-
-            ViewAction::make()->label('Ver detalle'),
-
-            DeleteAction::make()
-                ->requiresConfirmation()
-                ->modalDescription('Se borrarán también todos sus ítems, recursos y asignaciones.')
-                /** Lo que ya se aprobo no se borra. */
-                ->visible(fn (): bool => $this->getRecord()->puedeSerEditadaPor(auth()->user())),
-
             ...AccionesDeAprobacion::todas(),
+
+            $this->descargarOferta(),
+
+            ActionGroup::make([
+                $this->recalcular(),
+                ViewAction::make()->label('Ver detalle')->icon('heroicon-o-eye'),
+
+                /** Separado del resto: borrar arrastra items y recursos. */
+                ActionGroup::make([
+                    DeleteAction::make()
+                        ->label('Borrar cotización')
+                        ->requiresConfirmation()
+                        ->modalDescription('Se borrarán también todos sus ítems, recursos y asignaciones.')
+                        /** Lo que ya se aprobo no se borra. */
+                        ->visible(fn (): bool => $this->getRecord()->puedeSerEditadaPor(auth()->user())),
+                ])->dropdown(false),
+            ])
+                ->label('Más acciones')
+                ->icon('heroicon-m-ellipsis-vertical')
+                ->button()
+                ->color('gray'),
         ];
+    }
+
+    /**
+     * Recalcular y guardar los totales.
+     *
+     * La pantalla de consulta siempre recalcula en vivo, pero el listado
+     * lee las columnas guardadas: esta accion las pone al dia despues de
+     * cambiar recursos.
+     */
+    private function recalcular(): Action
+    {
+        return Action::make('recalcular')
+            ->label('Recalcular totales')
+            ->icon('heroicon-o-calculator')
+            ->action(function (): void {
+                $resultado = CalcularCotizacion::crear()->para($this->getRecord());
+
+                $this->getRecord()->update([
+                    'valor_total' => $resultado->totales->costoDirecto,
+                    'valor_total_con_aiu' => $resultado->totales->subtotal,
+                    'aiu_administracion' => $resultado->totales->administracion,
+                    'aiu_imprevistos' => $resultado->totales->imprevistos,
+                    'aiu_utilidad' => $resultado->totales->utilidad,
+                    'aiu_iva' => $resultado->totales->iva,
+                    'aiu_valortotal_con_iva' => $resultado->totales->total,
+                ]);
+
+                $aviso = Notification::make()
+                    ->success()
+                    ->title('Totales actualizados')
+                    ->body('Total: $' . number_format($resultado->totales->total, 2, ',', '.'));
+
+                if ($resultado->tieneAvisos()) {
+                    $aviso->warning()
+                        ->title('Totales actualizados, con avisos')
+                        ->body(count($resultado->avisos) . ' recurso(s) no se pudieron calcular. Revise la pantalla de consulta.');
+                }
+
+                $aviso->send();
+            });
+    }
+
+    /**
+     * Descarga la oferta en Word.
+     *
+     * El documento se genera al vuelo con los totales del dominio, no con
+     * las columnas guardadas: asi nunca se envia al cliente un precio
+     * desactualizado.
+     */
+    private function descargarOferta(): Action
+    {
+        return Action::make('descargarOferta')
+            ->label('Descargar oferta')
+            ->icon('heroicon-o-document-arrow-down')
+            ->color('gray')
+            ->outlined()
+            ->action(function () {
+                try {
+                    $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
+                } catch (\RuntimeException $e) {
+                    Notification::make()
+                        ->danger()
+                        ->title('No se pudo generar la oferta')
+                        ->body($e->getMessage())
+                        ->persistent()
+                        ->send();
+
+                    return null;
+                }
+
+                return response()->download($archivo)->deleteFileAfterSend();
+            });
     }
 
     /**

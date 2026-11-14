@@ -18,4 +18,29 @@ class HerramientasRelationManager extends ActivoRelationManager
     {
         return 'herramientas';
     }
+
+    protected static function claseDeCaja(): string
+    {
+        return \App\Models\PrecargadoHerramienta::class;
+    }
+
+    protected static function claseDeCatalogo(): string
+    {
+        return \App\Models\DatosHerramienta::class;
+    }
+
+    protected static function claseDeElemento(): string
+    {
+        return \App\Models\ItemHerramienta::class;
+    }
+
+    protected static function columnaDelGrupo(): string
+    {
+        return 'id_herramienta';
+    }
+
+    protected static function columnaDelCatalogo(): string
+    {
+        return 'id_datos_herramientas';
+    }
 }

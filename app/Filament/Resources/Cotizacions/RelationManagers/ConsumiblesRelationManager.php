@@ -27,4 +27,29 @@ class ConsumiblesRelationManager extends ActivoRelationManager
     {
         return false;
     }
+
+    protected static function claseDeCaja(): string
+    {
+        return \App\Models\PrecargadoConsumible::class;
+    }
+
+    protected static function claseDeCatalogo(): string
+    {
+        return \App\Models\DatosConsumible::class;
+    }
+
+    protected static function claseDeElemento(): string
+    {
+        return \App\Models\ItemConsumible::class;
+    }
+
+    protected static function columnaDelGrupo(): string
+    {
+        return 'id_consumibles';
+    }
+
+    protected static function columnaDelCatalogo(): string
+    {
+        return 'id_datos_consumibles';
+    }
 }
