@@ -169,4 +169,75 @@ class PanelCatalogosTest extends TestCase
             );
         }
     }
+
+    /**
+     * Se puede corregir un precio desde el listado.
+     *
+     * Es la operacion mas frecuente del catalogo: los precios base cambian
+     * y de ellos cuelga el calculo de todas las cotizaciones.
+     */
+    public function test_se_puede_editar_en_el_catalogo(): void
+    {
+        $herramienta = DatosHerramienta::query()->create([
+            'codigo' => 'EDIT-' . uniqid(),
+            'nombre' => 'Herramienta por corregir',
+            'grupo' => 'PRUEBAS',
+            'precio' => 100000,
+        ]);
+
+        try {
+            Livewire::test(GestionarDatosHerramienta::class)
+                ->callTableAction('edit', $herramienta, data: [
+                    'codigo' => $herramienta->codigo,
+                    'nombre' => 'Herramienta corregida',
+                    'grupo' => 'PRUEBAS',
+                    'precio' => 275500,
+                ])
+                ->assertHasNoTableActionErrors();
+
+            $herramienta->refresh();
+
+            $this->assertSame('Herramienta corregida', $herramienta->nombre);
+            $this->assertEquals(275500, $herramienta->precio);
+        } finally {
+            $herramienta->delete();
+        }
+    }
+
+    /** Se puede borrar un registro del catalogo. */
+    public function test_se_puede_borrar_del_catalogo(): void
+    {
+        $herramienta = DatosHerramienta::query()->create([
+            'codigo' => 'BORRAR-' . uniqid(),
+            'nombre' => 'Herramienta por borrar',
+            'grupo' => 'PRUEBAS',
+            'precio' => 1000,
+        ]);
+
+        Livewire::test(GestionarDatosHerramienta::class)
+            ->callTableAction('delete', $herramienta);
+
+        $this->assertNull(DatosHerramienta::query()->find($herramienta->id));
+    }
+
+    /**
+     * Borrar siempre pide confirmacion.
+     *
+     * Los catalogos son datos compartidos: un borrado accidental afecta a
+     * todas las cotizaciones que usen ese precio.
+     */
+    #[DataProvider('catalogos')]
+    public function test_borrar_pide_confirmacion(string $pagina): void
+    {
+        $accion = Livewire::test($pagina)
+            ->instance()
+            ->getTable()
+            ->getAction('delete');
+
+        $this->assertNotNull($accion, "El catálogo {$pagina} no ofrece borrar.");
+        $this->assertTrue(
+            $accion->isConfirmationRequired(),
+            "El catálogo {$pagina} borra sin pedir confirmación."
+        );
+    }
 }

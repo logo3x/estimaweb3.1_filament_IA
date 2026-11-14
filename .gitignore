@@ -56,3 +56,4 @@ Thumbs.db
 # Se regeneran con `php artisan desplegar:preparar` antes de publicar.
 #
 # node_modules SI se ignora: solo hace falta para compilar, no para servir.
+.playwright-mcp/

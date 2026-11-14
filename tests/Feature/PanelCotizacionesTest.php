@@ -326,4 +326,49 @@ class PanelCotizacionesTest extends TestCase
             ->callAction('descargarOferta')
             ->assertOk();
     }
+
+    /**
+     * Desde el listado se puede entrar a editar.
+     *
+     * Hasta ahora solo estaba "Ver": para corregir un dato habia que abrir
+     * el detalle y buscar el boton alli.
+     */
+    public function test_el_listado_ofrece_editar_lo_que_se_puede_editar(): void
+    {
+        /**
+         * Un borrador CON gerencia: es lo que permite que el gerente de esa
+         * gerencia lo edite. Hay borradores con la columna vacia, y ahi no
+         * puede entrar nadie salvo su autor.
+         */
+        $borrador = Cotizacion::query()
+            ->whereRaw("COALESCE(aprobacion1, '') = ''")
+            ->whereNotNull('gerencia')
+            ->firstOrFail();
+
+        $autor = User::factory()->create(['id_gerencia' => $borrador->gerencia]);
+        $autor->assignRole('Gerente');
+        $this->actingAs($autor);
+
+        Livewire::test(ListCotizacions::class)
+            ->assertTableActionVisible('edit', record: $borrador);
+    }
+
+    /**
+     * Lo aprobado no ofrece editar.
+     *
+     * El boton no se oculta por adorno: pulsarlo llevaria a una pantalla
+     * que rebota al detalle con una explicacion.
+     */
+    public function test_el_listado_no_ofrece_editar_lo_aprobado(): void
+    {
+        $this->comoUsuario();
+
+        $aprobada = Cotizacion::query()
+            ->whereRaw("UPPER(TRIM(COALESCE(aprobacion1, ''))) = 'SI'")
+            ->whereRaw("UPPER(TRIM(COALESCE(aprobacion2, ''))) = 'SI'")
+            ->firstOrFail();
+
+        Livewire::test(ListCotizacions::class)
+            ->assertTableActionHidden('edit', record: $aprobada);
+    }
 }

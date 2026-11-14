@@ -143,12 +143,18 @@ class CotizacionsTable
                     }),
             ])
             ->recordActions([
-                /**
-                 * Solo consulta por ahora: editar exige el formulario por
-                 * pasos, que todavia no existe. Un boton que lleva a un
-                 * formulario incompleto es peor que no tenerlo.
-                 */
                 ViewAction::make(),
+
+                /**
+                 * Editar solo aparece cuando el flujo lo permite.
+                 *
+                 * Lo aprobado no se toca, y lo que espera una decision solo
+                 * lo toca quien debe tomarla. Mostrar el boton igualmente
+                 * llevaria a una pantalla que rebota con una explicacion:
+                 * mejor no ofrecer lo que no se puede hacer.
+                 */
+                EditAction::make()
+                    ->visible(fn (Cotizacion $record): bool => $record->puedeSerEditadaPor(auth()->user())),
             ])
             ->toolbarActions([
                 /**

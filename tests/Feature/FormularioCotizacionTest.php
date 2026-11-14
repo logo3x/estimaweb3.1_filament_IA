@@ -382,4 +382,219 @@ class FormularioCotizacionTest extends TestCase
         ])
             ->assertCanNotSeeTableRecords($ajenos);
     }
+
+    /**
+     * El AIU se configura desde el propio formulario.
+     *
+     * Vive en una tabla aparte (`aius`), asi que hasta ahora habia que
+     * crear esa fila a mano para que una cotizacion tuviera margen.
+     */
+    public function test_se_guarda_el_aiu_al_crear_una_cotizacion(): void
+    {
+        $this->comoUsuario();
+
+        $datos = $this->datosValidos();
+
+        Livewire::test(CreateCotizacion::class)
+            ->fillForm($datos + [
+                'aiu' => [
+                    'administracion' => 10,
+                    'imprevistos' => 5,
+                    'utilidad' => 8,
+                    'contrato_obra' => true,
+                    'mostrar_aiu' => true,
+                    'contrato_actual' => false,
+                ],
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $cotizacion = Cotizacion::query()
+            ->where('codigo', $datos['codigo'])
+            ->firstOrFail();
+
+        $aiu = $cotizacion->aiu;
+
+        $this->assertNotNull($aiu, 'No se creó la fila del AIU.');
+        $this->assertSame(10.0, $aiu->administracion);
+        $this->assertSame(5.0, $aiu->imprevistos);
+        $this->assertSame(8.0, $aiu->utilidad);
+
+        /** Las banderas se guardan como texto porque asi estan en produccion. */
+        $this->assertSame('SI', $aiu->contrato_obra);
+        $this->assertSame('NO', $aiu->contrato_actual);
+        $this->assertTrue($aiu->esContratoDeObra());
+
+        $cotizacion->aiu()->delete();
+        $cotizacion->delete();
+    }
+
+    /**
+     * Las banderas se leen vengan como vengan.
+     *
+     * En los datos reales conviven 'SI'/'NO' y '1'/'0'. Si el formulario
+     * solo entendiera el primero, abrir una cotizacion guardada con '1'
+     * mostraria el interruptor apagado y al guardar lo apagaria de verdad:
+     * un cambio de precio silencioso.
+     */
+    public function test_el_formulario_entiende_las_banderas_guardadas_como_uno(): void
+    {
+        $this->comoUsuario();
+
+        /**
+         * Sobre una copia, no sobre la cotizacion real.
+         *
+         * Esta clase de pruebas no corre en transaccion, asi que lo que se
+         * escriba aqui se queda. La 55 es la que vigilan los golden
+         * masters: cambiarle las banderas del AIU altera su total y deja
+         * fallando otras pruebas, lo que ya paso una vez.
+         */
+        $copia = Cotizacion::findOrFail(55)->replicate(['id']);
+        $copia->codigo = 'BANDERAS-' . uniqid();
+        $copia->save();
+
+        $copia->aiu()->create([
+            'contrato_obra' => '1',
+            'mostrar_aiu' => '0',
+            'administracion' => 10,
+            'imprevistos' => 5,
+            'utilidad' => 8,
+        ]);
+
+        try {
+            Livewire::test(EditCotizacion::class, ['record' => $copia->id])
+                ->assertFormSet([
+                    'aiu.contrato_obra' => true,
+                    'aiu.mostrar_aiu' => false,
+                ]);
+        } finally {
+            $copia->aiu()->delete();
+            $copia->delete();
+        }
+    }
+
+    /** El AIU de una cotizacion existente se puede corregir. */
+    public function test_se_puede_cambiar_el_aiu_de_una_cotizacion(): void
+    {
+        $this->comoUsuario();
+
+        /** Sobre una copia: la 55 la vigilan los golden masters. */
+        $copia = Cotizacion::findOrFail(55)->replicate(['id']);
+        $copia->codigo = 'CAMBIO-AIU-' . uniqid();
+        $copia->save();
+
+        $copia->aiu()->create([
+            'contrato_obra' => 'NO',
+            'mostrar_aiu' => 'NO',
+            'administracion' => 10,
+            'imprevistos' => 5,
+            'utilidad' => 8,
+        ]);
+
+        try {
+            Livewire::test(EditCotizacion::class, ['record' => $copia->id])
+                ->fillForm(['aiu.utilidad' => 12])
+                ->call('save')
+                ->assertHasNoFormErrors();
+
+            $this->assertSame(12.0, $copia->aiu()->first()->utilidad);
+        } finally {
+            $copia->aiu()->delete();
+            $copia->delete();
+        }
+    }
+
+    /**
+     * Una cotizacion SIN fila de AIU tambien recibe sus porcentajes.
+     *
+     * Nueve de las cuarenta y ocho cotizaciones reales no tienen esa fila:
+     * se crearon antes de que el AIU existiera. Si el formulario solo
+     * supiera actualizar una fila ya existente, en esas nueve los
+     * porcentajes se escribirian en pantalla y se perderian al guardar,
+     * sin ningun aviso.
+     */
+    public function test_el_aiu_se_crea_en_una_cotizacion_que_no_lo_tenia(): void
+    {
+        $this->comoUsuario();
+
+        $cotizacion = Cotizacion::findOrFail(55);
+        $copia = $cotizacion->replicate(['id']);
+        $copia->codigo = 'SIN-AIU-' . uniqid();
+        $copia->save();
+
+        /** La copia arranca sin AIU, como las nueve de produccion. */
+        $copia->aiu()->delete();
+        $this->assertNull($copia->fresh()->aiu);
+
+        try {
+            Livewire::test(EditCotizacion::class, ['record' => $copia->id])
+                ->fillForm([
+                    'aiu.administracion' => 10,
+                    'aiu.imprevistos' => 5,
+                    'aiu.utilidad' => 8,
+                ])
+                ->call('save')
+                ->assertHasNoFormErrors();
+
+            $aiu = $copia->fresh()->aiu;
+
+            $this->assertNotNull($aiu, 'No se creó la fila del AIU al guardar.');
+            $this->assertSame(10.0, $aiu->administracion);
+            $this->assertSame(5.0, $aiu->imprevistos);
+            $this->assertSame(8.0, $aiu->utilidad);
+        } finally {
+            $copia->aiu()->delete();
+            $copia->delete();
+        }
+    }
+
+    /**
+     * Guardar la cabecera NO puede alterar el AIU.
+     *
+     * Fallo real: las banderas se guardan como texto ('SI'/'NO') y el
+     * interruptor las recibia sin convertir. En PHP toda cadena no vacia
+     * es verdadera, de modo que 'NO' se cargaba como activado y al guardar
+     * quedaba en 'SI'. Cambiar una observacion invertia el escenario del
+     * AIU y **con el, el precio final de la cotizacion**, sin aviso.
+     *
+     * Lo detecto el golden master de la cotizacion 55: 713 millones
+     * pasaron a 607.
+     */
+    public function test_guardar_la_cabecera_no_altera_el_aiu(): void
+    {
+        $this->comoUsuario();
+
+        $copia = Cotizacion::findOrFail(55)->replicate(['id']);
+        $copia->codigo = 'INTACTO-' . uniqid();
+        $copia->save();
+
+        $copia->aiu()->create([
+            'contrato_obra' => 'NO',
+            'mostrar_aiu' => 'NO',
+            'contrato_actual' => 'NO',
+            'administracion' => 5.78,
+            'imprevistos' => 0.5,
+            'utilidad' => 8,
+        ]);
+
+        try {
+            Livewire::test(EditCotizacion::class, ['record' => $copia->id])
+                ->fillForm(['observaciones' => 'Solo cambio esto'])
+                ->call('save')
+                ->assertHasNoFormErrors();
+
+            $aiu = $copia->aiu()->first();
+
+            $this->assertSame('NO', $aiu->contrato_obra, 'Guardar la cabecera activó "contrato de obra".');
+            $this->assertSame('NO', $aiu->mostrar_aiu, 'Guardar la cabecera activó "mostrar AIU".');
+            $this->assertSame(
+                'servicio/aiu-oculto',
+                \App\Dominio\Aiu\ParametrosAiu::desdeModelo($aiu)->escenario(),
+                'Cambió el escenario del AIU, y con él el precio.'
+            );
+        } finally {
+            $copia->aiu()->delete();
+            $copia->delete();
+        }
+    }
 }
