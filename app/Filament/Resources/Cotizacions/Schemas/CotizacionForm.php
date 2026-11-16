@@ -34,44 +34,9 @@ class CotizacionForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            self::codigo(),
             self::datosDeLaOferta(),
             self::observaciones(),
-            /**
-             * El margen se edita aqui porque cuelga de la relacion `aiu`,
-             * y eso exige estar dentro del formulario del registro. El
-             * precio que sale con el, los documentos y la aprobacion viven
-             * en la pestaña "Calculo de AIU".
-             */
-            self::aiu(),
         ]);
-    }
-
-    /**
-     * El codigo de la cotizacion, destacado arriba.
-     *
-     * Es como el area comercial identifica la oferta al hablar con el
-     * cliente, asi que conviene tenerlo a la vista sin buscarlo entre los
-     * campos.
-     */
-    private static function codigo(): Section
-    {
-        return Section::make()
-            ->columnSpanFull()
-            ->compact()
-            ->schema([
-                Placeholder::make('codigo_visible')
-                    ->label('Código')
-                    ->content(fn (?Cotizacion $record): string => $record?->codigo
-                        ?: 'Se asignará al guardar'),
-
-                TextInput::make('codigo')
-                    ->label('Código')
-                    ->required()
-                    ->maxLength(255)
-                    ->hidden(fn (?Cotizacion $record): bool => $record !== null)
-                    ->helperText('Referencia de la oferta. Por ejemplo: EOEP-BOG-20261113-001.'),
-            ]);
     }
 
     /**
@@ -85,12 +50,41 @@ class CotizacionForm
         return Section::make('Datos de la cotización')
             ->icon('heroicon-o-document-text')
             ->columnSpanFull()
-            ->columns(3)
+            /**
+             * Doce columnas para repartir por contenido.
+             *
+             * Con tres iguales, "Duración" -dos digitos- ocupaba lo mismo
+             * que "Alcance", que es una frase larga. Aqui cada campo pide
+             * lo que necesita.
+             */
+            ->columns(12)
             ->schema([
+                /**
+                 * El codigo, a la derecha de la cabecera.
+                 *
+                 * Es como el area comercial identifica la oferta, asi que
+                 * conviene verlo al entrar; una caja propia para una linea
+                 * de texto desperdiciaba toda una franja de pantalla.
+                 */
+                Placeholder::make('codigo_visible')
+                    ->label('Código')
+                    ->columnSpan(4)
+                    ->content(fn (?Cotizacion $record): string => $record?->codigo
+                        ?: 'Se asignará al guardar'),
+
+                TextInput::make('codigo')
+                    ->label('Código')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpan(4)
+                    ->hidden(fn (?Cotizacion $record): bool => $record !== null)
+                    ->helperText('Por ejemplo: EOEP-BOG-20261113-001.'),
+
                 TextInput::make('nombre')
                     ->label('Nombre del servicio')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(8)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Nombre descriptivo del servicio que se va a cotizar.'),
 
@@ -98,20 +92,23 @@ class CotizacionForm
                     ->label('Cliente')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(4)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Razón social del cliente al que se le presenta la cotización.'),
 
                 Textarea::make('alcance')
                     ->label('Alcance')
                     ->required()
-                    ->rows(1)
+                    ->rows(2)
                     ->autosize()
+                    ->columnSpan(12)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Descripción general del alcance del servicio a prestar.'),
 
                 TextInput::make('contacto')
                     ->label('Contacto')
                     ->maxLength(255)
+                    ->columnSpan(4)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Nombre de la persona de contacto por parte del cliente.'),
 
@@ -119,6 +116,7 @@ class CotizacionForm
                     ->label('Cargo')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(4)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Cargo del contacto del cliente.'),
 
@@ -131,6 +129,7 @@ class CotizacionForm
                     ->label('Asunto')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(4)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Nombre con el cual el cliente realiza la solicitud inicial del requerimiento y/o servicio.'),
 
@@ -138,6 +137,7 @@ class CotizacionForm
                     ->label('Vigencia')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(2)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Periodo de validez de la cotización. Ejemplo: 30 días.'),
 
@@ -152,6 +152,7 @@ class CotizacionForm
                     ->numeric()
                     ->minValue(1)
                     ->suffix('días')
+                    ->columnSpan(2)
                     ->validationMessages([
                         'min' => 'Al menos 1 día: reparte el costo de EPP y exámenes.',
                     ])
@@ -163,6 +164,7 @@ class CotizacionForm
                     ->required()
                     ->native(false)
                     ->displayFormat('d/m/Y')
+                    ->columnSpan(3)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Fecha estimada de inicio de la ejecución del servicio.'),
 
@@ -170,6 +172,7 @@ class CotizacionForm
                     ->label('Forma de pago')
                     ->required()
                     ->maxLength(255)
+                    ->columnSpan(5)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Condiciones de pago. Ejemplo: 30 días después de radicada la factura.'),
 
@@ -185,6 +188,7 @@ class CotizacionForm
                 TextInput::make('gerencia')
                     ->label('Gerencia')
                     ->maxLength(255)
+                    ->columnSpan(3)
                     ->datalist(fn (): array => Gerencia::query()
                         ->orderBy('nombre')
                         ->pluck('nombre')
@@ -195,6 +199,7 @@ class CotizacionForm
                 TextInput::make('otras_condiciones')
                     ->label('Otras condiciones')
                     ->maxLength(255)
+                    ->columnSpan(9)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Condiciones adicionales que deban constar en la oferta.'),
             ]);

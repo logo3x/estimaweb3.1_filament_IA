@@ -211,17 +211,25 @@ class EditCotizacion extends EditRecord
     }
 
     /**
-     * Las siete categorias adicionales, cada una en su seccion.
+     * La categoria adicional que se esta viendo.
      *
-     * Se intento tres veces un menu de pestañas dentro de la pestaña
-     * -laterales, superiores, con claves distintas- y **ninguna funciona**:
-     * Filament monta el mismo componente en dos paneles, de modo que al
-     * cambiar de categoria se sigue viendo la tabla de la primera. Con
-     * secciones cada una carga la suya, que es lo que importa.
+     * Vive en la direccion para que no se pierda al guardar ni al volver
+     * atras en el navegador.
+     */
+    #[\Livewire\Attributes\Url(as: 'categoria')]
+    public ?string $categoriaActiva = null;
+
+    /**
+     * Las siete categorias adicionales, con su menu debajo del principal.
      *
-     * Se construyen aqui y no en el grupo porque `modifyTabUsing` se
-     * evalua antes de que la pagina añada el contenido: alli el esquema
-     * llega vacio.
+     * Al abrir "Categorias adicionales" aparece una segunda fila de
+     * pestañas con las siete, y debajo la tabla de la elegida.
+     *
+     * **Solo se monta el componente de la categoria activa.** Los intentos
+     * anteriores los montaban los siete a la vez y Filament acababa
+     * renderizando el mismo en dos paneles: al cambiar de pestaña se
+     * seguia viendo la tabla de la primera. Con uno solo no hay confusion
+     * posible, y de paso se carga una tabla en vez de siete.
      */
     public function getRelationManagerTabComponent(string | int $key): ?\Filament\Schemas\Components\Tabs\Tab
     {
@@ -233,27 +241,48 @@ class EditCotizacion extends EditRecord
 
         $gestor->ownerRecord($this->getRecord())->pageClass(static::class);
 
-        $datos = $this->getRelationManagerLivewireData();
+        $clases = array_values($gestor->getManagers());
+        $activa = $this->posicionDeLaCategoriaActiva(count($clases));
+        $claseActiva = $clases[$activa];
 
-        $secciones = [];
+        return $gestor->getTabComponent()->schema([
+            /** El menu: una fila de botones, como las pestañas de arriba. */
+            \Filament\Schemas\Components\Actions::make(
+                array_map(
+                    fn (string $clase, int $posicion): Action => $this->botonDeCategoria($posicion, $posicion === $activa),
+                    $clases,
+                    array_keys($clases),
+                )
+            )->columnSpanFull(),
 
-        foreach (array_values($gestor->getManagers()) as $posicion => $clase) {
-            [$titulo, $icono] = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::etiqueta($posicion);
+            /** Y debajo, solo la tabla de la elegida. */
+            \Filament\Schemas\Components\Livewire::make($claseActiva, [
+                ...$this->getRelationManagerLivewireData(),
+                ...$claseActiva::getDefaultProperties(),
+            ])->key('categoria-activa-' . $activa),
+        ]);
+    }
 
-            $secciones[] = \Filament\Schemas\Components\Section::make($titulo)
-                ->icon($icono)
-                ->collapsible()
-                ->collapsed()
-                ->columnSpanFull()
-                ->schema([
-                    \Filament\Schemas\Components\Livewire::make($clase, [
-                        ...$datos,
-                        ...$clase::getDefaultProperties(),
-                    ])->key("categoria-{$posicion}"),
-                ]);
-        }
+    /** Cual de las siete se esta viendo, con el primero por defecto. */
+    private function posicionDeLaCategoriaActiva(int $cuantas): int
+    {
+        $pedida = (int) ($this->categoriaActiva ?? 0);
 
-        return $gestor->getTabComponent()->schema($secciones);
+        return ($pedida >= 0 && $pedida < $cuantas) ? $pedida : 0;
+    }
+
+    /** Un boton del menu de categorias. */
+    private function botonDeCategoria(int $posicion, bool $activa): Action
+    {
+        [$titulo, $icono] = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::etiqueta($posicion);
+
+        return Action::make("categoria{$posicion}")
+            ->label($titulo)
+            ->icon($icono)
+            ->color($activa ? 'primary' : 'gray')
+            ->outlined(! $activa)
+            ->size('sm')
+            ->action(fn () => $this->categoriaActiva = (string) $posicion);
     }
 
     /**
@@ -277,10 +306,159 @@ class EditCotizacion extends EditRecord
             'aiu' => \Filament\Schemas\Components\Tabs\Tab::make('Cálculo de AIU')
                 ->icon('heroicon-o-calculator')
                 ->schema([
+                    $this->margen(),
                     $this->resumenDelPrecio(),
                     $this->documentosYAprobacion(),
                 ]),
         ];
+    }
+
+    /**
+     * El margen configurado, con el boton para cambiarlo.
+     *
+     * Se muestra aqui y se edita en un modal. El formulario del margen
+     * cuelga de la relacion `aiu`, y eso solo funciona dentro del
+     * formulario de un registro: en esta pestaña no hay ninguno, asi que
+     * el modal se lo proporciona.
+     */
+    private function margen(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('Configuración del AIU')
+            ->icon('heroicon-o-adjustments-horizontal')
+            ->description('Administración, imprevistos y utilidad: lo que convierte el costo en precio.')
+            ->columnSpanFull()
+            ->columns(4)
+            ->schema([
+                $this->porcentaje('Administración', fn (): float => $this->parametros()->administracion),
+                $this->porcentaje('Imprevistos', fn (): float => $this->parametros()->imprevistos),
+                $this->porcentaje('Utilidad', fn (): float => $this->parametros()->utilidad),
+
+                \Filament\Forms\Components\Placeholder::make('factor_aiu')
+                    ->label('Multiplica el costo por')
+                    ->content(fn (): string => number_format($this->parametros()->factor(), 4, ',', '.')),
+
+                \Filament\Forms\Components\Placeholder::make('explicacion_aiu')
+                    ->label('')
+                    ->columnSpanFull()
+                    ->content(fn (): string => $this->explicarElAiu()),
+
+                \Filament\Schemas\Components\Actions::make([
+                    $this->cambiarMargenAction(),
+                ])->columnSpanFull(),
+            ]);
+    }
+
+    /** Un porcentaje con su simbolo. */
+    private function porcentaje(string $etiqueta, callable $valor): \Filament\Forms\Components\Placeholder
+    {
+        return \Filament\Forms\Components\Placeholder::make(
+            'pct_' . \Illuminate\Support\Str::slug($etiqueta, '_')
+        )
+            ->label($etiqueta)
+            ->content(fn (): string => rtrim(rtrim(number_format($valor(), 2, ',', '.'), '0'), ',') . ' %');
+    }
+
+    /**
+     * Cambia el margen desde un modal.
+     *
+     * Las banderas se guardan como texto 'SI'/'NO' porque asi estan los
+     * datos de produccion; el interruptor trabaja con booleanos y se
+     * traducen en los dos sentidos.
+     */
+    public function cambiarMargenAction(): Action
+    {
+        return Action::make('cambiarMargen')
+            ->label('Cambiar el margen')
+            ->icon('heroicon-o-pencil-square')
+            ->color('gray')
+            ->modalHeading('Configuración del AIU')
+            ->modalWidth('2xl')
+            ->modalSubmitActionLabel('Guardar')
+            ->fillForm(function (): array {
+                $aiu = $this->getRecord()->aiu;
+
+                return [
+                    'administracion' => $aiu?->administracion ?? 0,
+                    'imprevistos' => $aiu?->imprevistos ?? 0,
+                    'utilidad' => $aiu?->utilidad ?? 0,
+                    'contrato_obra' => (bool) $aiu?->esContratoDeObra(),
+                    'mostrar_aiu' => (bool) $aiu?->muestraAiuDesglosado(),
+                    'contrato_actual' => (bool) $aiu?->esContratoActual(),
+                ];
+            })
+            ->schema([
+                \Filament\Schemas\Components\Grid::make(3)->schema([
+                    \Filament\Forms\Components\TextInput::make('administracion')
+                        ->label('Administración')
+                        ->numeric()->minValue(0)->maxValue(100)->default(0)->suffix('%'),
+                    \Filament\Forms\Components\TextInput::make('imprevistos')
+                        ->label('Imprevistos')
+                        ->numeric()->minValue(0)->maxValue(100)->default(0)->suffix('%'),
+                    \Filament\Forms\Components\TextInput::make('utilidad')
+                        ->label('Utilidad')
+                        ->numeric()->minValue(0)->maxValue(100)->default(0)->suffix('%'),
+                ]),
+
+                \Filament\Forms\Components\Toggle::make('contrato_obra')
+                    ->label('Contrato de obra')
+                    ->helperText('El IVA grava solo la utilidad, no el total.'),
+
+                \Filament\Forms\Components\Toggle::make('mostrar_aiu')
+                    ->label('Mostrar AIU desglosado')
+                    ->helperText('El cliente ve A, I y U como líneas aparte.'),
+
+                \Filament\Forms\Components\Toggle::make('contrato_actual')
+                    ->label('Sobre contrato actual'),
+            ])
+            ->action(function (array $data): void {
+                $this->getRecord()->aiu()->updateOrCreate(
+                    ['id_cotizacion' => $this->getRecord()->id],
+                    [
+                        'administracion' => (float) $data['administracion'],
+                        'imprevistos' => (float) $data['imprevistos'],
+                        'utilidad' => (float) $data['utilidad'],
+                        /** Texto, no booleano: asi estan los datos de produccion. */
+                        'contrato_obra' => $data['contrato_obra'] ? 'SI' : 'NO',
+                        'mostrar_aiu' => $data['mostrar_aiu'] ? 'SI' : 'NO',
+                        'contrato_actual' => $data['contrato_actual'] ? 'SI' : 'NO',
+                    ],
+                );
+
+                /** El precio de arriba se recalcula con el margen nuevo. */
+                $this->calculo = null;
+
+                Notification::make()
+                    ->success()
+                    ->title('Margen actualizado')
+                    ->body('El precio de abajo ya refleja el cambio.')
+                    ->send();
+            });
+    }
+
+    /** Los parametros del AIU con que se esta calculando. */
+    private function parametros(): \App\Dominio\Aiu\ParametrosAiu
+    {
+        return $this->calculo()->parametros;
+    }
+
+    /** Explica en una linea que hace el margen configurado. */
+    private function explicarElAiu(): string
+    {
+        $parametros = $this->parametros();
+
+        if ($parametros->porcentajeTotal() <= 0) {
+            return 'Sin AIU: el precio es el costo directo más IVA.';
+        }
+
+        return sprintf(
+            '%s El AIU %s.',
+            $parametros->esContratoDeObra
+                ? 'El IVA del 19% grava solo la utilidad.'
+                : 'El IVA del 19% grava el total con AIU.',
+            $parametros->muestraAiuDesglosado
+                ? 'aparece desglosado y los ítems muestran su costo directo'
+                : 'va incorporado en el precio de cada ítem'
+        );
     }
 
     /**
