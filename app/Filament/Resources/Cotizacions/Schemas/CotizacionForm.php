@@ -9,8 +9,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Group;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 
@@ -20,49 +19,32 @@ use Filament\Schemas\Schema;
  * Es el primer paso: hasta que estos datos no esten guardados no se pueden
  * cargar recursos, porque todos cuelgan de la cotizacion.
  *
- * Va en pestanas y no en secciones apiladas porque son veinte campos: de
- * corrido obligan a desplazarse para comprobar si falta algo. Agrupados por
- * asunto -a quien se le cotiza, que se cotiza, en que condiciones y con que
- * margen- cada pantalla cabe entera.
+ * Va en cuatro secciones -a quien se le cotiza, que se cotiza, en que
+ * condiciones y con que margen- y no en pestañas: esta pantalla ya vive
+ * dentro de las pestañas de la cotizacion, y anidar un segundo nivel
+ * obliga a recordar en cual de los dos se esta.
+ *
+ * La del AIU arranca plegada: solo se toca cuando hay que cambiar el
+ * margen, no en cada edicion.
  */
 class CotizacionForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            Tabs::make('Cotizacion')
-                ->columnSpanFull()
-                /**
-                 * La pestana abierta sobrevive al guardado.
-                 *
-                 * Sin esto, cada guardado devuelve a la primera y hay que
-                 * volver a buscar donde se estaba.
-                 */
-                ->persistTabInQueryString()
-                ->tabs([
-                    self::cliente(),
-                    self::servicio(),
-                    self::condiciones(),
-                    self::aiu(),
-                ]),
+            self::cliente(),
+            self::servicio(),
+            self::condiciones(),
+            self::aiu(),
         ]);
     }
 
-    /**
-     * Marca la pestana en rojo cuando alguno de sus campos esta mal.
-     *
-     * Con el formulario repartido en cuatro pestanas, un campo obligatorio
-     * vacio en otra deja el guardado sin efecto aparente: Filament salta a
-     * la pestana del error, pero quien mira otra pestana solo ve que "no
-     * guarda". Paso de verdad probando esto.
-     *
-     * @param  list<string>  $campos  Los campos que viven en esta pestana.
-     */
     /** A quien se le cotiza. */
-    private static function cliente(): Tab
+    private static function cliente(): Section
     {
-        return Tab::make('Cliente')
+        return Section::make('Cliente')
             ->icon('heroicon-o-building-office-2')
+            ->columnSpanFull()
             ->columns(3)
             ->schema([
                 TextInput::make('cliente')
@@ -94,10 +76,11 @@ class CotizacionForm
     }
 
     /** Que se cotiza. */
-    private static function servicio(): Tab
+    private static function servicio(): Section
     {
-        return Tab::make('Servicio')
+        return Section::make('Servicio')
             ->icon('heroicon-o-wrench-screwdriver')
+            ->columnSpanFull()
             ->columns(3)
             ->schema([
                 TextInput::make('nombre')
@@ -161,10 +144,11 @@ class CotizacionForm
     }
 
     /** En que condiciones. */
-    private static function condiciones(): Tab
+    private static function condiciones(): Section
     {
-        return Tab::make('Condiciones')
+        return Section::make('Condiciones comerciales')
             ->icon('heroicon-o-document-check')
+            ->columnSpanFull()
             ->columns(3)
             ->schema([
                 TextInput::make('vigencia')
@@ -194,10 +178,13 @@ class CotizacionForm
      * Los campos cuelgan de la relacion `aiu`, una fila aparte: por eso van
      * con prefijo. Filament crea o actualiza esa fila al guardar.
      */
-    private static function aiu(): Tab
+    private static function aiu(): Section
     {
-        return Tab::make('AIU')
+        return Section::make('AIU: margen sobre el costo')
             ->icon('heroicon-o-calculator')
+            ->description('Administración, imprevistos y utilidad. Deciden el precio final.')
+            ->columnSpanFull()
+            ->collapsed()
             ->schema([
                 /**
                  * Los campos viven en la tabla `aius`, no en `cotizaciones`.

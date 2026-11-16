@@ -28,14 +28,26 @@ class CotizacionPolicy
         return new ReglasDeAprobacion();
     }
 
+    private function alcance(): \App\Dominio\Permisos\AlcanceDeCotizaciones
+    {
+        return new \App\Dominio\Permisos\AlcanceDeCotizaciones();
+    }
+
     public function viewAny(User $usuario): bool
     {
         return $this->permisos()->puede($usuario, Capacidad::VerCotizaciones);
     }
 
+    /**
+     * Ver una cotizacion concreta.
+     *
+     * Hacen falta las dos cosas: el permiso general y que sea de su
+     * gerencia. Ocultarla del listado no impide escribir su direccion.
+     */
     public function view(User $usuario, Cotizacion $cotizacion): bool
     {
-        return $this->viewAny($usuario);
+        return $this->viewAny($usuario)
+            && $this->alcance()->puedeVer($cotizacion, $usuario);
     }
 
     public function create(User $usuario): bool
@@ -46,7 +58,8 @@ class CotizacionPolicy
     /** Lo decide el flujo de aprobacion, no el rol por si solo. */
     public function update(User $usuario, Cotizacion $cotizacion): bool
     {
-        return $this->reglas()->puedeEditar($cotizacion, $usuario);
+        return $this->alcance()->puedeVer($cotizacion, $usuario)
+            && $this->reglas()->puedeEditar($cotizacion, $usuario);
     }
 
     /**

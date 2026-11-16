@@ -120,14 +120,49 @@ class FormularioCotizacionTest extends TestCase
      * Quien no tiene permiso en el estado actual no entra: se le redirige
      * al detalle con el motivo. En el sistema actual la pantalla se abre
      * igual y el bloqueo solo aparece al intentar guardar.
+     *
+     * El usuario es de la MISMA gerencia a proposito: de otra ni siquiera
+     * encontraria la cotizacion, y se estaria probando el filtro por
+     * gerencia en vez del flujo de aprobacion.
      */
     public function test_quien_no_tiene_permiso_no_entra_a_editar(): void
     {
-        $ajeno = User::factory()->create(['id_gerencia' => '8']);
+        $cotizacion = Cotizacion::findOrFail(55);
+
+        $sinPermiso = User::factory()->create(['id_gerencia' => $cotizacion->gerencia]);
+        $sinPermiso->assignRole('Creador');
+        $this->actingAs($sinPermiso);
+
+        /** La 55 espera aprobacion tecnica: ahi solo entra su gerente. */
+        Livewire::test(EditCotizacion::class, ['record' => 55])->assertRedirect();
+    }
+
+    /**
+     * Lo de otra gerencia no existe para quien no es de ella.
+     *
+     * No se redirige con una explicacion: se responde que no hay nada. Un
+     * mensaje de "no puede editar esta" ya confirmaria que existe.
+     */
+    public function test_lo_de_otra_gerencia_no_aparece(): void
+    {
+        $cotizacion = Cotizacion::findOrFail(55);
+
+        /**
+         * Una gerencia que exista en el catalogo: la columna de las
+         * cotizaciones guarda valores que ya no estan ahi -hay una con
+         * gerencia '2'-, y los usuarios tienen clave foranea.
+         */
+        $otraGerencia = (string) \App\Models\Gerencia::query()
+            ->where('id', '!=', $cotizacion->gerencia)
+            ->value('id');
+
+        $ajeno = User::factory()->create(['id_gerencia' => $otraGerencia]);
         $ajeno->assignRole('Creador');
         $this->actingAs($ajeno);
 
-        Livewire::test(EditCotizacion::class, ['record' => 55])->assertRedirect();
+        $this->get(
+            \App\Filament\Resources\Cotizacions\CotizacionResource::getUrl('edit', ['record' => 55])
+        )->assertNotFound();
     }
 
     /** La pantalla de edicion carga con los datos de la cotizacion. */
@@ -201,20 +236,40 @@ class FormularioCotizacionTest extends TestCase
      * asignar; la asignacion al final, porque reparte lo que las anteriores
      * cargaron.
      */
-    public function test_estan_las_trece_pestanas(): void
+    public function test_las_pestanas_siguen_el_orden_del_sistema_actual(): void
     {
         $relaciones = \App\Filament\Resources\Cotizacions\CotizacionResource::getRelations();
 
-        $this->assertCount(13, $relaciones);
+        /**
+         * Siete, no catorce: las siete categorias menores -vehiculos,
+         * oficinas, aseo, viaticos, servicios, comunicaciones y otros- van
+         * agrupadas en una sola pestaña, igual que en el sistema actual.
+         */
+        $this->assertCount(7, $relaciones);
 
         $this->assertSame(ItemsRelationManager::class, $relaciones[0]);
         $this->assertSame(PersonalsRelationManager::class, $relaciones[1]);
+
+        $this->assertInstanceOf(
+            \Filament\Resources\RelationManagers\RelationGroup::class,
+            $relaciones[5],
+            'Las categorías menores deberían ir agrupadas.'
+        );
 
         $this->assertSame(
             \App\Filament\Resources\Cotizacions\RelationManagers\RevisionesRelationManager::class,
             end($relaciones),
             'La asignación debe ir al final: reparte lo que las demás pestañas cargaron.'
         );
+    }
+
+    /** El grupo lleva dentro las siete categorias. */
+    public function test_el_grupo_de_categorias_lleva_las_siete(): void
+    {
+        $grupo = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::grupo();
+
+        $this->assertCount(7, $grupo->getManagers());
+        $this->assertSame('Categorías adicionales', $grupo->getLabel());
     }
 
     /** El gestor de items carga los de la cotizacion. */

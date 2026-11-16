@@ -247,7 +247,8 @@ class PanelCotizacionesTest extends TestCase
 
         /** Ya aprobada: no queda nada que decidir, ni se edita. */
         $this->conEstado(
-            ['aprobacion1' => 'SI', 'aprobacion2' => 'SI'],
+            /** La gerencia va tambien aqui: sin ella el filtro la esconde. */
+            ['gerencia' => '4', 'aprobacion1' => 'SI', 'aprobacion2' => 'SI'],
             function (): void {
                 Livewire::test(ViewCotizacion::class, ['record' => 55])
                     ->assertActionHidden('aprobarTecnica')

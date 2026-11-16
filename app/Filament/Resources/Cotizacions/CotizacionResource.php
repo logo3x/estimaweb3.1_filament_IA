@@ -57,10 +57,29 @@ class CotizacionResource extends Resource
         ];
     }
 
+    /**
+     * Cada quien ve las cotizaciones de su gerencia.
+     *
+     * Se sobrescribe aqui y no en la tabla porque este metodo es el que usa
+     * TODO el recurso: el listado, la busqueda global, el contador del menu
+     * y la resolucion de la ruta al abrir una por su direccion. Puesto solo
+     * en la tabla, bastaria escribir la URL para saltarselo.
+     */
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return (new \App\Dominio\Permisos\AlcanceDeCotizaciones())
+            ->aplicar(parent::getEloquentQuery(), auth()->user());
+    }
+
     /** Cuantas cotizaciones hay, visible junto al menu. */
     public static function getNavigationBadge(): ?string
     {
-        return (string) static::getModel()::count();
+        /**
+         * Sobre la consulta del recurso, no sobre el modelo: asi cuenta lo
+         * que ese usuario puede ver. Contar el modelo directamente anunciaba
+         * cuarenta y ocho a quien solo alcanzaba catorce.
+         */
+        return (string) static::getEloquentQuery()->count();
     }
 
     public static function form(Schema $schema): Schema
@@ -76,9 +95,14 @@ class CotizacionResource extends Resource
     public static function getRelations(): array
     {
         /**
-         * El orden importa: primero los items, porque sin ellos no hay a
-         * que asignar los recursos; luego el personal, que suele ser el mayor
-         * peso del precio.
+         * El orden es el del sistema actual, que es el que conoce quien
+         * cotiza: primero los items, luego el personal -que suele ser el
+         * mayor peso del precio-, despues los activos que se amortizan, y
+         * al final la asignacion.
+         *
+         * Las siete categorias menores van agrupadas en una sola pestaña,
+         * igual que alli: sueltas ocupaban la mitad de la barra siendo lo
+         * que menos se toca.
          */
         return [
             RelationManagers\ItemsRelationManager::class,
@@ -86,16 +110,10 @@ class CotizacionResource extends Resource
             RelationManagers\HerramientasRelationManager::class,
             RelationManagers\EquiposRelationManager::class,
             RelationManagers\ConsumiblesRelationManager::class,
-            RelationManagers\VehiculosRelationManager::class,
-            RelationManagers\OficinasRelationManager::class,
-            RelationManagers\AseosRelationManager::class,
-            RelationManagers\ViaticosRelationManager::class,
-            RelationManagers\ServiciosRelationManager::class,
-            RelationManagers\ComunicacionesRelationManager::class,
-            RelationManagers\OtrosRelationManager::class,
+            RelationManagers\CategoriasAdicionales::grupo(),
             /**
              * La asignacion va al final: reparte entre los items lo que las
-             * pestanas anteriores cargaron. Un recurso que no pase por aqui
+             * pestañas anteriores cargaron. Un recurso que no pase por aqui
              * no cuenta en el precio.
              */
             RelationManagers\RevisionesRelationManager::class,
