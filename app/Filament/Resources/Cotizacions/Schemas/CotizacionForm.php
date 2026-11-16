@@ -35,6 +35,13 @@ class CotizacionForm
             self::cliente(),
             self::servicio(),
             self::condiciones(),
+            /**
+             * El AIU va el ultimo, como en el sistema actual.
+             *
+             * Es lo que se cuadra al cerrar la cotizacion, cuando los
+             * recursos ya estan cargados; arranca plegado porque no se
+             * toca en cada edicion.
+             */
             self::aiu(),
         ]);
     }

@@ -207,6 +207,50 @@ class EditCotizacion extends EditRecord
         $this->redirect(CotizacionResource::getUrl('view', ['record' => $cotizacion]));
     }
 
+    /**
+     * Las siete categorias adicionales, cada una en su seccion plegada.
+     *
+     * Filament las apila una debajo de otra: siete tablas seguidas hacen
+     * una pagina que no acaba. Plegadas se ven los siete titulos de un
+     * vistazo y se abre solo la que se necesita.
+     *
+     * Se construyen aqui, replicando lo que hace el padre, y no se
+     * declaran en el grupo: `modifyTabUsing` se evalua **antes** de que la
+     * pagina añada el contenido, asi que alli el esquema llega vacio.
+     */
+    public function getRelationManagerTabComponent(string | int $key): ?\Filament\Schemas\Components\Tabs\Tab
+    {
+        $gestor = $this->getCachedRelationManagers()[$key] ?? null;
+
+        if (! ($gestor instanceof \Filament\Resources\RelationManagers\RelationGroup)) {
+            return parent::getRelationManagerTabComponent($key);
+        }
+
+        $gestor->ownerRecord($this->getRecord())->pageClass(static::class);
+
+        $datos = $this->getRelationManagerLivewireData();
+
+        $secciones = [];
+
+        foreach (array_values($gestor->getManagers()) as $posicion => $clase) {
+            [$titulo, $icono] = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::etiqueta($posicion);
+
+            $secciones[] = \Filament\Schemas\Components\Section::make($titulo)
+                ->icon($icono)
+                ->collapsible()
+                ->collapsed()
+                ->columnSpanFull()
+                ->schema([
+                    \Filament\Schemas\Components\Livewire::make(
+                        $clase,
+                        [...$datos, ...$clase::getDefaultProperties()],
+                    )->key("categoria-{$posicion}"),
+                ]);
+        }
+
+        return $gestor->getTabComponent()->schema($secciones);
+    }
+
     protected function getSavedNotificationTitle(): ?string
     {
         return 'Datos guardados';

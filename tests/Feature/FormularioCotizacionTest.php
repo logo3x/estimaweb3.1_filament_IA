@@ -241,20 +241,20 @@ class FormularioCotizacionTest extends TestCase
         $relaciones = \App\Filament\Resources\Cotizacions\CotizacionResource::getRelations();
 
         /**
-         * Siete, no catorce: las siete categorias menores -vehiculos,
-         * oficinas, aseo, viaticos, servicios, comunicaciones y otros- van
-         * agrupadas en una sola pestaña, igual que en el sistema actual.
+         * Siete: items, personal, los tres activos que se amortizan, las
+         * categorias adicionales -las siete menores bajo una sola pestaña-
+         * y la asignacion.
          */
         $this->assertCount(7, $relaciones);
-
-        $this->assertSame(ItemsRelationManager::class, $relaciones[0]);
-        $this->assertSame(PersonalsRelationManager::class, $relaciones[1]);
 
         $this->assertInstanceOf(
             \Filament\Resources\RelationManagers\RelationGroup::class,
             $relaciones[5],
-            'Las categorías menores deberían ir agrupadas.'
+            'Las categorías menores deberían ir bajo una sola pestaña.'
         );
+
+        $this->assertSame(ItemsRelationManager::class, $relaciones[0]);
+        $this->assertSame(PersonalsRelationManager::class, $relaciones[1]);
 
         $this->assertSame(
             \App\Filament\Resources\Cotizacions\RelationManagers\RevisionesRelationManager::class,
@@ -263,13 +263,45 @@ class FormularioCotizacionTest extends TestCase
         );
     }
 
-    /** El grupo lleva dentro las siete categorias. */
+    /**
+     * El AIU se ajusta al final del formulario.
+     *
+     * Es lo ultimo que se cuadra, cuando los recursos ya estan cargados,
+     * igual que en el sistema actual.
+     */
+    public function test_el_aiu_va_al_final_del_formulario(): void
+    {
+        $this->comoUsuario();
+
+        Livewire::test(EditCotizacion::class, ['record' => 55])
+            ->assertOk()
+            ->assertFormFieldExists('aiu.administracion')
+            ->assertFormFieldExists('aiu.utilidad');
+    }
+
+    /**
+     * Dentro de "Categorias adicionales" estan las siete.
+     *
+     * Cada una en su seccion plegada: abiertas de golpe son siete tablas
+     * apiladas y la pagina no acaba.
+     */
     public function test_el_grupo_de_categorias_lleva_las_siete(): void
     {
         $grupo = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::grupo();
 
         $this->assertCount(7, $grupo->getManagers());
         $this->assertSame('Categorías adicionales', $grupo->getLabel());
+    }
+
+    /** Cada categoria tiene su titulo y su icono. */
+    public function test_cada_categoria_tiene_titulo_propio(): void
+    {
+        for ($i = 0; $i < 7; $i++) {
+            [$titulo, $icono] = \App\Filament\Resources\Cotizacions\RelationManagers\CategoriasAdicionales::etiqueta($i);
+
+            $this->assertNotSame('Categoría', $titulo, "La categoría {$i} no tiene título propio.");
+            $this->assertStringStartsWith('heroicon-', $icono);
+        }
     }
 
     /** El gestor de items carga los de la cotizacion. */

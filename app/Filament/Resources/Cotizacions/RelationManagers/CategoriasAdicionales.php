@@ -3,9 +3,6 @@
 namespace App\Filament\Resources\Cotizacions\RelationManagers;
 
 use Filament\Resources\RelationManagers\RelationGroup;
-use Filament\Schemas\Components\Component;
-use Filament\Schemas\Components\Section;
-use Filament\Schemas\Components\Tabs\Tab;
 
 /**
  * Las siete categorias que no son personal ni activos.
@@ -43,41 +40,21 @@ final class CategoriasAdicionales
      *
      * El orden es el del sistema actual, que es el que conoce quien cotiza.
      */
+    /** El grupo, listo para registrarlo entre las relaciones. */
     public static function grupo(): RelationGroup
     {
         return RelationGroup::make('Categorías adicionales', array_keys(self::TITULOS))
-            ->icon('heroicon-o-squares-2x2')
-            ->tab(fn (Tab $tab): Tab => $tab->schema(
-                fn (array $schema): array => self::enSeccionesPlegadas($schema)
-            ));
+            ->icon('heroicon-o-squares-2x2');
     }
 
     /**
-     * Mete cada gestor en su propia seccion plegada.
+     * El titulo y el icono de una categoria por su posicion.
      *
-     * Filament los entrega en el mismo orden en que se declararon, asi que
-     * el titulo se toma por posicion.
-     *
-     * @param  array<int, Component>  $componentes
-     * @return array<int, Component>
+     * @return array{string, string}
      */
-    private static function enSeccionesPlegadas(array $componentes): array
+    public static function etiqueta(int $posicion): array
     {
-        $titulos = array_values(self::TITULOS);
-
-        $secciones = [];
-
-        foreach (array_values($componentes) as $posicion => $componente) {
-            [$titulo, $icono] = $titulos[$posicion] ?? ['Categoría', 'heroicon-o-squares-2x2'];
-
-            $secciones[] = Section::make($titulo)
-                ->icon($icono)
-                ->collapsible()
-                ->collapsed()
-                ->columnSpanFull()
-                ->schema([$componente]);
-        }
-
-        return $secciones;
+        return array_values(self::TITULOS)[$posicion]
+            ?? ['Categoría', 'heroicon-o-squares-2x2'];
     }
 }
