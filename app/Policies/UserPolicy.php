@@ -41,9 +41,33 @@ class UserPolicy
         return $this->esAdministracion($usuario);
     }
 
+    /**
+     * Editar una ficha es cosa de la administracion.
+     *
+     * Aqui NO vale la excepcion de "cada uno lo suyo". Esta pantalla
+     * incluye el selector de roles y la gerencia, de modo que permitir la
+     * autoedicion dejaba a cualquiera ascenderse a Administrador y, con
+     * ello, ver las cotizaciones de todas las gerencias y aprobar el nivel
+     * financiero. Se comprobo: un administrador llego a concederse
+     * super_admin por esta via.
+     *
+     * Cambiar el propio nombre o la propia clave se hace en el perfil, que
+     * es otra pantalla y no expone permisos.
+     */
     public function update(User $usuario, User $objetivo): bool
     {
-        return $this->esAdministracion($usuario) || $usuario->is($objetivo);
+        if (! $this->esAdministracion($usuario)) {
+            return false;
+        }
+
+        /**
+         * A super_admin solo lo toca otro super_admin.
+         *
+         * Ese rol se salta todas las comprobaciones del sistema; quien no
+         * lo tiene no puede repartirlo ni quitarselo a quien lo tiene.
+         */
+        return ! $objetivo->hasRole(Permisos::ROL_TOTAL)
+            || $usuario->hasRole(Permisos::ROL_TOTAL);
     }
 
     /**

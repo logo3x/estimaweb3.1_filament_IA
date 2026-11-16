@@ -46,6 +46,8 @@ class CotizacionsTable
                 TextColumn::make('codigo')
                     ->label('Código')
                     ->searchable()
+                    /** En pantallas estrechas basta con el número y el cliente. */
+                    ->visibleFrom('xl')
                     ->toggleable(),
 
                 TextColumn::make('cliente')
@@ -59,12 +61,20 @@ class CotizacionsTable
                     ->searchable()
                     ->limit(45)
                     ->tooltip(fn ($state): ?string => strlen((string) $state) > 45 ? $state : null)
+                    /** Es la columna más ancha: se recoge antes que las demás. */
+                    ->visibleFrom('lg')
                     ->toggleable(),
 
                 TextColumn::make('gerencia')
                     ->label('Gerencia')
                     ->badge()
                     ->sortable()
+                    /**
+                     * Con el filtro por gerencia en marcha, casi todas las
+                     * filas repiten el mismo valor: solo aporta a quien ve
+                     * varias gerencias.
+                     */
+                    ->visibleFrom('lg')
                     ->toggleable(),
 
                 /**
@@ -104,6 +114,7 @@ class CotizacionsTable
                     ->label('Creada')
                     ->dateTime('d/m/Y')
                     ->sortable()
+                    ->visibleFrom('xl')
                     ->toggleable(),
 
                 TextColumn::make('updated_at')
@@ -115,7 +126,17 @@ class CotizacionsTable
             ->filters([
                 SelectFilter::make('gerencia')
                     ->label('Gerencia')
-                    ->options(fn (): array => \App\Models\Cotizacion::query()
+                    /**
+                     * Las opciones salen de la consulta del recurso, no del
+                     * modelo crudo: asi solo aparecen las gerencias que ese
+                     * usuario alcanza.
+                     *
+                     * Consultando el modelo directamente, el desplegable
+                     * listaba TODAS las gerencias de la empresa a cualquiera
+                     * que abriera el listado. No daba acceso a las filas,
+                     * pero si revelaba que zonas estan cotizando.
+                     */
+                    ->options(fn (): array => \App\Filament\Resources\Cotizacions\CotizacionResource::getEloquentQuery()
                         ->whereNotNull('gerencia')
                         ->distinct()
                         ->orderBy('gerencia')

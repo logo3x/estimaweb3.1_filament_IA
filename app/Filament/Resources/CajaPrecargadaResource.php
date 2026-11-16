@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Base de las cajas precargadas.
@@ -139,16 +140,24 @@ abstract class CajaPrecargadaResource extends Resource
                      * escriben a mano despues de guardar la caja.
                      */
                     ->using(function (Model $record, array $data): Model {
-                        $record->update(['nombre' => $data['nombre']]);
+                        /**
+                         * En transaccion: se borran los articulos antes de
+                         * escribir los nuevos. Si fallara a mitad -una
+                         * desconexion, un tiempo agotado- la caja quedaria
+                         * con el nombre nuevo y la lista vacia.
+                         */
+                        return DB::transaction(function () use ($record, $data): Model {
+                            $record->update(['nombre' => $data['nombre']]);
 
-                        $columna = $record::columnaDelCatalogo();
-                        $record->elementos()->delete();
+                            $columna = $record::columnaDelCatalogo();
+                            $record->elementos()->delete();
 
-                        foreach (array_filter($data['articulos'] ?? []) as $idCatalogo) {
-                            $record->elementos()->create([$columna => $idCatalogo]);
-                        }
+                            foreach (array_filter($data['articulos'] ?? []) as $idCatalogo) {
+                                $record->elementos()->create([$columna => $idCatalogo]);
+                            }
 
-                        return $record;
+                            return $record;
+                        });
                     })
                     ->successNotificationTitle('Caja guardada'),
                 ReplicateAction::make()
@@ -165,11 +174,14 @@ abstract class CajaPrecargadaResource extends Resource
                     })
                     /** Duplicar una caja sin su contenido no sirve de nada. */
                     ->after(function (Model $replica, Model $record): void {
-                        foreach ($record->elementos as $elemento) {
-                            $replica->elementos()->create(
-                                $elemento->only([$record::columnaDelCatalogo()])
-                            );
-                        }
+                        /** En transaccion: una copia a medias no sirve de nada. */
+                        DB::transaction(function () use ($replica, $record): void {
+                            foreach ($record->elementos as $elemento) {
+                                $replica->elementos()->create(
+                                    $elemento->only([$record::columnaDelCatalogo()])
+                                );
+                            }
+                        });
                     })
                     ->successNotificationTitle('Caja duplicada'),
                 DeleteAction::make()

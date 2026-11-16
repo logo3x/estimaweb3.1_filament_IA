@@ -196,13 +196,22 @@ class PermisosPorRolTest extends TestCase
         );
     }
 
-    /** Cualquiera puede ver y editar su propia ficha. */
-    public function test_cada_uno_edita_su_propia_ficha(): void
+    /**
+     * Cada quien ve su propia ficha, pero NO la edita.
+     *
+     * Editarla abre el formulario de administracion, con el selector de
+     * roles y la gerencia dentro: permitirlo dejaba a cualquiera
+     * ascenderse a Administrador. Para cambiar el nombre o la clave esta
+     * la pagina de perfil, que no expone permisos.
+     *
+     * Ver {@see EscaladaDePrivilegiosTest}.
+     */
+    public function test_cada_uno_ve_su_ficha_pero_no_la_edita(): void
     {
         $creador = $this->con('Creador');
 
         $this->assertTrue(Gate::forUser($creador)->allows('view', $creador));
-        $this->assertTrue(Gate::forUser($creador)->allows('update', $creador));
+        $this->assertFalse(Gate::forUser($creador)->allows('update', $creador));
         $this->assertFalse(Gate::forUser($creador)->allows('update', $this->con('Gerente')));
     }
 

@@ -13,6 +13,7 @@ use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Log;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -52,7 +53,7 @@ class ViewCotizacion extends ViewRecord
                 ->action(function () {
                     try {
                         $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
-                    } catch (\RuntimeException $e) {
+                    } catch (\Throwable $e) {
                         $this->avisarDelFallo($e);
 
                         return null;
@@ -74,7 +75,7 @@ class ViewCotizacion extends ViewRecord
                 ->action(function () {
                     try {
                         $archivo = ConversorAPdf::crear()->desdeCotizacion($this->getRecord());
-                    } catch (\RuntimeException $e) {
+                    } catch (\Throwable $e) {
                         $this->avisarDelFallo($e);
 
                         return null;
@@ -91,15 +92,48 @@ class ViewCotizacion extends ViewRecord
         ];
     }
 
-    /** Un fallo al generar el documento se explica, no se traga. */
-    private function avisarDelFallo(\RuntimeException $error): void
+    /**
+     * Un fallo al generar el documento se explica, no se traga.
+     *
+     * Se captura `Throwable` y no `RuntimeException`: PhpWord y DomPDF
+     * lanzan excepciones que extienden `\Exception` a secas, de modo que
+     * una plantilla corrupta, un ZIP no escribible o una falta de memoria
+     * se escapaban y daban pantalla de error en vez de este aviso.
+     *
+     * El mensaje tecnico va al registro, no a la pantalla: puede contener
+     * rutas del servidor, y a quien cotiza no le dice nada.
+     */
+    private function avisarDelFallo(\Throwable $error): void
     {
+        Log::error('No se pudo generar el documento de una cotización', [
+            'cotizacion' => $this->getRecord()->id,
+            'error' => $error->getMessage(),
+            'tipo' => $error::class,
+        ]);
+
         Notification::make()
             ->danger()
             ->title('No se pudo generar el documento')
-            ->body($error->getMessage())
+            ->body($this->explicar($error))
             ->persistent()
             ->send();
+    }
+
+    /**
+     * Traduce el fallo a algo accionable.
+     *
+     * Los dos motivos habituales tienen solucion conocida; para el resto
+     * se pide avisar, porque no hay nada que el usuario pueda hacer.
+     */
+    private function explicar(\Throwable $error): string
+    {
+        if ($error instanceof \RuntimeException) {
+            /** Son los nuestros: ya vienen redactados para quien cotiza. */
+            return $error->getMessage();
+        }
+
+        return 'Hubo un problema al armar el archivo. Avise a sistemas: '
+            . 'el detalle quedó registrado.';
     }
 
     /**

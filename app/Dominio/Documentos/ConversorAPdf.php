@@ -67,8 +67,14 @@ final class ConversorAPdf
 
         $destino ??= preg_replace('/\.docx$/i', '.pdf', $docx);
 
-        if (! is_dir(dirname($destino))) {
-            mkdir(dirname($destino), 0775, true);
+        $carpeta = dirname($destino);
+
+        /** Si storage no es escribible, el fallo se explica aqui y no en saveAs. */
+        if (! is_dir($carpeta) && ! mkdir($carpeta, 0775, true) && ! is_dir($carpeta)) {
+            throw new RuntimeException(
+                "No se pudo crear la carpeta de los documentos: {$carpeta}. "
+                . 'Revise los permisos de storage/app.'
+            );
         }
 
         try {

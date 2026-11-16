@@ -12,6 +12,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Edicion de una cotizacion.
@@ -126,11 +127,25 @@ class EditCotizacion extends EditRecord
             ->action(function () {
                 try {
                     $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
-                } catch (\RuntimeException $e) {
+                } catch (\Throwable $e) {
+                    /**
+                     * `Throwable` y no `RuntimeException`: PhpWord lanza
+                     * excepciones que extienden `\Exception` a secas, asi
+                     * que una plantilla corrupta se escapaba de este catch
+                     * y daba pantalla de error.
+                     */
+                    Log::error('No se pudo generar la oferta', [
+                        'cotizacion' => $this->getRecord()->id,
+                        'error' => $e->getMessage(),
+                        'tipo' => $e::class,
+                    ]);
+
                     Notification::make()
                         ->danger()
                         ->title('No se pudo generar la oferta')
-                        ->body($e->getMessage())
+                        ->body($e instanceof \RuntimeException
+                            ? $e->getMessage()
+                            : 'Hubo un problema al armar el archivo. Avise a sistemas: el detalle quedó registrado.')
                         ->persistent()
                         ->send();
 
@@ -156,6 +171,24 @@ class EditCotizacion extends EditRecord
     protected function authorizeAccess(): void
     {
         $cotizacion = $this->getRecord();
+
+        /**
+         * El alcance por gerencia se comprueba aparte y con un 404.
+         *
+         * Al sustituir authorizeAccess() se deja de pasar por la policy, que
+         * es donde vive esa regla. Hoy coincide con lo que decide el flujo
+         * de aprobacion, pero por casualidad: si manana se relaja una rama
+         * de esas reglas, la edicion dejaria de comprobar la gerencia sin
+         * que nadie lo note.
+         *
+         * Va antes que la redireccion explicativa a proposito: un aviso de
+         * "esta en aprobacion" ya confirmaria que la cotizacion existe.
+         */
+        abort_unless(
+            (new \App\Dominio\Permisos\AlcanceDeCotizaciones())
+                ->puedeVer($cotizacion, auth()->user()),
+            404
+        );
 
         if ($cotizacion->puedeSerEditadaPor(auth()->user())) {
             return;

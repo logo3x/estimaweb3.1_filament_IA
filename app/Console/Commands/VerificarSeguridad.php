@@ -37,8 +37,40 @@ class VerificarSeguridad extends Command
         $this->revisarClaveDeAplicacion();
         $this->revisarSesion($exigirProduccion);
         $this->revisarBaseDeDatos($exigirProduccion);
+        $this->revisarExtensiones();
 
         return $this->informar($exigirProduccion);
+    }
+
+    /**
+     * Las extensiones de PHP que el sistema necesita.
+     *
+     * En un hosting compartido `zip` y `gd` faltan con frecuencia, y sin
+     * ellas la generacion del Word revienta. Comprobarlo desde el propio
+     * panel evita tener que descubrirlo por un error 500, que es lo unico
+     * que se ve sin acceso por consola.
+     */
+    private function revisarExtensiones(): void
+    {
+        $necesarias = [
+            'zip' => 'Generar el Word de la oferta (el .docx es un ZIP).',
+            'gd' => 'Las imágenes del documento.',
+            'dom' => 'Armar el XML del Word.',
+            'mbstring' => 'Los acentos y la ñ.',
+            'fileinfo' => 'Los archivos que se suben.',
+            'intl' => 'El formato de fechas y moneda en castellano.',
+        ];
+
+        foreach ($necesarias as $extension => $paraQue) {
+            if (extension_loaded($extension)) {
+                continue;
+            }
+
+            $this->fallos[] = [
+                "Falta la extensión {$extension}",
+                $paraQue . ' Pídala al proveedor del hosting.',
+            ];
+        }
     }
 
     private function revisarDepuracion(bool $produccion): void

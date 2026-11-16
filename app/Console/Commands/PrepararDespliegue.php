@@ -120,16 +120,41 @@ class PrepararDespliegue extends Command
 
         $this->components->info('Todo lo que el servidor necesita está en su sitio.');
 
+        $this->avisarDeLaPlantilla();
+
         $this->components->bulletList(array_filter([
             $sinDesarrollo
                 ? 'vendor/ está sin librerías de desarrollo: correcto para subir.'
                 : 'OJO: vendor/ todavía trae phpunit y compañía. Vuelve a ejecutar el comando.',
             'Para volver a ejecutar las pruebas aquí: composer install',
-            'La plantilla de la oferta NO viaja en el repositorio: vive en el servidor.',
             'Revisa que .env del servidor tenga APP_DEBUG=false y la base correcta.',
         ]));
 
         return $sinDesarrollo ? self::SUCCESS : self::FAILURE;
+    }
+
+    /**
+     * La plantilla de la oferta vive solo en el servidor.
+     *
+     * Lleva el membrete de la empresa, asi que no entra al repositorio. Pero
+     * sin ella **ningun** boton de Word ni de PDF funciona, para ninguna
+     * cotizacion: hay que subirla a mano al desplegar, y es el tipo de paso
+     * que se olvida porque en local las pruebas la generan solas.
+     */
+    private function avisarDeLaPlantilla(): void
+    {
+        $this->newLine();
+
+        $this->components->warn(
+            'La plantilla de la oferta NO viaja en el repositorio. Súbala por el '
+            . 'gestor de archivos de cPanel a: storage/app/plantillas/oferta.docx'
+        );
+
+        $this->components->bulletList([
+            'Sin ella, Word y PDF fallan en TODAS las cotizaciones.',
+            'Debe llevar el marcador ${tabla} o la oferta saldrá sin precios.',
+            'Compruébelo tras desplegar descargando una oferta cualquiera.',
+        ]);
     }
 
     private function ejecutar(string $comando): bool

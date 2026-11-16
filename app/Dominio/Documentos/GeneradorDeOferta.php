@@ -76,15 +76,52 @@ final class GeneradorDeOferta
 
         $plantilla->setComplexBlock('tabla', $this->construirTabla($cotizacion, $calculo));
 
+        $this->exigirQueLaTablaEntrara($plantilla);
+
         $destino ??= $this->rutaDestino($cotizacion);
 
-        if (! is_dir(dirname($destino))) {
-            mkdir(dirname($destino), 0775, true);
+        $carpeta = dirname($destino);
+
+        if (! is_dir($carpeta) && ! mkdir($carpeta, 0775, true) && ! is_dir($carpeta)) {
+            throw new RuntimeException(
+                "No se pudo crear la carpeta de los documentos: {$carpeta}. "
+                . 'Revise los permisos de storage/app.'
+            );
         }
 
         $plantilla->saveAs($destino);
 
         return $destino;
+    }
+
+    /**
+     * Comprueba que la tabla de precios entro de verdad.
+     *
+     * `setComplexBlock` **no avisa si el marcador no esta**: busca
+     * `${tabla}` en el documento y, si no lo encuentra, se va sin hacer
+     * nada. El resultado seria una oferta bien formada, descargable y
+     * **sin precios**, que es justo lo que no puede llegarle a un cliente.
+     *
+     * Importa ahora porque la plantilla real de la empresa todavia no esta
+     * en el servidor: se sube a mano al desplegar, y basta con que su
+     * marcador se llame de otro modo.
+     *
+     * Mejor fallar aqui, con un mensaje que dice que revisar, que mandar
+     * una oferta incompleta.
+     *
+     * @throws RuntimeException si el marcador sigue sin sustituir
+     */
+    private function exigirQueLaTablaEntrara(TemplateProcessor $plantilla): void
+    {
+        if (! in_array('tabla', $plantilla->getVariables(), true)) {
+            return;
+        }
+
+        throw new RuntimeException(
+            'La plantilla no tiene el marcador ${tabla}, así que el documento '
+            . 'saldría sin la tabla de precios. Revise que la plantilla en '
+            . 'storage/app/plantillas sea la correcta.'
+        );
     }
 
     private function rellenarDatos(TemplateProcessor $plantilla, Cotizacion $cotizacion): void
