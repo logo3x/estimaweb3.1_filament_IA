@@ -111,6 +111,32 @@ Los datos viajan **en un solo sentido**: producción → local. El comando se ni
 ejecutarse si la conexión no apunta a `127.0.0.1`, y los respaldos nunca entran al
 repositorio (`.gitignore`).
 
+
+## Qué está hecho
+
+| Parte | Estado |
+|---|---|
+| Cálculo del precio (AIU, nómina, amortización) | Completo, con golden masters sobre las 48 cotizaciones reales |
+| Cotizaciones: listado, alta, edición | Completo |
+| Recursos: ítems, personal, herramientas, equipos, consumibles y las 7 categorías menores | Completo |
+| Cajas precargadas por usuario | Completo (herramientas, equipos, consumibles, EPP) |
+| Catálogos de precios | Completo, los 9 |
+| Flujo de aprobación de dos niveles | Completo, con aviso por correo |
+| Permisos por rol y alcance por gerencia | Completo |
+| Documento Word y PDF | Completo |
+| Usuarios y factores legales | Completo |
+
+## Qué falta
+
+- **Resumen y análisis financiero** con gráficos en la pestaña de AIU: el
+  sistema actual lo tiene y aquí no está. Es lo más pesado de replicar.
+- **Módulo de mantenimiento de cPanel**: cachés y migraciones desde el propio
+  panel, ya que allí no hay consola.
+- Poner el **usuario real de cPanel** en `.cpanel.yml` antes del primer
+  despliegue.
+- Decidir si se **normaliza `cotizaciones.gerencia`**, que hoy guarda números
+  que no están en el catálogo.
+
 ## Despliegue
 
 El hosting de destino es **cPanel sin acceso SSH**. No hay terminal: desplegar es un

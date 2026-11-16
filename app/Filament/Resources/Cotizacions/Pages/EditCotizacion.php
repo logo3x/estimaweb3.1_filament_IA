@@ -308,6 +308,8 @@ class EditCotizacion extends EditRecord
                 ->schema([
                     $this->margen(),
                     $this->resumenDelPrecio(),
+                    $this->repartoPorCategoria(),
+                    $this->resumenDeLaOferta(),
                     $this->documentosYAprobacion(),
                 ]),
         ];
@@ -338,7 +340,7 @@ class EditCotizacion extends EditRecord
                     ->content(fn (): string => number_format($this->parametros()->factor(), 4, ',', '.')),
 
                 \Filament\Forms\Components\Placeholder::make('explicacion_aiu')
-                    ->label('')
+                    ->hiddenLabel()
                     ->columnSpanFull()
                     ->content(fn (): string => $this->explicarElAiu()),
 
@@ -433,6 +435,125 @@ class EditCotizacion extends EditRecord
                     ->body('El precio de abajo ya refleja el cambio.')
                     ->send();
             });
+    }
+
+    /**
+     * De donde sale el precio, por tipo de recurso.
+     *
+     * Responde a "cuanto de esto es personal y cuanto herramientas", que es
+     * la primera pregunta al revisar una cotizacion ajena.
+     */
+    private function repartoPorCategoria(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('De dónde sale el costo')
+            ->icon('heroicon-o-chart-pie')
+            ->description('El costo directo repartido por tipo de recurso.')
+            ->columnSpanFull()
+            ->collapsible()
+            ->schema([
+                \Filament\Forms\Components\Placeholder::make('reparto')
+                    ->label('')
+                    ->columnSpanFull()
+                    ->content(function (): \Illuminate\Support\HtmlString {
+                        $porCategoria = $this->calculo()->costoPorCategoria();
+
+                        if ($porCategoria === []) {
+                            return new \Illuminate\Support\HtmlString(
+                                '<p class="fi-resumen-vacio">Todavía no hay recursos cargados.</p>'
+                            );
+                        }
+
+                        $total = array_sum($porCategoria);
+
+                        $filas = '';
+
+                        foreach ($porCategoria as $categoria => $monto) {
+                            $porcentaje = $total > 0 ? ($monto / $total) * 100 : 0;
+
+                            $filas .= sprintf(
+                                '<tr><td>%s</td><td class="fi-resumen-der">%s</td>'
+                                . '<td class="fi-resumen-der">%s %%</td>'
+                                . '<td><span class="fi-resumen-barra" style="width:%.1f%%"></span></td></tr>',
+                                e($categoria),
+                                e($this->pesos($monto)),
+                                e(number_format($porcentaje, 1, ',', '.')),
+                                $porcentaje,
+                            );
+                        }
+
+                        return new \Illuminate\Support\HtmlString(
+                            '<table class="fi-resumen-tabla fi-resumen-reparto">' . $filas . '</table>'
+                        );
+                    }),
+            ]);
+    }
+
+    /**
+     * La tabla que vera el cliente, con su desglose.
+     *
+     * Es la misma que lleva el documento Word, calculada con el dominio: si
+     * aqui cuadra, el documento cuadra. Sirve para revisar antes de enviar.
+     *
+     * Arranca plegada: son tantas filas como recursos tenga la cotizacion.
+     */
+    private function resumenDeLaOferta(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('Resumen de la oferta')
+            ->icon('heroicon-o-document-magnifying-glass')
+            ->description('Lo que verá el cliente, con el detalle de cada ítem.')
+            ->columnSpanFull()
+            ->collapsible()
+            ->collapsed()
+            ->schema([
+                \Filament\Schemas\Components\View::make('filament.resumen-de-la-oferta')
+                    ->columnSpanFull()
+                    ->viewData(fn (): array => $this->datosDelResumen()),
+            ]);
+    }
+
+    /**
+     * Los items con sus lineas de costo y los totales.
+     *
+     * @return array{items: array<int, mixed>, totales: array<string, float>, pesos: callable}
+     */
+    private function datosDelResumen(): array
+    {
+        $calculo = $this->calculo();
+        $totales = $calculo->totales;
+
+        $lineasPorItem = collect($calculo->detalle)->groupBy('itemId');
+
+        $items = $this->getRecord()->items()->orderBy('id')->get()
+            ->map(fn ($item): array => [
+                'nombre' => $item->nombre,
+                'unidad' => $item->unidad ?: 'UND',
+                'cantidad' => (int) ($item->cantidad ?: 1),
+                'unitario' => $calculo->valorUnitarioPorItem[$item->id] ?? 0.0,
+                'parcial' => ($calculo->valorUnitarioPorItem[$item->id] ?? 0.0)
+                    * (int) ($item->cantidad ?: 1),
+                'lineas' => $lineasPorItem->get($item->id, collect())->all(),
+            ])
+            ->all();
+
+        return [
+            'items' => $items,
+            'totales' => array_filter([
+                'Costo directo' => $totales->costoDirecto,
+                'Administración' => $totales->administracion,
+                'Imprevistos' => $totales->imprevistos,
+                'Utilidad' => $totales->utilidad,
+                'Subtotal' => $totales->subtotal,
+                'IVA (19 %)' => $totales->iva,
+                'TOTAL' => $totales->total,
+            ], fn (float $valor, string $etiqueta): bool => $valor > 0 || $etiqueta === 'TOTAL', ARRAY_FILTER_USE_BOTH),
+            'pesos' => fn (float $valor): string => $this->pesos($valor),
+        ];
+    }
+
+    /** Un importe en pesos. */
+    private function pesos(float $valor): string
+    {
+        return '$ ' . number_format($valor, 0, ',', '.');
     }
 
     /** Los parametros del AIU con que se esta calculando. */

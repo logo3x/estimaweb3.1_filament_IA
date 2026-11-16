@@ -240,4 +240,68 @@ class MargenAiuTest extends TestCase
         Livewire::test(EditCotizacion::class, ['record' => 55])
             ->assertActionExists('cambiarMargen');
     }
+
+    /**
+     * El resumen de la oferta cuadra con el calculo.
+     *
+     * Es la misma tabla que lleva el documento Word: si aqui saliera otra
+     * cifra, quien revisa daria por bueno un precio que no es el que se
+     * manda al cliente.
+     */
+    public function test_el_resumen_cuadra_con_el_calculo(): void
+    {
+        $this->comoUsuario();
+
+        $pagina = Livewire::test(EditCotizacion::class, ['record' => 55])->instance();
+
+        $metodo = new \ReflectionMethod($pagina, 'datosDelResumen');
+        $datos = $metodo->invoke($pagina);
+
+        $calculado = \App\Dominio\CalcularCotizacion::crear()
+            ->para(Cotizacion::findOrFail(55))
+            ->totales;
+
+        $this->assertEqualsWithDelta($calculado->total, $datos['totales']['TOTAL'], 0.01);
+        $this->assertEqualsWithDelta(
+            $calculado->costoDirecto,
+            $datos['totales']['Costo directo'],
+            0.01
+        );
+        $this->assertNotEmpty($datos['items'], 'El resumen salió sin ítems.');
+    }
+
+    /**
+     * El reparto por categoria suma el costo directo.
+     *
+     * Si no sumara, habria recursos contados dos veces o ninguna, y el
+     * reparto diria de donde sale un dinero que no es el que se cobra.
+     */
+    public function test_el_reparto_por_categoria_suma_el_costo_directo(): void
+    {
+        $calculo = \App\Dominio\CalcularCotizacion::crear()
+            ->para(Cotizacion::findOrFail(55));
+
+        $this->assertEqualsWithDelta(
+            $calculo->totales->costoDirecto,
+            array_sum($calculo->costoPorCategoria()),
+            1.0,
+            'El reparto por categoría no suma el costo directo.'
+        );
+    }
+
+    /** La pestaña de AIU reune todo el cierre. */
+    public function test_la_pestana_reune_el_cierre(): void
+    {
+        $this->comoUsuario();
+
+        $pagina = Livewire::test(EditCotizacion::class, ['record' => 55])->instance();
+
+        $pestanas = array_map(
+            fn ($pestana): string => $pestana->getLabel(),
+            $pagina->getTabComponents()
+        );
+
+        $this->assertContains('Cálculo de AIU', $pestanas);
+        $this->assertSame('Cálculo de AIU', end($pestanas), 'El cierre debe ir al final.');
+    }
 }
