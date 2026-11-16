@@ -125,7 +125,9 @@ abstract class CatalogoDePreciosResource extends Resource
                     ->searchable(),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    /** Sin esto los campos quedan en una sola columna. */
+                    ->modalWidth('2xl'),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

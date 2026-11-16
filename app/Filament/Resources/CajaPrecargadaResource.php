@@ -131,10 +131,14 @@ abstract class CajaPrecargadaResource extends Resource
                     ->toggleable(),
             ])
             ->headerActions([
-                CreateAction::make()->label('Nueva caja'),
+                CreateAction::make()
+                    ->label('Nueva caja')
+                    /** El selector de artículos necesita ancho: son nombres largos. */
+                    ->modalWidth('3xl'),
             ])
             ->recordActions([
                 EditAction::make()
+                    ->modalWidth('3xl')
                     /**
                      * Los articulos viven en otra tabla, asi que se
                      * escriben a mano despues de guardar la caja.

@@ -59,6 +59,13 @@ class AdminPanelProvider extends PanelProvider
              * estado, que es justo lo que se va a mirar.
              */
             ->sidebarCollapsibleOnDesktop()
+            /**
+             * Tema propio: solo transiciones y lectura de cifras.
+             *
+             * Se compila con Vite, asi que `desplegar:preparar` lo incluye
+             * en public/build y viaja al servidor como el resto.
+             */
+            ->viteTheme('resources/css/filament/admin/theme.css')
             /** Los catalogos son nueve: agrupados, el menu cabe sin desplazar. */
             ->navigationGroups([
                 'Mis cajas',

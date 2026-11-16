@@ -6,7 +6,12 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                // Tema del panel: transiciones y lectura de cifras.
+                'resources/css/filament/admin/theme.css',
+            ],
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {

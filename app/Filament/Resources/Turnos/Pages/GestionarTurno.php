@@ -19,7 +19,10 @@ class GestionarTurno extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label("Nuevo"),
+            CreateAction::make()
+                ->label("Nuevo")
+                /** Sin ancho, los campos quedan en una sola columna. */
+                ->modalWidth('2xl'),
         ];
     }
 }

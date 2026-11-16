@@ -1,0 +1,270 @@
+/*
+ * Tema del panel.
+ *
+ * Solo movimiento y detalles de lectura: ni colores ni tipografias, que los
+ * pone Filament y cambiarlos obligaria a revisarlos en cada version.
+ *
+ * Todas las transiciones estan entre 120 y 220 ms y solo afectan a
+ * `opacity` y `transform`, que el navegador resuelve en la tarjeta grafica
+ * sin rehacer el diseño de la pagina. Nada de animar `width`, `height` ni
+ * `top`: eso obliga a recalcular posiciones en cada fotograma y se nota en
+ * una tabla con cuarenta filas.
+ */
+
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*.php';
+@source '../../../../resources/views/filament/**/*.blade.php';
+
+/* ---------------------------------------------------------------------- */
+/* Quien pide menos movimiento, no lo ve                                   */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * No es un detalle opcional: a algunas personas el movimiento en pantalla
+ * les produce mareo, y el sistema operativo ya recoge esa preferencia.
+ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Mientras algo carga                                                     */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * El panel carga por partes: cada pestaña de recursos es una peticion
+ * aparte. Sin señal de espera, una tabla que tarda un segundo parece una
+ * tabla vacia, y se vuelve a pulsar.
+ */
+
+/* Latido suave de lo que todavia no llego. */
+@keyframes esperando {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
+}
+
+.fi-ta-loading-indicator,
+[wire\:loading] .fi-ta-ctn {
+    animation: esperando 1.4s ease-in-out infinite;
+}
+
+/*
+ * El contenido que acaba de llegar entra desde abajo.
+ *
+ * Un desplazamiento de 4 px basta para que el ojo entienda que es
+ * contenido nuevo y no un salto de la pagina.
+ */
+@keyframes aparece {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fi-ta-ctn,
+.fi-in-ctn {
+    animation: aparece 180ms ease-out;
+}
+
+/*
+ * Barra de progreso en lo alto durante cada peticion de Livewire.
+ *
+ * Es la unica señal cuando la accion no cambia nada visible todavia:
+ * recalcular totales, generar el Word.
+ */
+@keyframes avanza {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+}
+
+.fi-main-ctn::before {
+    content: '';
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 50;
+    height: 2px;
+    background: rgb(var(--primary-500, 245 158 11));
+    transform: scaleX(0);
+    transform-origin: left;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+}
+
+body:has([wire\:loading]:not([style*='display: none'])) .fi-main-ctn::before {
+    opacity: 1;
+    animation: avanza 1.2s ease-out forwards;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Filas de tabla                                                          */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * El resaltado al pasar por encima entra suave: con cuarenta y ocho filas
+ * en pantalla, el cambio brusco de fondo produce un parpadeo constante.
+ */
+.fi-ta-row {
+    transition: background-color 150ms ease-out;
+}
+
+/* Las acciones de cada fila se insinuan al acercarse. */
+.fi-ta-actions {
+    transition: opacity 150ms ease-out;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Botones                                                                 */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Un boton pulsado se hunde un pixel.
+ *
+ * Confirma que el clic llego, que importa en las acciones que tardan
+ * -generar el Word, recalcular- donde si no parece que no paso nada.
+ */
+.fi-btn {
+    transition:
+        background-color 150ms ease-out,
+        border-color 150ms ease-out,
+        color 150ms ease-out,
+        transform 100ms ease-out;
+}
+
+.fi-btn:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+/* Mientras la accion se procesa, el cursor lo dice. */
+.fi-btn.fi-processing {
+    cursor: progress;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Modales                                                                 */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * El modal entra creciendo desde el 98 %.
+ *
+ * Lo justo para que se vea de donde sale sin que la espera se note.
+ */
+@keyframes abre-modal {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fi-modal-window {
+    animation: abre-modal 160ms ease-out;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Secciones plegables                                                     */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Las siete categorias adicionales y el bloque de AIU.
+ *
+ * Solo se anima la opacidad del contenido: animar la altura obligaria a
+ * recalcular el diseño en cada fotograma, y dentro hay tablas.
+ */
+.fi-section-content-ctn {
+    transition: opacity 180ms ease-out;
+}
+
+.fi-section-header {
+    transition: background-color 150ms ease-out;
+}
+
+/* El triangulo que indica abierto o cerrado gira en vez de saltar. */
+.fi-section-header-collapse-btn .fi-icon {
+    transition: transform 180ms ease-out;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Pestañas y menu                                                         */
+/* ---------------------------------------------------------------------- */
+
+.fi-tabs-item {
+    transition:
+        background-color 150ms ease-out,
+        color 150ms ease-out;
+}
+
+.fi-sidebar-item-button {
+    transition:
+        background-color 150ms ease-out,
+        color 150ms ease-out;
+}
+
+/*
+ * Al plegar el menu, el contenido acompaña el movimiento.
+ *
+ * Sin esto la tabla da un salto de 320 px y cuesta recuperar la fila que
+ * se estaba mirando.
+ */
+.fi-sidebar,
+.fi-main-ctn {
+    transition:
+        width 200ms ease-out,
+        margin-inline-start 200ms ease-out;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Avisos                                                                  */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Entran desde la derecha: aparecer de golpe hace que se pasen por alto,
+ * sobre todo los de error, que son los que hay que leer.
+ */
+@keyframes entra-aviso {
+    from {
+        opacity: 0;
+        transform: translateX(1rem);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.fi-no-notification {
+    animation: entra-aviso 200ms ease-out;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Lectura de cifras                                                       */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Los importes, en cifras del mismo ancho.
+ *
+ * Alineados a la derecha y con cada digito ocupando lo mismo, las columnas
+ * de dinero se comparan de un vistazo: un total de ocho cifras se
+ * distingue de uno de seis sin leerlo.
+ */
+.fi-ta-text,
+.fi-in-text,
+.fi-input {
+    font-variant-numeric: tabular-nums;
+}

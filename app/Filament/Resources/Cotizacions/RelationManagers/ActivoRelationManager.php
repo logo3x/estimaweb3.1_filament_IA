@@ -185,12 +185,14 @@ abstract class ActivoRelationManager extends RelationManager
                     }),
             ])
             ->headerActions([
-                CreateAction::make()->label('Añadir'),
+                CreateAction::make()
+                    ->label('Añadir')
+                    ->modalWidth('3xl'),
             ])
             ->recordActions([
                 static::accionElementos(),
                 static::accionCargarCaja(),
-                EditAction::make(),
+                EditAction::make()->modalWidth('3xl'),
                 ReplicateAction::make()
                     ->label('Clonar')
                     ->icon('heroicon-m-document-duplicate')
@@ -228,7 +230,7 @@ abstract class ActivoRelationManager extends RelationManager
             ->color('gray')
             ->modalHeading(fn (Model $record): string => 'Elementos de ' . $record->nombre)
             ->modalSubmitActionLabel('Guardar')
-            ->modalWidth('3xl')
+            ->modalWidth('5xl')
             ->fillForm(fn (Model $record): array => [
                 'elementos' => $record->items->map(fn (Model $item): array => [
                     'catalogo' => $item->{static::columnaDelCatalogo()},
