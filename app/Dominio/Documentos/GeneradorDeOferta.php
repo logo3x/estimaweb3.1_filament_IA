@@ -137,7 +137,7 @@ final class GeneradorDeOferta
             'referencia' => $cotizacion->referencia,
             'alcance' => $cotizacion->alcance,
         ] as $marcador => $valor) {
-            $plantilla->setValue($marcador, (string) ($valor ?: 'N/A'));
+            $plantilla->setValue($marcador, $this->limpiarTexto((string) $valor) ?: 'N/A');
         }
     }
 
@@ -216,17 +216,91 @@ final class GeneradorDeOferta
     }
 
     /**
-     * Prepara el HTML para PhpWord.
+     * Quita del texto los caracteres que la web deja y Word no entiende.
      *
-     * Las entidades sin escapar rompen el analisis, y un fragmento suelto
-     * sin elemento raiz tampoco se interpreta bien.
+     * Se aplica a TODO lo que entra al documento -datos de cabecera,
+     * nombres de los items, observaciones-, no solo a las observaciones:
+     * los espacios duros tambien aparecen en los nombres de los items, que
+     * se escriben copiando de un correo o de otra cotizacion.
+     *
+     * En pantalla no se ven; en el documento producen espaciado irregular
+     * y lineas que parten donde no deben.
+     */
+    private function limpiarTexto(string $texto): string
+    {
+        $limpio = strtr($texto, self::REEMPLAZOS_DEL_EDITOR);
+
+        /** Espacios repetidos: en HTML cuentan como uno, en Word no. */
+        $limpio = preg_replace('/[ \t]{2,}/u', ' ', $limpio) ?? $limpio;
+
+        return trim($limpio);
+    }
+
+    /**
+     * Prepara el HTML del editor para PhpWord.
+     *
+     * Las observaciones se escriben en un editor de formato, asi que llegan
+     * con lo que ese editor produce y con lo que el usuario pego desde Word
+     * o desde un correo. Eso trae caracteres que en pantalla no se ven pero
+     * en el documento si: espacios que no separan, guiones que no cortan,
+     * comillas tipograficas.
+     *
+     * De los datos reales: once cotizaciones traen **espacios duros**, una
+     * de ellas trescientos veintiseis. Pasaban al Word tal cual y producian
+     * un espaciado irregular en el documento que ve el cliente.
      */
     private function limpiarHtml(string $html): string
     {
-        $limpio = str_replace('&nbsp;', ' ', $html);
+        $limpio = strtr($html, self::REEMPLAZOS_DEL_EDITOR);
 
-        return '<div>' . $limpio . '</div>';
+        /**
+         * Las lineas en blanco que el editor deja al borrar un parrafo.
+         *
+         * Un `<p>` vacio es un renglon en blanco en el documento: tres
+         * seguidos dejan media pagina muerta en mitad de la oferta.
+         */
+        $limpio = preg_replace('#<p>(\s|&nbsp;)*</p>#iu', '', $limpio) ?? $limpio;
+
+        /** Espacios repetidos: en HTML cuentan como uno, en Word no. */
+        $limpio = preg_replace('/[ \t]{2,}/u', ' ', $limpio) ?? $limpio;
+
+        /** Sin elemento raiz, el analizador no interpreta el fragmento. */
+        return '<div>' . trim($limpio) . '</div>';
     }
+
+    /**
+     * Caracteres de la web que no deben llegar al documento.
+     *
+     * No es una lista arbitraria: cada uno se vio en los datos reales o lo
+     * produce el editor al pegar desde otro programa.
+     *
+     * @var array<string, string>
+     */
+    private const REEMPLAZOS_DEL_EDITOR = [
+        /** La entidad y su forma ya decodificada: llegan de las dos maneras. */
+        '&nbsp;' => ' ',
+        "\u{00A0}" => ' ',
+        /** Espacios de ancho raro que algunos editores insertan. */
+        "\u{2007}" => ' ',
+        "\u{202F}" => ' ',
+        "\u{200B}" => '',
+        /** Marca de orden de bytes, invisible y heredada de copiar y pegar. */
+        "\u{FEFF}" => '',
+        /** Guion que no corta: Word lo respeta y parte mal la linea. */
+        "\u{2011}" => '-',
+        /** Comillas y guiones tipograficos de Word. */
+        "\u{2018}" => "'",
+        "\u{2019}" => "'",
+        "\u{201C}" => '"',
+        "\u{201D}" => '"',
+        "\u{2013}" => '-',
+        "\u{2014}" => '-',
+        /** Puntos suspensivos en un solo caracter. */
+        "\u{2026}" => '...',
+        /** Saltos de linea y parrafo de Unicode, que Word no entiende. */
+        "\u{2028}" => ' ',
+        "\u{2029}" => ' ',
+    ];
 
     /**
      * La tabla de precios que ve el cliente.
@@ -285,7 +359,12 @@ final class GeneradorDeOferta
 
         $tabla->addRow();
         $tabla->addCell(1000, $fondo)->addText((string) $numero, $fuente, ['alignment' => Jc::CENTER]);
-        $tabla->addCell(2000, $fondo)->addText((string) $item->nombre, $fuente, ['alignment' => Jc::LEFT]);
+        /** Tambien se limpian: los nombres se escriben copiando de otro sitio. */
+        $tabla->addCell(2000, $fondo)->addText(
+            $this->limpiarTexto((string) $item->nombre),
+            $fuente,
+            ['alignment' => Jc::LEFT],
+        );
         $tabla->addCell(1000, $fondo)->addText((string) $item->unidad, $fuente, ['alignment' => Jc::LEFT]);
         $tabla->addCell(1000, $fondo)->addText((string) $item->cantidad, $fuente, ['alignment' => Jc::RIGHT]);
         $tabla->addCell(1500, $fondo)->addText($this->pesos($unitario), $fuente, ['alignment' => Jc::RIGHT]);
