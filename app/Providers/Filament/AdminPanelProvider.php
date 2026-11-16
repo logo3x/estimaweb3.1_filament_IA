@@ -58,6 +58,33 @@ class AdminPanelProvider extends PanelProvider
              * habia que desplazarse en horizontal para ver el total y el
              * estado, que es justo lo que se va a mirar.
              */
+            /**
+             * Cambiar de seccion sin recargar la pagina.
+             *
+             * Livewire sustituye el contenido en vez de pedir la pagina
+             * entera: no se vuelven a descargar los estilos, los scripts ni
+             * el menu, que es la mayor parte del peso de cada carga.
+             *
+             * Con `hasPrefetching` la pagina empieza a cargarse **al poner
+             * el raton encima del enlace**, antes del clic. Para cuando se
+             * pulsa, lo normal es que ya este lista.
+             *
+             * Importa aqui mas que en otros paneles: el servidor sera un
+             * hosting compartido, donde cada arranque de Laravel cuesta.
+             */
+            ->spa(hasPrefetching: true)
+            /**
+             * Enciende la barra de progreso al cambiar de seccion.
+             *
+             * Livewire avisa de la navegacion con eventos, no con un
+             * atributo, asi que el CSS no puede reaccionar solo: esta vista
+             * traduce el evento a un atributo en <html> y el tema se
+             * encarga de pintarla.
+             */
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn (): string => view('filament.barra-de-progreso')->render(),
+            )
             ->sidebarCollapsibleOnDesktop()
             /**
              * Tema propio: solo transiciones y lectura de cifras.

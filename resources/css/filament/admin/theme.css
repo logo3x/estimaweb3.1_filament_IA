@@ -79,34 +79,68 @@
 }
 
 /*
- * Barra de progreso en lo alto durante cada peticion de Livewire.
+ * Barra de progreso en lo alto de la pantalla.
  *
- * Es la unica señal cuando la accion no cambia nada visible todavia:
- * recalcular totales, generar el Word.
+ * Aparece mientras se cambia de seccion y durante cada peticion de
+ * Livewire. Es la unica señal cuando la accion no cambia nada visible
+ * todavia: recalcular totales, generar el Word.
+ *
+ * Va en el color de la marca, el mismo ambar de los botones principales.
+ *
+ * Avanza deprisa hasta el 70 % y luego se frena: no se sabe cuanto falta,
+ * asi que fingir una cuenta exacta seria mentir. Lo que comunica es "esta
+ * pasando algo", no "queda la mitad".
  */
 @keyframes avanza {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    0% { transform: scaleX(0); }
+    40% { transform: scaleX(0.7); }
+    100% { transform: scaleX(0.95); }
 }
 
-.fi-main-ctn::before {
+body::before {
     content: '';
     position: fixed;
     inset-block-start: 0;
     inset-inline: 0;
-    z-index: 50;
-    height: 2px;
-    background: rgb(var(--primary-500, 245 158 11));
+    z-index: 9999;
+    height: 3px;
+    /**
+     * El color de marca, tal como lo define Filament.
+     *
+     * `--primary-500` es un color completo -oklch(...)-, no los tres
+     * componentes sueltos: envolverlo en `rgb(var(...))` lo dejaba
+     * transparente y la barra no se veia.
+     */
+    background: var(--primary-500, #f59e0b);
+    box-shadow: 0 0 8px var(--primary-500, #f59e0b);
     transform: scaleX(0);
     transform-origin: left;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 120ms ease-out;
+    transition: opacity 150ms ease-out;
 }
 
-body:has([wire\:loading]:not([style*='display: none'])) .fi-main-ctn::before {
+/*
+ * Mientras se navega entre secciones.
+ *
+ * El atributo lo pone y lo quita `filament/barra-de-progreso.blade.php`,
+ * que escucha los eventos de Livewire: la libreria avisa con eventos, no
+ * con un atributo, y el CSS no puede escucharlos.
+ */
+html[data-navegando] body::before,
+body:has([wire\:loading]:not([style*='display: none']))::before {
     opacity: 1;
-    animation: avanza 1.2s ease-out forwards;
+    animation: avanza 2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+/*
+ * Los enlaces del menu avisan de que se estan precargando.
+ *
+ * Al poner el raton encima, Livewire empieza a pedir la pagina. El cambio
+ * de fondo confirma que el enlace responde, incluso antes del clic.
+ */
+.fi-sidebar-item-button:hover {
+    transition: background-color 120ms ease-out;
 }
 
 /* ---------------------------------------------------------------------- */
