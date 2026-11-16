@@ -26,6 +26,9 @@ class EditCotizacion extends EditRecord
 {
     protected static string $resource = CotizacionResource::class;
 
+    /** El calculo de la cotizacion, memorizado por carga. */
+    private ?\App\Dominio\CotizacionCalculada $calculo = null;
+
     public function getTitle(): string
     {
         return 'Cotización ' . $this->getRecord()->id;
@@ -208,15 +211,17 @@ class EditCotizacion extends EditRecord
     }
 
     /**
-     * Las siete categorias adicionales, cada una en su seccion plegada.
+     * Las siete categorias adicionales, cada una en su seccion.
      *
-     * Filament las apila una debajo de otra: siete tablas seguidas hacen
-     * una pagina que no acaba. Plegadas se ven los siete titulos de un
-     * vistazo y se abre solo la que se necesita.
+     * Se intento tres veces un menu de pestañas dentro de la pestaña
+     * -laterales, superiores, con claves distintas- y **ninguna funciona**:
+     * Filament monta el mismo componente en dos paneles, de modo que al
+     * cambiar de categoria se sigue viendo la tabla de la primera. Con
+     * secciones cada una carga la suya, que es lo que importa.
      *
-     * Se construyen aqui, replicando lo que hace el padre, y no se
-     * declaran en el grupo: `modifyTabUsing` se evalua **antes** de que la
-     * pagina añada el contenido, asi que alli el esquema llega vacio.
+     * Se construyen aqui y no en el grupo porque `modifyTabUsing` se
+     * evalua antes de que la pagina añada el contenido: alli el esquema
+     * llega vacio.
      */
     public function getRelationManagerTabComponent(string | int $key): ?\Filament\Schemas\Components\Tabs\Tab
     {
@@ -241,14 +246,126 @@ class EditCotizacion extends EditRecord
                 ->collapsed()
                 ->columnSpanFull()
                 ->schema([
-                    \Filament\Schemas\Components\Livewire::make(
-                        $clase,
-                        [...$datos, ...$clase::getDefaultProperties()],
-                    )->key("categoria-{$posicion}"),
+                    \Filament\Schemas\Components\Livewire::make($clase, [
+                        ...$datos,
+                        ...$clase::getDefaultProperties(),
+                    ])->key("categoria-{$posicion}"),
                 ]);
         }
 
         return $gestor->getTabComponent()->schema($secciones);
+    }
+
+    /**
+     * "Calculo de AIU" cierra la barra de pestañas.
+     *
+     * Es donde se cuadra todo al final: el margen, el precio que sale con
+     * el, los documentos que se le mandan al cliente y el ciclo de
+     * aprobacion. Igual que en el sistema actual, que lo reune en su
+     * ultimo paso.
+     *
+     * Antes estaba repartido -el AIU entre los datos de cabecera, los
+     * documentos en los botones de arriba, las aprobaciones solo en el
+     * detalle- y habia que recordar tres sitios para cerrar una oferta.
+     *
+     * @return array<string | int, \Filament\Schemas\Components\Tabs\Tab>
+     */
+    public function getTabComponents(): array
+    {
+        return [
+            ...parent::getTabComponents(),
+            'aiu' => \Filament\Schemas\Components\Tabs\Tab::make('Cálculo de AIU')
+                ->icon('heroicon-o-calculator')
+                ->schema([
+                    $this->resumenDelPrecio(),
+                    $this->documentosYAprobacion(),
+                ]),
+        ];
+    }
+
+    /**
+     * El precio que sale con el margen configurado.
+     *
+     * Recalculado en vivo, no leido de las columnas guardadas: treinta y
+     * dos cotizaciones de produccion arrastran totales de versiones
+     * anteriores del codigo.
+     */
+    private function resumenDelPrecio(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('Precio resultante')
+            ->icon('heroicon-o-banknotes')
+            ->description('Recalculado ahora mismo con los recursos cargados.')
+            ->columnSpanFull()
+            ->columns(4)
+            ->schema([
+                $this->cifra('Costo directo', fn (): float => $this->calculo()->totales->costoDirecto),
+                $this->cifra('AIU', fn (): float => $this->calculo()->totales->aiuEnPesos()),
+                $this->cifra('Subtotal', fn (): float => $this->calculo()->totales->subtotal),
+                $this->cifra('IVA', fn (): float => $this->calculo()->totales->iva),
+                $this->cifra('TOTAL', fn (): float => $this->calculo()->totales->total)
+                    ->columnSpan(2),
+
+                \Filament\Forms\Components\Placeholder::make('escenario')
+                    ->label('Escenario')
+                    ->columnSpan(2)
+                    ->content(fn (): string => $this->calculo()->parametros->escenario()),
+
+                /**
+                 * Recursos que quedaron fuera del precio.
+                 *
+                 * El sistema actual los descarta en silencio: una
+                 * cotizacion con quince recursos cargados puede dar cero
+                 * sin mostrar nada.
+                 */
+                \Filament\Forms\Components\Placeholder::make('avisos_calculo')
+                    ->label('Avisos del cálculo')
+                    ->columnSpanFull()
+                    ->visible(fn (): bool => $this->calculo()->tieneAvisos())
+                    ->content(fn (): string => implode(' · ', array_slice($this->calculo()->avisos, 0, 5))),
+
+                \Filament\Schemas\Components\Actions::make([
+                    Action::make('guardarTotales')
+                        ->label('Guardar estos totales en la cotización')
+                        ->icon('heroicon-o-calculator')
+                        ->color('gray')
+                        ->action(fn () => $this->recalcular()->call()),
+                ])->columnSpanFull(),
+            ]);
+    }
+
+    /** Un importe con formato de pesos. */
+    private function cifra(string $etiqueta, callable $valor): \Filament\Forms\Components\Placeholder
+    {
+        return \Filament\Forms\Components\Placeholder::make(
+            'cifra_' . \Illuminate\Support\Str::slug($etiqueta, '_')
+        )
+            ->label($etiqueta)
+            ->content(fn (): string => '$ ' . number_format($valor(), 2, ',', '.'));
+    }
+
+    /** Los documentos y el ciclo de aprobacion, en el mismo sitio. */
+    private function documentosYAprobacion(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('Documentos y aprobación')
+            ->icon('heroicon-o-document-check')
+            ->description(fn (): string => $this->getRecord()->estadoAprobacion()->explicacion())
+            ->columnSpanFull()
+            ->schema([
+                \Filament\Forms\Components\Placeholder::make('estado_aprobacion')
+                    ->label('Estado')
+                    ->content(fn (): string => $this->getRecord()->estadoAprobacion()->etiqueta()),
+
+                \Filament\Schemas\Components\Actions::make([
+                    $this->descargarOferta(),
+                    ...AccionesDeAprobacion::todas(),
+                ])->columnSpanFull(),
+            ]);
+    }
+
+    /** El calculo, hecho una sola vez por carga. */
+    private function calculo(): \App\Dominio\CotizacionCalculada
+    {
+        return $this->calculo ??= CalcularCotizacion::crear()->para($this->getRecord());
     }
 
     protected function getSavedNotificationTitle(): ?string

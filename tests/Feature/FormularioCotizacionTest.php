@@ -191,7 +191,17 @@ class FormularioCotizacionTest extends TestCase
             ->call('save')
             ->assertHasNoFormErrors();
 
-        $this->assertSame('Observación de prueba', $cotizacion->fresh()->observaciones);
+        /**
+         * El editor enriquecido envuelve en parrafos.
+         *
+         * Las observaciones van al Word con su formato -titulos, listas-,
+         * asi que se guardan como HTML. Es como lo hace el sistema actual:
+         * en los datos reales hay `<p>...</p>`.
+         */
+        $this->assertStringContainsString(
+            'Observación de prueba',
+            (string) $cotizacion->fresh()->observaciones
+        );
 
         $cotizacion->update(['observaciones' => $original]);
     }

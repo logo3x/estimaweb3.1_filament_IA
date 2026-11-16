@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Cotizacions\Schemas;
 
+use App\Models\Cotizacion;
 use App\Models\Gerencia;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -32,61 +34,56 @@ class CotizacionForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            self::cliente(),
-            self::servicio(),
-            self::condiciones(),
+            self::codigo(),
+            self::datosDeLaOferta(),
+            self::observaciones(),
             /**
-             * El AIU va el ultimo, como en el sistema actual.
-             *
-             * Es lo que se cuadra al cerrar la cotizacion, cuando los
-             * recursos ya estan cargados; arranca plegado porque no se
-             * toca en cada edicion.
+             * El margen se edita aqui porque cuelga de la relacion `aiu`,
+             * y eso exige estar dentro del formulario del registro. El
+             * precio que sale con el, los documentos y la aprobacion viven
+             * en la pestaña "Calculo de AIU".
              */
             self::aiu(),
         ]);
     }
 
-    /** A quien se le cotiza. */
-    private static function cliente(): Section
+    /**
+     * El codigo de la cotizacion, destacado arriba.
+     *
+     * Es como el area comercial identifica la oferta al hablar con el
+     * cliente, asi que conviene tenerlo a la vista sin buscarlo entre los
+     * campos.
+     */
+    private static function codigo(): Section
     {
-        return Section::make('Cliente')
-            ->icon('heroicon-o-building-office-2')
+        return Section::make()
             ->columnSpanFull()
-            ->columns(3)
+            ->compact()
             ->schema([
-                TextInput::make('cliente')
-                    ->label('Cliente')
-                    ->required()
-                    ->maxLength(255)
-                    ->columnSpan(2),
+                Placeholder::make('codigo_visible')
+                    ->label('Código')
+                    ->content(fn (?Cotizacion $record): string => $record?->codigo
+                        ?: 'Se asignará al guardar'),
 
                 TextInput::make('codigo')
                     ->label('Código')
                     ->required()
                     ->maxLength(255)
-                    ->helperText('Referencia de la oferta.'),
-
-                TextInput::make('contacto')
-                    ->label('Contacto')
-                    ->maxLength(255),
-
-                TextInput::make('cargo')
-                    ->label('Cargo del contacto')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('referencia')
-                    ->label('Referencia del cliente')
-                    ->required()
-                    ->maxLength(255),
+                    ->hidden(fn (?Cotizacion $record): bool => $record !== null)
+                    ->helperText('Referencia de la oferta. Por ejemplo: EOEP-BOG-20261113-001.'),
             ]);
     }
 
-    /** Que se cotiza. */
-    private static function servicio(): Section
+    /**
+     * Los datos que van al documento, en el orden del sistema actual.
+     *
+     * Tres filas: que se cotiza y a quien, con quien se habla, y en que
+     * condiciones. Es el orden que conoce quien cotiza a diario.
+     */
+    private static function datosDeLaOferta(): Section
     {
-        return Section::make('Servicio')
-            ->icon('heroicon-o-wrench-screwdriver')
+        return Section::make('Datos de la cotización')
+            ->icon('heroicon-o-document-text')
             ->columnSpanFull()
             ->columns(3)
             ->schema([
@@ -94,7 +91,55 @@ class CotizacionForm
                     ->label('Nombre del servicio')
                     ->required()
                     ->maxLength(255)
-                    ->columnSpanFull(),
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Nombre descriptivo del servicio que se va a cotizar.'),
+
+                TextInput::make('cliente')
+                    ->label('Cliente')
+                    ->required()
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Razón social del cliente al que se le presenta la cotización.'),
+
+                Textarea::make('alcance')
+                    ->label('Alcance')
+                    ->required()
+                    ->rows(1)
+                    ->autosize()
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Descripción general del alcance del servicio a prestar.'),
+
+                TextInput::make('contacto')
+                    ->label('Contacto')
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Nombre de la persona de contacto por parte del cliente.'),
+
+                TextInput::make('cargo')
+                    ->label('Cargo')
+                    ->required()
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Cargo del contacto del cliente.'),
+
+                /**
+                 * La columna se llama `referencia` pero se muestra como
+                 * "Asunto", igual que en el sistema actual: es el nombre
+                 * con que el cliente pide el servicio.
+                 */
+                TextInput::make('referencia')
+                    ->label('Asunto')
+                    ->required()
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Nombre con el cual el cliente realiza la solicitud inicial del requerimiento y/o servicio.'),
+
+                TextInput::make('vigencia')
+                    ->label('Vigencia')
+                    ->required()
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Periodo de validez de la cotización. Ejemplo: 30 días.'),
 
                 /**
                  * La duracion se copia a cada EPP y examen, y alli divide
@@ -109,24 +154,33 @@ class CotizacionForm
                     ->suffix('días')
                     ->validationMessages([
                         'min' => 'Al menos 1 día: reparte el costo de EPP y exámenes.',
-                    ]),
+                    ])
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Días que dura el servicio. Reparte el costo de EPP y exámenes.'),
 
                 DatePicker::make('estimado_inicio')
-                    ->label('Inicio estimado')
+                    ->label('Fecha estimada')
                     ->required()
                     ->native(false)
-                    ->displayFormat('d/m/Y'),
+                    ->displayFormat('d/m/Y')
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Fecha estimada de inicio de la ejecución del servicio.'),
+
+                TextInput::make('forma_pago')
+                    ->label('Forma de pago')
+                    ->required()
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Condiciones de pago. Ejemplo: 30 días después de radicada la factura.'),
 
                 /**
                  * La gerencia es texto libre, no una lista cerrada.
                  *
-                 * En los datos reales esta columna guarda NUMEROS (4, 6,
-                 * 7, 8) que no corresponden al catalogo actual, donde
-                 * solo hay "Zona 1" a "Zona 5". Son ids de una version
-                 * anterior de esa tabla. Un Select cerrado rechazaria
-                 * todas las cotizaciones existentes al editarlas.
-                 *
-                 * Queda pendiente decidir si se normalizan esos valores.
+                 * En los datos reales esta columna guarda NUMEROS (4, 6, 7,
+                 * 8) que no corresponden al catalogo actual, donde solo hay
+                 * "Zona 1" a "Zona 5". Son ids de una version anterior de
+                 * esa tabla: un Select cerrado rechazaria todas las
+                 * cotizaciones existentes al editarlas.
                  */
                 TextInput::make('gerencia')
                     ->label('Gerencia')
@@ -134,58 +188,57 @@ class CotizacionForm
                     ->datalist(fn (): array => Gerencia::query()
                         ->orderBy('nombre')
                         ->pluck('nombre')
-                        ->all()),
-
-                Textarea::make('alcance')
-                    ->label('Alcance')
-                    ->required()
-                    ->rows(4)
-                    ->columnSpanFull(),
-
-                Textarea::make('observaciones')
-                    ->label('Observaciones')
-                    ->required()
-                    ->rows(3)
-                    ->columnSpanFull(),
-            ]);
-    }
-
-    /** En que condiciones. */
-    private static function condiciones(): Section
-    {
-        return Section::make('Condiciones comerciales')
-            ->icon('heroicon-o-document-check')
-            ->columnSpanFull()
-            ->columns(3)
-            ->schema([
-                TextInput::make('vigencia')
-                    ->label('Vigencia')
-                    ->required()
-                    ->maxLength(255)
-                    ->helperText('Por ejemplo: 30 días.'),
-
-                TextInput::make('forma_pago')
-                    ->label('Forma de pago')
-                    ->required()
-                    ->maxLength(255),
+                        ->all())
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Zona o gerencia que presta el servicio.'),
 
                 TextInput::make('otras_condiciones')
                     ->label('Otras condiciones')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Condiciones adicionales que deban constar en la oferta.'),
             ]);
     }
 
     /**
-     * Con que margen: Administracion, Imprevistos y Utilidad.
+     * Las observaciones, con formato.
      *
-     * Es lo ultimo porque es lo que convierte el costo en precio, y porque
-     * las dos banderas solo tienen sentido cuando ya se sabe que se esta
-     * cotizando.
-     *
-     * Los campos cuelgan de la relacion `aiu`, una fila aparte: por eso van
-     * con prefijo. Filament crea o actualiza esa fila al guardar.
+     * Van al documento tal cual, con sus titulos y sus listas: son las
+     * premisas que el cliente debe tener en cuenta. Con un campo de texto
+     * plano habria que escribirlas de corrido y se perderia la estructura
+     * que el generador del Word sabe reproducir.
      */
-    private static function aiu(): Section
+    private static function observaciones(): Section
+    {
+        return Section::make('Observaciones')
+            ->icon('heroicon-o-chat-bubble-bottom-center-text')
+            ->description('Premisas que el cliente debe tener en cuenta. Aparecen en la oferta.')
+            ->columnSpanFull()
+            ->schema([
+                RichEditor::make('observaciones')
+                    ->label('')
+                    ->required()
+                    ->columnSpanFull()
+                    /**
+                     * Solo lo que el Word sabe reproducir.
+                     *
+                     * Las herramientas de mas -imagenes, enlaces a
+                     * archivos- producirian un HTML que el generador no
+                     * convierte, y se perderia en el documento.
+                     */
+                    ->toolbarButtons([
+                        'bold', 'italic', 'underline', 'strike',
+                        'h2', 'h3',
+                        'bulletList', 'orderedList',
+                        'undo', 'redo',
+                    ])
+                    ->hintIcon('heroicon-o-question-mark-circle')
+                    ->hintIconTooltip('Ejemplo: El cliente suministra alimentación y hospedaje.'),
+            ]);
+    }
+
+    /** Lo usa la pestaña "Cálculo de AIU" de la pantalla de edición. */
+    public static function aiu(): Section
     {
         return Section::make('AIU: margen sobre el costo')
             ->icon('heroicon-o-calculator')
