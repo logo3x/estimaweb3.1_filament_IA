@@ -22,6 +22,7 @@ return array(
     'App\\Console\\Commands\\PrepararDespliegue' => $baseDir . '/app/Console/Commands/PrepararDespliegue.php',
     'App\\Console\\Commands\\ProbarCorreo' => $baseDir . '/app/Console/Commands/ProbarCorreo.php',
     'App\\Console\\Commands\\RevisarPermisos' => $baseDir . '/app/Console/Commands/RevisarPermisos.php',
+    'App\\Console\\Commands\\VerificarPlantilla' => $baseDir . '/app/Console/Commands/VerificarPlantilla.php',
     'App\\Console\\Commands\\VerificarSeguridad' => $baseDir . '/app/Console/Commands/VerificarSeguridad.php',
     'App\\Correo\\AvisoDeAprobacion' => $baseDir . '/app/Correo/AvisoDeAprobacion.php',
     'App\\Correo\\DestinatariosDelAviso' => $baseDir . '/app/Correo/DestinatariosDelAviso.php',

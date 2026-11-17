@@ -783,6 +783,7 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'App\\Console\\Commands\\PrepararDespliegue' => __DIR__ . '/../..' . '/app/Console/Commands/PrepararDespliegue.php',
         'App\\Console\\Commands\\ProbarCorreo' => __DIR__ . '/../..' . '/app/Console/Commands/ProbarCorreo.php',
         'App\\Console\\Commands\\RevisarPermisos' => __DIR__ . '/../..' . '/app/Console/Commands/RevisarPermisos.php',
+        'App\\Console\\Commands\\VerificarPlantilla' => __DIR__ . '/../..' . '/app/Console/Commands/VerificarPlantilla.php',
         'App\\Console\\Commands\\VerificarSeguridad' => __DIR__ . '/../..' . '/app/Console/Commands/VerificarSeguridad.php',
         'App\\Correo\\AvisoDeAprobacion' => __DIR__ . '/../..' . '/app/Correo/AvisoDeAprobacion.php',
         'App\\Correo\\DestinatariosDelAviso' => __DIR__ . '/../..' . '/app/Correo/DestinatariosDelAviso.php',
