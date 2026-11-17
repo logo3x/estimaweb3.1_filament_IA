@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Cotizacions\Pages;
 
+use App\Dominio\Aprobaciones\RelatoDelFlujo;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\CotizacionCalculada;
 use App\Dominio\Documentos\ConversorAPdf;
@@ -48,9 +49,13 @@ class ViewCotizacion extends ViewRecord
              * un precio desactualizado.
              */
             Action::make('descargarOferta')
+                ->visible(fn (): bool => $this->puedeGenerarDocumentos())
                 ->label('Word')
                 ->icon('heroicon-o-document-arrow-down')
                 ->action(function () {
+                    /** Esconder el boton no es protección. */
+                    abort_unless($this->puedeGenerarDocumentos(), 403);
+
                     try {
                         $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
                     } catch (\Throwable $e) {
@@ -69,10 +74,14 @@ class ViewCotizacion extends ViewRecord
              * hosting compartido no hay Word ni LibreOffice.
              */
             Action::make('descargarPdf')
+                ->visible(fn (): bool => $this->puedeGenerarDocumentos())
                 ->label('PDF')
                 ->icon('heroicon-o-document-text')
                 ->color('gray')
                 ->action(function () {
+                    /** Esconder el boton no es protección. */
+                    abort_unless($this->puedeGenerarDocumentos(), 403);
+
                     try {
                         $archivo = ConversorAPdf::crear()->desdeCotizacion($this->getRecord());
                     } catch (\Throwable $e) {
@@ -257,46 +266,55 @@ class ViewCotizacion extends ViewRecord
                     ),
                 ]),
 
-            Section::make('Aprobaciones')
-                ->columns(3)
-                ->collapsible()
+            /*
+             * El mismo flujo que en la edicion.
+             *
+             * Antes solo estaba en la pantalla de editar, de modo que quien
+             * NO puede editar -justo quien mas necesita saber a quien le
+             * toca y por que esta bloqueada- veia diez campos sueltos con
+             * los valores crudos de la base.
+             */
+            Section::make('Aprobación')
+                ->icon('heroicon-o-check-badge')
                 ->schema([
-                    TextEntry::make('aprobacion1')
-                        ->label('Técnica')
-                        ->badge()
-                        ->placeholder('Pendiente'),
-                    TextEntry::make('aprobadorTecnico.name')
-                        ->label('Aprobada por')
-                        ->placeholder('—'),
-                    TextEntry::make('aprobacion1_fecha')
-                        ->label('Fecha')
-                        ->dateTime('d/m/Y H:i')
-                        ->placeholder('—'),
-                    /**
-                     * El motivo de un rechazo es lo que dice que corregir.
-                     * Hoy se guarda pero no se muestra en ninguna pantalla.
-                     */
-                    TextEntry::make('aprobacion1_comentarios')
-                        ->label('Comentarios')
-                        ->placeholder('—')
-                        ->columnSpanFull(),
-
-                    TextEntry::make('aprobacion2')
-                        ->label('Financiera')
-                        ->badge()
-                        ->placeholder('Pendiente'),
-                    TextEntry::make('aprobadorFinanciero.name')
-                        ->label('Aprobada por')
-                        ->placeholder('—'),
-                    TextEntry::make('aprobacion2_fecha')
-                        ->label('Fecha')
-                        ->dateTime('d/m/Y H:i')
-                        ->placeholder('—'),
-                    TextEntry::make('aprobacion2_comentarios')
-                        ->label('Comentarios')
-                        ->placeholder('—')
-                        ->columnSpanFull(),
+                    \Filament\Schemas\Components\View::make('filament.flujo-de-aprobacion')
+                        ->columnSpanFull()
+                        ->viewData(fn (): array => $this->datosDelFlujo()),
                 ]),
         ]);
     }
+
+    /**
+     * Si quien mira puede emitir la oferta al cliente.
+     *
+     * La oferta lleva membrete y firma del Presidente: es el documento
+     * formal de la empresa, no un borrador. El sistema actual lo reserva a
+     * `isAdmin()` en `AiuStep.php:284`.
+     */
+    private function puedeGenerarDocumentos(): bool
+    {
+        return (new \App\Dominio\Permisos\Permisos())
+            ->puedeElActual(\App\Dominio\Permisos\Capacidad::GenerarDocumentos);
+    }
+
+    /**
+     * Lo que necesita la vista del flujo.
+     *
+     * @return array<string, mixed>
+     */
+    private function datosDelFlujo(): array
+    {
+        $relato = RelatoDelFlujo::de($this->getRecord());
+        $estado = $relato->estado();
+
+        return [
+            'pasos' => $relato->pasos(),
+            'resumen' => $relato->resumen(),
+            'etiqueta' => $estado->etiqueta(),
+            'color' => $estado->color(),
+            'aQuienLeToca' => $relato->aQuienLeToca(),
+            'leTocaAlQueMira' => $relato->leTocaA(auth()->user()),
+        ];
+    }
+
 }

@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\Cotizacions\Pages;
 
-use App\Dominio\Aprobaciones\EstadoAprobacion;
+use App\Dominio\Aprobaciones\RelatoDelFlujo;
+use App\Dominio\Permisos\Capacidad;
+use App\Dominio\Permisos\Permisos;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
@@ -128,7 +130,15 @@ class EditCotizacion extends EditRecord
             ->icon('heroicon-o-document-arrow-down')
             ->color('gray')
             ->outlined()
+            /**
+             * La oferta sale con membrete y firma del Presidente: es el
+             * documento formal de la empresa. El sistema actual la reserva
+             * a `isAdmin()` -Administrador y super_admin-.
+             */
+            ->visible(fn (): bool => $this->puedeGenerarDocumentos())
             ->action(function () {
+                abort_unless($this->puedeGenerarDocumentos(), 403, Capacidad::GenerarDocumentos->motivoDelBloqueo());
+
                 try {
                     $archivo = GeneradorDeOferta::crear()->generar($this->getRecord());
                 } catch (\Throwable $e) {
@@ -378,6 +388,14 @@ class EditCotizacion extends EditRecord
             ->modalHeading('Configuración del AIU')
             ->modalWidth('2xl')
             ->modalSubmitActionLabel('Guardar')
+            /**
+             * Cambiar el margen cambia el precio de la oferta.
+             *
+             * El sistema actual lo reserva a Administrador y Gerente
+             * (`AiuStep::handle()`: «Solo Administradores y Gerentes pueden
+             * configurar el AIU»). Aqui se habia perdido.
+             */
+            ->visible(fn (): bool => $this->puedeConfigurarElMargen())
             ->fillForm(function (): array {
                 $aiu = $this->getRecord()->aiu;
 
@@ -415,6 +433,9 @@ class EditCotizacion extends EditRecord
                     ->label('Sobre contrato actual'),
             ])
             ->action(function (array $data): void {
+                /** Esconder el boton no es protección: una peticion de Livewire llega igual. */
+                abort_unless($this->puedeConfigurarElMargen(), 403, Capacidad::ConfigurarElMargen->motivoDelBloqueo());
+
                 $this->getRecord()->aiu()->updateOrCreate(
                     ['id_cotizacion' => $this->getRecord()->id],
                     [
@@ -657,12 +678,11 @@ class EditCotizacion extends EditRecord
     {
         return \Filament\Schemas\Components\Section::make('Aprobación')
             ->icon('heroicon-o-check-badge')
-            ->description(fn (): string => $this->getRecord()->estadoAprobacion()->explicacion())
             ->columnSpanFull()
             ->schema([
                 \Filament\Schemas\Components\View::make('filament.flujo-de-aprobacion')
                     ->columnSpanFull()
-                    ->viewData(fn (): array => ['pasos' => $this->pasosDelFlujo()]),
+                    ->viewData(fn (): array => $this->datosDelFlujo()),
 
                 \Filament\Schemas\Components\Actions::make(AccionesDeAprobacion::todas())
                     ->columnSpanFull(),
@@ -670,95 +690,37 @@ class EditCotizacion extends EditRecord
     }
 
     /**
-     * Los tres pasos del flujo, con quien decidio cada uno.
+     * Lo que necesita la vista del flujo.
      *
-     * @return array<int, array{titulo: string, detalle: string, estado: string}>
+     * El relato lo arma el dominio; aqui solo se le pasa a la plantilla.
+     *
+     * @return array<string, mixed>
      */
-    private function pasosDelFlujo(): array
+    private function datosDelFlujo(): array
     {
-        $cotizacion = $this->getRecord();
-        $estado = $cotizacion->estadoAprobacion();
+        $relato = RelatoDelFlujo::de($this->getRecord());
+        $estado = $relato->estado();
 
         return [
-            [
-                'titulo' => 'Elaboración',
-                'detalle' => $cotizacion->autor?->name
-                    ? 'La escribió ' . $cotizacion->autor->name
-                    : 'Sin autor registrado',
-                /** El primer paso siempre esta hecho: la cotizacion existe. */
-                'estado' => 'hecho',
-            ],
-            [
-                'titulo' => 'Revisión técnica',
-                'detalle' => $this->quienDecidio(
-                    $cotizacion->aprobacion1,
-                    $cotizacion->aprobacion1_user_id,
-                    'El gerente de la gerencia',
-                ),
-                'estado' => $this->estadoDelPaso($estado, nivel: 1),
-            ],
-            [
-                'titulo' => 'Aprobación financiera',
-                'detalle' => $this->quienDecidio(
-                    $cotizacion->aprobacion2,
-                    $cotizacion->aprobacion2_user_id,
-                    'La administración',
-                ),
-                'estado' => $this->estadoDelPaso($estado, nivel: 2),
-            ],
+            'pasos' => $relato->pasos(),
+            'resumen' => $relato->resumen(),
+            'etiqueta' => $estado->etiqueta(),
+            'color' => $estado->color(),
+            'aQuienLeToca' => $relato->aQuienLeToca(),
+            'leTocaAlQueMira' => $relato->leTocaA(auth()->user()),
         ];
     }
 
-    /**
-     * Como esta un nivel del flujo.
-     *
-     * - `hecho`: ya dijo que si
-     * - `actual`: le toca decidir ahora
-     * - `rechazado`: lo devolvio
-     * - `pendiente`: todavia no le ha llegado
-     *
-     * Se resuelve con `match` y no con un array indexado por el enum: PHP
-     * no admite un enum como clave de array.
-     */
-    private function estadoDelPaso(EstadoAprobacion $estado, int $nivel): string
+    /** Si quien mira puede cambiar el margen, que es cambiar el precio. */
+    private function puedeConfigurarElMargen(): bool
     {
-        if ($nivel === 1) {
-            return match ($estado) {
-                EstadoAprobacion::EsperandoTecnica => 'actual',
-                EstadoAprobacion::RechazadaTecnica => 'rechazado',
-                EstadoAprobacion::EsperandoFinanciera,
-                EstadoAprobacion::RechazadaFinanciera,
-                EstadoAprobacion::Aprobada => 'hecho',
-                default => 'pendiente',
-            };
-        }
-
-        return match ($estado) {
-            EstadoAprobacion::EsperandoFinanciera => 'actual',
-            EstadoAprobacion::RechazadaFinanciera => 'rechazado',
-            EstadoAprobacion::Aprobada => 'hecho',
-            default => 'pendiente',
-        };
+        return (new Permisos())->puedeElActual(Capacidad::ConfigurarElMargen);
     }
 
-    /** Quien tomo la decision de un nivel, o a quien le toca. */
-    private function quienDecidio(?string $decision, ?int $usuarioId, string $aQuienToca): string
+    /** Si quien mira puede emitir la oferta al cliente. */
+    private function puedeGenerarDocumentos(): bool
     {
-        $decision = mb_strtoupper(trim((string) $decision));
-
-        if ($decision === '') {
-            return $aQuienToca . ' · pendiente';
-        }
-
-        $nombre = $usuarioId
-            ? (\App\Models\User::query()->whereKey($usuarioId)->value('name') ?? 'usuario retirado')
-            : 'sin registrar';
-
-        return match ($decision) {
-            'SI', 'SÍ' => "Aprobada por {$nombre}",
-            'NO' => "Devuelta por {$nombre}",
-            default => "{$aQuienToca} · {$decision}",
-        };
+        return (new Permisos())->puedeElActual(Capacidad::GenerarDocumentos);
     }
 
     /** El documento que se le manda al cliente. */
