@@ -42,6 +42,23 @@ enum Capacidad: string
     case BorrarCotizaciones = 'borrar_cotizaciones';
 
     /**
+     * Cambiar el margen: administracion, imprevistos y utilidad.
+     *
+     * Es lo que convierte el costo en precio. Tocarlo cambia lo que se le
+     * cobra al cliente, asi que no lo hace quien arma la cotizacion sino
+     * quien responde por el precio.
+     */
+    case ConfigurarElMargen = 'configurar_el_margen';
+
+    /**
+     * Generar el Word y el PDF que se le mandan al cliente.
+     *
+     * El documento sale con membrete y firma del Presidente: es la oferta
+     * formal de la empresa, no un borrador para revisar.
+     */
+    case GenerarDocumentos = 'generar_documentos';
+
+    /**
      * Mantener el servidor desde el panel.
      *
      * Rehacer caches, aplicar migraciones, ver el diagnostico. Hace falta
@@ -75,6 +92,22 @@ enum Capacidad: string
             /** Borrar arrastra items, recursos y asignaciones. */
             self::BorrarCotizaciones => ['Administrador', 'Gerente'],
 
+            /**
+             * Igual que en el sistema actual.
+             *
+             * Alli lo comprueba `AiuStep::handle()`: «Solo Administradores
+             * y Gerentes pueden configurar el AIU». Sin esta linea, un
+             * Creador cambiaba el margen y con el, el precio de la oferta.
+             */
+            self::ConfigurarElMargen => ['Administrador', 'Gerente'],
+
+            /**
+             * Tambien como en el sistema actual, que lo reserva a
+             * `isAdmin()` -Administrador y super_admin-. El Gerente aprueba
+             * la oferta; quien la emite al cliente es la administracion.
+             */
+            self::GenerarDocumentos => ['Administrador'],
+
             self::AdministrarUsuarios,
             self::AdministrarFactoresLegales => ['Administrador'],
             /**
@@ -94,6 +127,8 @@ enum Capacidad: string
             self::EditarCatalogos => 'Solo la administración o un gerente pueden modificar los precios base.',
             self::CrearCotizaciones => 'No tiene permiso para crear cotizaciones.',
             self::BorrarCotizaciones => 'Solo la administración o un gerente pueden borrar una cotización.',
+            self::ConfigurarElMargen => 'Solo la administración o un gerente pueden cambiar el margen: afecta al precio de la oferta.',
+            self::GenerarDocumentos => 'Solo la administración genera la oferta para el cliente.',
             self::AdministrarUsuarios => 'Solo la administración puede gestionar usuarios.',
             self::AdministrarFactoresLegales => 'Solo la administración puede modificar los factores legales.',
             self::MantenerElSistema => 'El mantenimiento del servidor está reservado a la administración total.',
