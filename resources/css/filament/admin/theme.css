@@ -412,3 +412,103 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
 .dark .fi-resumen-tabla td { border-block-end-color: rgb(255 255 255 / 0.07); }
 .dark .fi-resumen-total td { border-block-start-color: rgb(255 255 255 / 0.2); }
 .dark .fi-resumen-categoria { background: rgb(255 255 255 / 0.1); }
+
+/* ---------------------------------------------------------------------- */
+/* Flujo de aprobación                                                     */
+/* ---------------------------------------------------------------------- */
+
+/*
+ * Los tres pasos del ciclo, en horizontal, con el actual destacado.
+ *
+ * Responde de un vistazo a "por que no puedo editar esto" y "a quien le
+ * toca ahora", que es lo que se pregunta quien abre una cotizacion ajena.
+ */
+
+.fi-flujo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-block: 0.5rem;
+}
+
+.fi-flujo-paso {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid rgb(0 0 0 / 0.1);
+    border-radius: 0.5rem;
+    /** Solo opacidad: no obliga a rehacer el diseño al cambiar de estado. */
+    transition: opacity 150ms ease-out;
+}
+
+/** El numero del paso, o la marca de hecho o devuelto. */
+.fi-flujo-marca {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.07);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.fi-flujo-titulo {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.fi-flujo-detalle {
+    font-size: 0.75rem;
+    opacity: 0.7;
+    line-height: 1.3;
+}
+
+/** Ya decidido: se da por visto y pasa a segundo plano. */
+.fi-flujo-paso-hecho .fi-flujo-marca {
+    background: rgb(22 163 74 / 0.15);
+    color: rgb(21 128 61);
+}
+
+/** Donde esta ahora: es lo que se busca al abrir. */
+.fi-flujo-paso-actual {
+    border-color: var(--primary-500, #f59e0b);
+    box-shadow: 0 0 0 1px var(--primary-500, #f59e0b);
+}
+
+.fi-flujo-paso-actual .fi-flujo-marca {
+    background: var(--primary-500, #f59e0b);
+    color: #fff;
+}
+
+/** Devuelta: hay que corregir algo antes de seguir. */
+.fi-flujo-paso-rechazado {
+    border-color: rgb(220 38 38 / 0.4);
+}
+
+.fi-flujo-paso-rechazado .fi-flujo-marca {
+    background: rgb(220 38 38 / 0.15);
+    color: rgb(185 28 28);
+}
+
+/** La linea entre un paso y el siguiente. */
+.fi-flujo-union {
+    flex: 1 1 1rem;
+    min-width: 1rem;
+    height: 2px;
+    background: rgb(0 0 0 / 0.12);
+}
+
+.fi-flujo-union-hecha {
+    background: rgb(22 163 74 / 0.4);
+}
+
+.dark .fi-flujo-paso { border-color: rgb(255 255 255 / 0.12); }
+.dark .fi-flujo-marca { background: rgb(255 255 255 / 0.1); }
+.dark .fi-flujo-union { background: rgb(255 255 255 / 0.15); }
+.dark .fi-flujo-paso-hecho .fi-flujo-marca { color: rgb(134 239 172); }
+.dark .fi-flujo-paso-rechazado .fi-flujo-marca { color: rgb(252 165 165); }

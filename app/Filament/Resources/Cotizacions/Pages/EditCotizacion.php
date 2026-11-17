@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Cotizacions\Pages;
 
+use App\Dominio\Aprobaciones\EstadoAprobacion;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
@@ -310,7 +311,8 @@ class EditCotizacion extends EditRecord
                     $this->resumenDelPrecio(),
                     $this->repartoPorCategoria(),
                     $this->resumenDeLaOferta(),
-                    $this->documentosYAprobacion(),
+                    $this->aprobacion(),
+                    $this->documentos(),
                 ]),
         ];
     }
@@ -643,20 +645,132 @@ class EditCotizacion extends EditRecord
     }
 
     /** Los documentos y el ciclo de aprobacion, en el mismo sitio. */
-    private function documentosYAprobacion(): \Filament\Schemas\Components\Section
+    /**
+     * El ciclo de aprobacion, con el estado actual a la vista.
+     *
+     * Tres pasos: la escribe quien cotiza, la revisa el gerente de su
+     * gerencia y la cierra la administracion. Verlos juntos responde a
+     * "por que no puedo editar esto" y "a quien le toca ahora", que es lo
+     * que se pregunta quien abre una cotizacion ajena.
+     */
+    private function aprobacion(): \Filament\Schemas\Components\Section
     {
-        return \Filament\Schemas\Components\Section::make('Documentos y aprobación')
-            ->icon('heroicon-o-document-check')
+        return \Filament\Schemas\Components\Section::make('Aprobación')
+            ->icon('heroicon-o-check-badge')
             ->description(fn (): string => $this->getRecord()->estadoAprobacion()->explicacion())
             ->columnSpanFull()
             ->schema([
-                \Filament\Forms\Components\Placeholder::make('estado_aprobacion')
-                    ->label('Estado')
-                    ->content(fn (): string => $this->getRecord()->estadoAprobacion()->etiqueta()),
+                \Filament\Schemas\Components\View::make('filament.flujo-de-aprobacion')
+                    ->columnSpanFull()
+                    ->viewData(fn (): array => ['pasos' => $this->pasosDelFlujo()]),
 
+                \Filament\Schemas\Components\Actions::make(AccionesDeAprobacion::todas())
+                    ->columnSpanFull(),
+            ]);
+    }
+
+    /**
+     * Los tres pasos del flujo, con quien decidio cada uno.
+     *
+     * @return array<int, array{titulo: string, detalle: string, estado: string}>
+     */
+    private function pasosDelFlujo(): array
+    {
+        $cotizacion = $this->getRecord();
+        $estado = $cotizacion->estadoAprobacion();
+
+        return [
+            [
+                'titulo' => 'Elaboración',
+                'detalle' => $cotizacion->autor?->name
+                    ? 'La escribió ' . $cotizacion->autor->name
+                    : 'Sin autor registrado',
+                /** El primer paso siempre esta hecho: la cotizacion existe. */
+                'estado' => 'hecho',
+            ],
+            [
+                'titulo' => 'Revisión técnica',
+                'detalle' => $this->quienDecidio(
+                    $cotizacion->aprobacion1,
+                    $cotizacion->aprobacion1_user_id,
+                    'El gerente de la gerencia',
+                ),
+                'estado' => $this->estadoDelPaso($estado, nivel: 1),
+            ],
+            [
+                'titulo' => 'Aprobación financiera',
+                'detalle' => $this->quienDecidio(
+                    $cotizacion->aprobacion2,
+                    $cotizacion->aprobacion2_user_id,
+                    'La administración',
+                ),
+                'estado' => $this->estadoDelPaso($estado, nivel: 2),
+            ],
+        ];
+    }
+
+    /**
+     * Como esta un nivel del flujo.
+     *
+     * - `hecho`: ya dijo que si
+     * - `actual`: le toca decidir ahora
+     * - `rechazado`: lo devolvio
+     * - `pendiente`: todavia no le ha llegado
+     *
+     * Se resuelve con `match` y no con un array indexado por el enum: PHP
+     * no admite un enum como clave de array.
+     */
+    private function estadoDelPaso(EstadoAprobacion $estado, int $nivel): string
+    {
+        if ($nivel === 1) {
+            return match ($estado) {
+                EstadoAprobacion::EsperandoTecnica => 'actual',
+                EstadoAprobacion::RechazadaTecnica => 'rechazado',
+                EstadoAprobacion::EsperandoFinanciera,
+                EstadoAprobacion::RechazadaFinanciera,
+                EstadoAprobacion::Aprobada => 'hecho',
+                default => 'pendiente',
+            };
+        }
+
+        return match ($estado) {
+            EstadoAprobacion::EsperandoFinanciera => 'actual',
+            EstadoAprobacion::RechazadaFinanciera => 'rechazado',
+            EstadoAprobacion::Aprobada => 'hecho',
+            default => 'pendiente',
+        };
+    }
+
+    /** Quien tomo la decision de un nivel, o a quien le toca. */
+    private function quienDecidio(?string $decision, ?int $usuarioId, string $aQuienToca): string
+    {
+        $decision = mb_strtoupper(trim((string) $decision));
+
+        if ($decision === '') {
+            return $aQuienToca . ' · pendiente';
+        }
+
+        $nombre = $usuarioId
+            ? (\App\Models\User::query()->whereKey($usuarioId)->value('name') ?? 'usuario retirado')
+            : 'sin registrar';
+
+        return match ($decision) {
+            'SI', 'SÍ' => "Aprobada por {$nombre}",
+            'NO' => "Devuelta por {$nombre}",
+            default => "{$aQuienToca} · {$decision}",
+        };
+    }
+
+    /** El documento que se le manda al cliente. */
+    private function documentos(): \Filament\Schemas\Components\Section
+    {
+        return \Filament\Schemas\Components\Section::make('Documentos')
+            ->icon('heroicon-o-document-arrow-down')
+            ->description('Se generan con los totales de arriba, no con los guardados.')
+            ->columnSpanFull()
+            ->schema([
                 \Filament\Schemas\Components\Actions::make([
                     $this->descargarOferta(),
-                    ...AccionesDeAprobacion::todas(),
                 ])->columnSpanFull(),
             ]);
     }

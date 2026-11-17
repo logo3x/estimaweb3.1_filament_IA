@@ -68,7 +68,7 @@ class CotizacionForm
                  */
                 Placeholder::make('codigo_visible')
                     ->label('Código')
-                    ->columnSpan(4)
+                    ->columnSpan(3)
                     ->content(fn (?Cotizacion $record): string => $record?->codigo
                         ?: 'Se asignará al guardar'),
 
@@ -84,7 +84,7 @@ class CotizacionForm
                     ->label('Nombre del servicio')
                     ->required()
                     ->maxLength(255)
-                    ->columnSpan(8)
+                    ->columnSpan(9)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Nombre descriptivo del servicio que se va a cotizar.'),
 
@@ -92,7 +92,7 @@ class CotizacionForm
                     ->label('Cliente')
                     ->required()
                     ->maxLength(255)
-                    ->columnSpan(4)
+                    ->columnSpan(5)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Razón social del cliente al que se le presenta la cotización.'),
 
@@ -101,7 +101,7 @@ class CotizacionForm
                     ->required()
                     ->rows(2)
                     ->autosize()
-                    ->columnSpan(12)
+                    ->columnSpan(7)
                     ->hintIcon('heroicon-o-question-mark-circle')
                     ->hintIconTooltip('Descripción general del alcance del servicio a prestar.'),
 

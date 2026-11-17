@@ -45,6 +45,7 @@ class PersonalsRelationManager extends RelationManager
     {
         return $schema->components([
             Section::make('Identificación')
+                ->columnSpanFull()
                 ->columns(3)
                 ->schema([
                     TextInput::make('nombre')
@@ -103,6 +104,8 @@ class PersonalsRelationManager extends RelationManager
                 ]),
 
             Section::make('Remuneración')
+                ->description('Lo que cuesta esta persona al mes.')
+                ->columnSpanFull()
                 ->columns(4)
                 ->schema([
                     TextInput::make('salario')
@@ -132,16 +135,29 @@ class PersonalsRelationManager extends RelationManager
 
             Section::make('Horas y recargos')
                 ->description('Heredados del turno, editables para esta persona')
-                ->columns(4)
+                ->columnSpanFull()
+                /**
+                 * Siete campos en cuatro columnas parten las etiquetas
+                 * -"Dominical/festivo" quedaba encima de "Dominical
+                 * habitual"-. Con doce columnas cada uno pide su ancho.
+                 */
+                ->columns(12)
                 ->collapsible()
                 ->schema([
-                    TextInput::make('hedo')->label('Extra diurna')->required()->numeric()->default(0),
-                    TextInput::make('heno')->label('Extra nocturna')->required()->numeric()->default(0),
-                    TextInput::make('hedf')->label('Extra festiva diurna')->required()->numeric()->default(0),
-                    TextInput::make('henf')->label('Extra festiva nocturna')->required()->numeric()->default(0),
-                    TextInput::make('donfesoca')->label('Dominical/festivo')->required()->numeric()->default(0),
-                    TextInput::make('donhabitual')->label('Dominical habitual')->required()->numeric()->default(0),
-                    TextInput::make('rn')->label('Recargo nocturno')->required()->numeric()->default(0),
+                    TextInput::make('hedo')->label('Extra diurna')->required()->numeric()->default(0)
+                        ->columnSpan(3),
+                    TextInput::make('heno')->label('Extra nocturna')->required()->numeric()->default(0)
+                        ->columnSpan(3),
+                    TextInput::make('hedf')->label('Extra festiva diurna')->required()->numeric()->default(0)
+                        ->columnSpan(3),
+                    TextInput::make('henf')->label('Extra festiva nocturna')->required()->numeric()->default(0)
+                        ->columnSpan(3),
+                    TextInput::make('donfesoca')->label('Dominical o festivo ocasional')->required()->numeric()->default(0)
+                        ->columnSpan(4),
+                    TextInput::make('donhabitual')->label('Dominical habitual')->required()->numeric()->default(0)
+                        ->columnSpan(4),
+                    TextInput::make('rn')->label('Recargo nocturno')->required()->numeric()->default(0)
+                        ->columnSpan(4),
                 ]),
         ]);
     }
@@ -196,10 +212,13 @@ class PersonalsRelationManager extends RelationManager
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->headerActions([
-                CreateAction::make()->label('Añadir persona'),
+                CreateAction::make()
+                    ->label('Añadir persona')
+                    /** Sin ancho, las etiquetas se parten en dos renglones. */
+                    ->modalWidth('5xl'),
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->modalWidth('5xl'),
                 /**
                  * Clonar es lo que mas se usa aqui: una cuadrilla son varias
                  * personas con el mismo perfil y pequenas diferencias.
