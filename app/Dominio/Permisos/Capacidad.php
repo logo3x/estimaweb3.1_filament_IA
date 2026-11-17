@@ -42,6 +42,15 @@ enum Capacidad: string
     case BorrarCotizaciones = 'borrar_cotizaciones';
 
     /**
+     * Mantener el servidor desde el panel.
+     *
+     * Rehacer caches, aplicar migraciones, ver el diagnostico. Hace falta
+     * porque el hosting no tiene consola, pero afecta al sitio entero: se
+     * reserva al rol mas restringido.
+     */
+    case MantenerElSistema = 'mantener_el_sistema';
+
+    /**
      * Quien puede ejercer cada capacidad.
      *
      * super_admin no aparece: puede todo, y se resuelve aparte para que no
@@ -68,6 +77,12 @@ enum Capacidad: string
 
             self::AdministrarUsuarios,
             self::AdministrarFactoresLegales => ['Administrador'],
+            /**
+             * Lista vacia a proposito: solo super_admin, que Permisos
+             * resuelve antes de mirar esta tabla. Estas acciones afectan al
+             * servidor entero, no a una cotizacion.
+             */
+            self::MantenerElSistema => [],
         };
     }
 
@@ -81,6 +96,7 @@ enum Capacidad: string
             self::BorrarCotizaciones => 'Solo la administración o un gerente pueden borrar una cotización.',
             self::AdministrarUsuarios => 'Solo la administración puede gestionar usuarios.',
             self::AdministrarFactoresLegales => 'Solo la administración puede modificar los factores legales.',
+            self::MantenerElSistema => 'El mantenimiento del servidor está reservado a la administración total.',
         };
     }
 }
