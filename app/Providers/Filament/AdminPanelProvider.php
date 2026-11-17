@@ -85,6 +85,18 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn (): string => view('filament.barra-de-progreso')->render(),
             )
+            /**
+             * El rol, visible sin abrir el menu.
+             *
+             * En la barra superior Filament pinta el boton del perfil solo
+             * con el avatar: quien entra no ve con que permisos trabaja. Y
+             * los roles SUMAN -seis personas acumulan varios-, de modo que
+             * adivinarlo por las opciones que salen no es fiable.
+             */
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::USER_MENU_BEFORE,
+                fn (): string => view('filament.rol-en-la-barra')->render(),
+            )
             ->sidebarCollapsibleOnDesktop()
             /**
              * Tema propio: solo transiciones y lectura de cifras.

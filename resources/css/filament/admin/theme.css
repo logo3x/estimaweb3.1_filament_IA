@@ -758,3 +758,47 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
 .dark .fi-mant-aviso .fi-mant-marca { color: rgb(252 211 77); }
 .dark .fi-mant-aviso { background: rgb(217 119 6 / 0.12); }
 .dark .fi-mant-lista code { background: rgb(255 255 255 / 0.1); }
+
+/**
+ * El rol de quien esta dentro, junto a su avatar.
+ *
+ * Filament deja el boton del perfil solo con el avatar, asi que el rol se
+ * anade al lado con un render hook. Sin esto no se sabe con que permisos se
+ * trabaja, y los roles suman: hay quien tiene cuatro.
+ */
+.fi-rol-barra {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    margin-inline-end: 0.25rem;
+    white-space: nowrap;
+}
+
+/** En movil el espacio es para el contenido: el rol sigue en el menu. */
+@media (min-width: 48rem) {
+    .fi-rol-barra { display: flex; }
+}
+
+.fi-rol-barra-nombre {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+/** El rol, resaltado: es el dato que se viene a mirar. */
+.fi-rol-barra-chip {
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    background: color-mix(in oklch, var(--primary-500) 14%, transparent);
+    color: color-mix(in oklch, var(--primary-600) 88%, black);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.dark .fi-rol-barra-nombre { color: var(--gray-300); }
+
+.dark .fi-rol-barra-chip {
+    background: color-mix(in oklch, var(--primary-400) 18%, transparent);
+    color: var(--primary-300);
+}

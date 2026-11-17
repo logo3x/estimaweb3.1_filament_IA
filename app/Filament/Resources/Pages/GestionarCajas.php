@@ -23,6 +23,17 @@ abstract class GestionarCajas extends ManageRecords
         return [
             \Filament\Actions\CreateAction::make()
                 ->label('Nueva caja')
+                /** El selector de articulos necesita ancho: son nombres largos. */
+                ->modalWidth('3xl')
+                /**
+                 * Titulo escrito a mano.
+                 *
+                 * Filament lo compone con la etiqueta del modelo y capitaliza
+                 * cada palabra: "Crear Caja De EPP". El de la pagina ya se
+                 * corrige en getTitle(); este es el del modal.
+                 */
+                ->modalHeading('Nueva caja')
+                ->modalSubmitActionLabel('Crear caja')
                 ->using(fn (array $data): Model => $this->crearCaja($data))
                 ->successNotificationTitle('Caja creada'),
         ];

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -130,12 +129,13 @@ abstract class CajaPrecargadaResource extends Resource
                     ->sortable()
                     ->toggleable(),
             ])
-            ->headerActions([
-                CreateAction::make()
-                    ->label('Nueva caja')
-                    /** El selector de artículos necesita ancho: son nombres largos. */
-                    ->modalWidth('3xl'),
-            ])
+            /**
+             * Sin boton de crear en la tabla.
+             *
+             * El de la cabecera de la pagina -GestionarCajas- es el bueno:
+             * escribe los articulos en su tabla aparte. Uno aqui saldria
+             * duplicado en pantalla y ademas crearia cajas vacias.
+             */
             ->recordActions([
                 EditAction::make()
                     ->modalWidth('3xl')
