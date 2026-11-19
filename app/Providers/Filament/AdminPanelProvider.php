@@ -16,6 +16,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\HtmlString;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -30,15 +31,14 @@ class AdminPanelProvider extends PanelProvider
             /**
              * La marca, en el acceso y en la barra.
              *
-             * El isotipo sale de la propia plantilla de la oferta, que es la
-             * imagen corporativa que ya usa la empresa. Se usa el simbolo
-             * solo y no el logotipo completo porque aquel lleva "Sucursal
-             * Perú" y este panel es el de Colombia.
+             * Es el logo propio de EstimaWeb 3.1, dibujado en SVG y texto
+             * (ver la vista): asi se lee igual en modo oscuro y el acceso
+             * puede animar cada pieza del emblema.
              */
             ->brandName('EstimaWeb 3.1')
-            ->brandLogo(asset('img/isotipo-confipetrol.jpg'))
+            ->brandLogo(fn (): HtmlString => new HtmlString(view('filament.marca')->render()))
             ->brandLogoHeight('2.25rem')
-            ->favicon(asset('img/isotipo-confipetrol.jpg'))
+            ->favicon(asset('favicon.ico'))
             /**
              * Cada quien cambia su nombre y su clave aqui.
              *
@@ -59,8 +59,30 @@ class AdminPanelProvider extends PanelProvider
              * abrir la politica de contenido para ese dominio.
              */
             ->defaultAvatarProvider(\App\Filament\AvatarLocal::class)
+            /**
+             * Los colores del logo: azul corporativo para lo principal y
+             * naranja para lo que pide atencion.
+             *
+             * El azul va con la paleta escrita a mano: `Color::hex()` solo
+             * toma el tono y lo reparte en luminosidades fijas, y con ellas
+             * el 600 (el de los botones) salia celeste con texto oscuro. Asi
+             * el 600 es exactamente #0B4A8B.
+             */
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => [
+                    50 => 'oklch(0.970 0.014 254.211)',
+                    100 => 'oklch(0.935 0.030 254.211)',
+                    200 => 'oklch(0.880 0.058 254.211)',
+                    300 => 'oklch(0.790 0.090 254.211)',
+                    400 => 'oklch(0.660 0.120 254.211)',
+                    500 => 'oklch(0.530 0.130 254.211)',
+                    600 => 'oklch(0.411 0.123 254.211)',
+                    700 => 'oklch(0.360 0.105 254.211)',
+                    800 => 'oklch(0.310 0.088 254.211)',
+                    900 => 'oklch(0.265 0.072 254.211)',
+                    950 => 'oklch(0.200 0.052 254.211)',
+                ],
+                'warning' => Color::hex('#F08A1F'),
             ])
             /**
              * El menu lateral se puede plegar.
@@ -96,6 +118,10 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 \Filament\View\PanelsRenderHook::HEAD_END,
                 fn (): string => view('filament.barra-de-progreso')->render(),
+            )
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn (): string => view('filament.iconos')->render(),
             )
             /**
              * El rol, visible sin abrir el menu.

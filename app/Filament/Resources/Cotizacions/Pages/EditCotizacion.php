@@ -7,6 +7,8 @@ use App\Dominio\Permisos\Capacidad;
 use App\Dominio\Permisos\Permisos;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
+use App\Dominio\Auditoria\AccionAuditada;
+use App\Dominio\Auditoria\Auditoria;
 use App\Dominio\Envios\RegistroDeEnvios;
 use App\Dominio\Envios\TipoDeEnvio;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
@@ -450,6 +452,20 @@ class EditCotizacion extends EditRecord
                 /** Esconder el boton no es protección: una peticion de Livewire llega igual. */
                 abort_unless($this->puedeConfigurarElMargen(), 403, Capacidad::ConfigurarElMargen->motivoDelBloqueo());
 
+                /**
+                 * Se guarda como estaba ANTES de tocarlo.
+                 *
+                 * El margen es lo que convierte el costo en precio: sin el
+                 * valor anterior, el registro no sirve para explicar por que
+                 * una oferta salio con un numero y no con otro.
+                 */
+                $antes = $this->getRecord()->aiu()->first();
+                $margenAnterior = $antes === null ? null : [
+                    'administracion' => (float) $antes->administracion,
+                    'imprevistos' => (float) $antes->imprevistos,
+                    'utilidad' => (float) $antes->utilidad,
+                ];
+
                 $this->getRecord()->aiu()->updateOrCreate(
                     ['id_cotizacion' => $this->getRecord()->id],
                     [
@@ -462,6 +478,8 @@ class EditCotizacion extends EditRecord
                         'contrato_actual' => $data['contrato_actual'] ? 'SI' : 'NO',
                     ],
                 );
+
+                $this->auditarElMargen($margenAnterior, $data);
 
                 /** El precio de arriba se recalcula con el margen nuevo. */
                 $this->calculo = null;
@@ -723,6 +741,62 @@ class EditCotizacion extends EditRecord
             'aQuienLeToca' => $relato->aQuienLeToca(),
             'leTocaAlQueMira' => $relato->leTocaA(auth()->user()),
         ];
+    }
+
+    /**
+     * Deja constancia de quien movio el margen, y de cuanto a cuanto.
+     *
+     * Es el cambio que mas importa auditar: el margen convierte el costo en
+     * precio, de modo que tocarlo cambia lo que se le cobra al cliente.
+     *
+     * @param  array<string, float>|null  $antes  Nulo la primera vez que se configura.
+     * @param  array<string, mixed>  $ahora
+     */
+    private function auditarElMargen(?array $antes, array $ahora): void
+    {
+        $nuevo = [
+            'administracion' => (float) $ahora['administracion'],
+            'imprevistos' => (float) $ahora['imprevistos'],
+            'utilidad' => (float) $ahora['utilidad'],
+        ];
+
+        /** Guardar sin cambiar nada no merece una linea en la bitacora. */
+        if ($antes === $nuevo) {
+            return;
+        }
+
+        $detalle = [];
+
+        foreach ($nuevo as $campo => $valor) {
+            $detalle[$campo] = [
+                'antes' => $antes[$campo] ?? null,
+                'despues' => $valor,
+            ];
+        }
+
+        $resumen = $antes === null
+            ? sprintf(
+                'Margen configurado: A %s%%, I %s%%, U %s%%.',
+                $nuevo['administracion'],
+                $nuevo['imprevistos'],
+                $nuevo['utilidad'],
+            )
+            : sprintf(
+                'Margen: A %s%% → %s%%, I %s%% → %s%%, U %s%% → %s%%.',
+                $antes['administracion'],
+                $nuevo['administracion'],
+                $antes['imprevistos'],
+                $nuevo['imprevistos'],
+                $antes['utilidad'],
+                $nuevo['utilidad'],
+            );
+
+        app(Auditoria::class)->hecho(
+            accion: AccionAuditada::MargenCambiado,
+            modelo: $this->getRecord(),
+            resumen: $resumen,
+            detalle: $detalle,
+        );
     }
 
     /** Si quien mira puede cambiar el margen, que es cambiar el precio. */

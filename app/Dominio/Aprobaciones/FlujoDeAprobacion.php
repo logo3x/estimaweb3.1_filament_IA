@@ -2,6 +2,8 @@
 
 namespace App\Dominio\Aprobaciones;
 
+use App\Dominio\Auditoria\AccionAuditada;
+use App\Dominio\Auditoria\Auditoria;
 use App\Models\Cotizacion;
 use App\Models\User;
 use DomainException;
@@ -23,11 +25,12 @@ final class FlujoDeAprobacion
 {
     public function __construct(
         private readonly ReglasDeAprobacion $reglas,
+        private readonly Auditoria $auditoria = new Auditoria(),
     ) {}
 
     public static function crear(): self
     {
-        return new self(new ReglasDeAprobacion());
+        return new self(new ReglasDeAprobacion(), new Auditoria());
     }
 
     /**
@@ -193,7 +196,62 @@ final class FlujoDeAprobacion
             $cotizacion->forceFill($cambios)->save();
         });
 
+        $this->auditar($cotizacion, $cambios);
+
         return $cotizacion->refresh();
+    }
+
+    /**
+     * Deja constancia de la decision.
+     *
+     * Las columnas `aprobacion*` ya guardan quien y cuando, pero solo el
+     * **ultimo** estado: si una cotizacion se devuelve y se vuelve a
+     * aprobar, lo anterior se pierde. La auditoria conserva la secuencia
+     * completa, que es lo que se consulta cuando algo no cuadra.
+     *
+     * Va fuera de la transaccion a proposito: auditar no puede hacer que
+     * se deshaga una aprobacion que ya es valida.
+     *
+     * @param array<string, mixed> $cambios
+     */
+    private function auditar(Cotizacion $cotizacion, array $cambios): void
+    {
+        [$accion, $resumen] = $this->describir($cambios);
+
+        $this->auditoria->hecho(
+            accion: $accion,
+            modelo: $cotizacion,
+            resumen: $resumen,
+            detalle: array_filter(
+                $cambios,
+                fn (string $campo): bool => str_contains($campo, 'aprobacion'),
+                ARRAY_FILTER_USE_KEY,
+            ),
+        );
+    }
+
+    /**
+     * Que fue esta transicion, en palabras.
+     *
+     * Se deduce de las columnas escritas, que es el unico sitio donde la
+     * decision queda registrada sin ambiguedad.
+     *
+     * @param array<string, mixed> $cambios
+     * @return array{0: AccionAuditada, 1: string}
+     */
+    private function describir(array $cambios): array
+    {
+        $tecnica = $cambios['aprobacion1'] ?? null;
+        $financiera = $cambios['aprobacion2'] ?? null;
+
+        return match (true) {
+            $financiera === 'SI' => [AccionAuditada::Aprobado, 'Aprobada financieramente: la cotización queda cerrada.'],
+            $financiera === 'NO' => [AccionAuditada::Rechazado, 'Devuelta en la aprobación financiera.'],
+            $tecnica === 'SI' => [AccionAuditada::Aprobado, 'Aprobada técnicamente: pasa a la administración.'],
+            $tecnica === 'NO' => [AccionAuditada::Rechazado, 'Devuelta en la revisión técnica.'],
+            $tecnica === 'PENDIENTE' => [AccionAuditada::EnviadoAAprobacion, 'Enviada a revisión técnica.'],
+            default => [AccionAuditada::Modificado, 'Flujo de aprobación reabierto: vuelve a borrador.'],
+        };
     }
 
     /** @throws DomainException */

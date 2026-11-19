@@ -20,8 +20,23 @@ class PantallaDeAccesoTest extends TestCase
     {
         $this->get('/admin/login')
             ->assertOk()
-            ->assertSee('Sistema de cotizaciones')
+            ->assertSee('Sistema de cotizaciones y presupuestos')
             ->assertSee('Confipetrol S.A.S');
+    }
+
+    /**
+     * La marca va dibujada en la pagina, no como imagen.
+     *
+     * Asi se lee en modo oscuro y el acceso puede animar el emblema; si
+     * alguien la cambiara por una imagen, ambas cosas se perderian sin aviso.
+     */
+    public function test_muestra_la_marca_de_estimaweb(): void
+    {
+        $this->get('/admin/login')
+            ->assertOk()
+            ->assertSee('aria-label="EstimaWeb 3.1"', escape: false)
+            ->assertSee('fi-marca-emblema', escape: false)
+            ->assertSeeInOrder(['ESTIMA', 'WEB', '3.1']);
     }
 
     /**
@@ -37,13 +52,14 @@ class PantallaDeAccesoTest extends TestCase
             ->assertSee('área de administración', escape: false);
     }
 
-    /** El isotipo se sirve desde el propio sitio, no desde un tercero. */
-    public function test_el_logo_es_local(): void
+    /** Los iconos se sirven desde el propio sitio, no desde un tercero. */
+    public function test_los_iconos_son_locales(): void
     {
-        $this->get('/admin/login')
-            ->assertOk()
-            ->assertSee('img/isotipo-confipetrol.jpg', escape: false);
+        $respuesta = $this->get('/admin/login')->assertOk();
 
-        $this->assertFileExists(public_path('img/isotipo-confipetrol.jpg'));
+        foreach (['favicon.ico', 'img/favicon-32.png', 'img/icono-192.png', 'apple-touch-icon.png'] as $icono) {
+            $respuesta->assertSee(asset($icono), escape: false);
+            $this->assertFileExists(public_path($icono));
+        }
     }
 }

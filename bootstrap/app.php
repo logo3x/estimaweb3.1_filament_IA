@@ -21,6 +21,15 @@ return Application::configure(basePath: dirname(__DIR__))
          * hay que proteger.
          */
         $middleware->append(\App\Http\Middleware\CabecerasDeSeguridad::class);
+
+        /**
+         * Mide las peticiones, por el mismo motivo: las pantallas que
+         * interesa vigilar son las del panel.
+         *
+         * Solo anota las que pasan del umbral, asi que en condiciones
+         * normales no escribe nada.
+         */
+        $middleware->append(\App\Http\Middleware\MedirLaPeticion::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
