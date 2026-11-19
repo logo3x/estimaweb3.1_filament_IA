@@ -62,10 +62,32 @@ abstract class CajaPrecargadaResource extends Resource
                         ->label('Artículos del catálogo')
                         ->multiple()
                         ->searchable()
-                        ->preload()
-                        ->options(fn (): array => static::opcionesDelCatalogo())
+                        /**
+                         * Se busca en la base, no se precarga el catalogo.
+                         *
+                         * Con ->preload() Filament traia el catalogo ENTERO y
+                         * lo mandaba al navegador cada vez que se abria el
+                         * modal: en consumibles son 3.409 articulos, 199 KB,
+                         * y el navegador tenia que dibujar 3.409 opciones
+                         * antes de que la lista respondiera.
+                         *
+                         * Ahora solo viajan los que coinciden con lo escrito.
+                         * Al abrir se muestran los primeros por orden
+                         * alfabetico, para que la lista no salga vacia.
+                         */
+                        ->getSearchResultsUsing(
+                            fn (string $search): array => static::buscarEnElCatalogo($search),
+                        )
+                        ->options(fn (): array => static::primerosDelCatalogo())
+                        /**
+                         * Al editar, los ya elegidos son solo identificadores:
+                         * sin esto se verian como numeros.
+                         */
+                        ->getOptionLabelsUsing(
+                            fn (array $values): array => static::etiquetasDe($values),
+                        )
                         ->columnSpanFull()
-                        ->helperText('Busque por nombre. Puede añadir los que quiera.')
+                        ->helperText('Escriba parte del nombre para buscar. Puede añadir los que quiera.')
                         /**
                          * Al abrir, los articulos salen de la tabla de
                          * elementos, no de una columna.
@@ -78,18 +100,93 @@ abstract class CajaPrecargadaResource extends Resource
     }
 
     /**
-     * El catalogo como lista para elegir.
+     * Cuantos articulos se muestran de una vez.
+     *
+     * El catalogo mas grande -consumibles- tiene 3.409. Mandarlos todos al
+     * navegador costaba 199 KB por cada apertura del modal; con este tope
+     * son unos 3 KB, y lo que no cabe se encuentra escribiendo.
+     */
+    protected const ARTICULOS_VISIBLES = 50;
+
+    /**
+     * Los articulos que coinciden con lo que se escribe.
+     *
+     * Busca por nombre y por codigo: el codigo es como vienen en las
+     * listas de compra, asi que se pega tal cual.
+     *
+     * @return array<int, string>
+     */
+    protected static function buscarEnElCatalogo(string $busqueda): array
+    {
+        $busqueda = trim($busqueda);
+
+        if ($busqueda === '') {
+            return static::primerosDelCatalogo();
+        }
+
+        return static::comoOpciones(
+            (static::claseDeCatalogo())::query()
+                ->where(function ($consulta) use ($busqueda): void {
+                    $consulta
+                        ->where('nombre', 'like', "%{$busqueda}%")
+                        ->orWhere('codigo', 'like', "%{$busqueda}%");
+                })
+                ->orderBy('nombre')
+                ->limit(static::ARTICULOS_VISIBLES)
+                ->get(['id', 'nombre', 'precio'])
+        );
+    }
+
+    /**
+     * Los primeros del catalogo, para que la lista no abra vacia.
+     *
+     * @return array<int, string>
+     */
+    protected static function primerosDelCatalogo(): array
+    {
+        return static::comoOpciones(
+            (static::claseDeCatalogo())::query()
+                ->orderBy('nombre')
+                ->limit(static::ARTICULOS_VISIBLES)
+                ->get(['id', 'nombre', 'precio'])
+        );
+    }
+
+    /**
+     * El nombre de unos articulos ya elegidos.
+     *
+     * Hace falta al editar una caja: lo guardado son identificadores, y sin
+     * esto se verian como numeros sueltos.
+     *
+     * @param  array<int, mixed>  $ids
+     * @return array<int, string>
+     */
+    protected static function etiquetasDe(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+
+        return static::comoOpciones(
+            (static::claseDeCatalogo())::query()
+                ->whereIn('id', $ids)
+                ->orderBy('nombre')
+                ->get(['id', 'nombre', 'precio'])
+        );
+    }
+
+    /**
+     * Las filas, como lista para elegir.
      *
      * Con el precio al lado: son miles de articulos con nombres parecidos y
      * el precio es lo que distingue uno de otro.
      *
+     * @param  \Illuminate\Support\Collection<int, Model>  $filas
      * @return array<int, string>
      */
-    protected static function opcionesDelCatalogo(): array
+    protected static function comoOpciones(\Illuminate\Support\Collection $filas): array
     {
-        return (static::claseDeCatalogo())::query()
-            ->orderBy('nombre')
-            ->get(['id', 'nombre', 'precio'])
+        return $filas
             ->mapWithKeys(fn (Model $fila): array => [
                 $fila->id => $fila->nombre . ' — $' . number_format((float) $fila->precio, 0, ',', '.'),
             ])

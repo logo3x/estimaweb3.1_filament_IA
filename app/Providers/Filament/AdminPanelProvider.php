@@ -28,6 +28,18 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             /**
+             * La marca, en el acceso y en la barra.
+             *
+             * El isotipo sale de la propia plantilla de la oferta, que es la
+             * imagen corporativa que ya usa la empresa. Se usa el simbolo
+             * solo y no el logotipo completo porque aquel lleva "Sucursal
+             * Perú" y este panel es el de Colombia.
+             */
+            ->brandName('EstimaWeb 3.1')
+            ->brandLogo(asset('img/isotipo-confipetrol.jpg'))
+            ->brandLogoHeight('2.25rem')
+            ->favicon(asset('img/isotipo-confipetrol.jpg'))
+            /**
              * Cada quien cambia su nombre y su clave aqui.
              *
              * Es lo que sustituye a la autoedicion de la ficha: aquella
@@ -93,6 +105,22 @@ class AdminPanelProvider extends PanelProvider
              * los roles SUMAN -seis personas acumulan varios-, de modo que
              * adivinarlo por las opciones que salen no es fiable.
              */
+            /**
+             * El acceso dice a que sistema se entra y a quien acudir.
+             *
+             * Filament solo pone "Entre a su cuenta". Sin decir de que
+             * sistema es, quien llega desde un enlace no reconoce la
+             * pantalla antes de escribir su contraseña, que es justo lo que
+             * aprovecha una pagina suplantada.
+             */
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+                fn (): string => view('filament.acceso-encabezado')->render(),
+            )
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+                fn (): string => view('filament.acceso-pie')->render(),
+            )
             ->renderHook(
                 \Filament\View\PanelsRenderHook::USER_MENU_BEFORE,
                 fn (): string => view('filament.rol-en-la-barra')->render(),

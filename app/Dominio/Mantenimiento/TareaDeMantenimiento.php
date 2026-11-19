@@ -90,6 +90,14 @@ enum TareaDeMantenimiento: string
                 ['optimize:clear', []],
                 ['config:cache', []],
                 ['route:cache', []],
+                /**
+                 * Sin esto Laravel busca los listeners en cada peticion.
+                 *
+                 * Pesa mas de lo que parece en un hosting compartido, donde
+                 * no hay proceso que quede vivo entre peticiones: el arranque
+                 * se paga entero cada vez, y es lo que mas tarda al entrar.
+                 */
+                ['event:cache', []],
                 ['view:cache', []],
             ],
             self::AplicarMigraciones => [

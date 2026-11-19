@@ -7,6 +7,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use App\Dominio\Aprobaciones\EstadoAprobacion;
+use App\Filament\Resources\Cotizacions\CotizacionResource;
 use App\Models\Cotizacion;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -163,6 +164,18 @@ class CotizacionsTable
                         );
                     }),
             ])
+            /**
+             * Pulsar una fila lleva a editar, que es a lo que se entra.
+             *
+             * Por defecto Filament abre la vista de solo lectura y obligaba a
+             * buscar el boton de editar. Pero no todas se pueden editar -lo
+             * aprobado no se toca, y lo que espera decision solo lo toca
+             * quien decide-, asi que esas siguen abriendo la vista: mandarlas
+             * a editar daria una pantalla que rebota con una explicacion.
+             */
+            ->recordUrl(fn (Cotizacion $record): string => $record->puedeSerEditadaPor(auth()->user())
+                ? CotizacionResource::getUrl('edit', ['record' => $record])
+                : CotizacionResource::getUrl('view', ['record' => $record]))
             ->recordActions([
                 ViewAction::make(),
 

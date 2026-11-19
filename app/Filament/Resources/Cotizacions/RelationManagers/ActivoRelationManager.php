@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -188,6 +189,16 @@ abstract class ActivoRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('Añadir')
                     ->modalWidth('3xl'),
+
+                /**
+                 * Cargar una caja, sin tener que crear antes un grupo.
+                 *
+                 * Estaba solo como accion de fila, de modo que no aparecia
+                 * hasta que hubiera al menos un grupo, y habia que buscarla
+                 * dentro de su menu. Justo al empezar -que es cuando sirve-
+                 * la tabla esta vacia y no habia donde pulsar.
+                 */
+                static::accionCargarCajaNueva(),
             ])
             ->recordActions([
                 static::accionElementos(),
@@ -353,6 +364,168 @@ abstract class ActivoRelationManager extends RelationManager
                     ->body('Recalcule los totales para ver el efecto en el precio.')
                     ->send();
             });
+    }
+
+    /**
+     * Crea un grupo nuevo y le vuelca una caja, de una vez.
+     *
+     * La otra version -la de fila- carga la caja en un grupo que ya existe.
+     * Esta es para empezar: al abrir la pestaña no hay ningun grupo, que es
+     * precisamente cuando una caja ahorra mas trabajo.
+     *
+     * El nombre se propone a partir de la caja, porque lo normal es que el
+     * grupo se llame igual, pero se puede cambiar antes de crear.
+     */
+    protected static function accionCargarCajaNueva(): Action
+    {
+        return Action::make('cargarCajaNueva')
+            ->label('Cargar caja')
+            ->icon('heroicon-m-archive-box-arrow-down')
+            ->color('gray')
+            ->modalHeading('Cargar una caja precargada')
+            ->modalDescription('Se crea un grupo con los artículos de la caja.')
+            ->modalSubmitActionLabel('Cargar')
+            ->modalWidth('lg')
+            /** Sin cajas propias el boton no sirve de nada. */
+            ->visible(fn (): bool => (static::claseDeCaja())::query()->de(auth()->user())->exists())
+            ->schema([
+                Select::make('caja')
+                    ->label('Caja')
+                    ->options(fn (): array => static::cajasPropias())
+                    ->searchable()
+                    ->required()
+                    ->live()
+                    /** El grupo suele llamarse como la caja: se propone. */
+                    ->afterStateUpdated(function ($state, Set $set): void {
+                        $caja = (static::claseDeCaja())::query()->de(auth()->user())->find($state);
+
+                        if ($caja) {
+                            $set('nombre', $caja->nombre);
+                        }
+                    })
+                    ->helperText('Solo aparecen las cajas que usted creó.'),
+
+                TextInput::make('nombre')
+                    ->label('Nombre del grupo')
+                    ->required()
+                    ->maxLength(255)
+                    ->helperText('Como aparecerá en la cotización.'),
+
+                /**
+                 * El periodo se pide aqui porque la columna es obligatoria.
+                 *
+                 * Se propone 1 año, que es el valor de la mayoria de los
+                 * grupos reales, pero se deja editable: entra en la
+                 * amortizacion, o sea en el precio, y no es algo que deba
+                 * decidirse solo. Fuera de la tabla de InteresConstante la
+                 * amortizacion sale incompleta, de ahi el aviso.
+                 */
+                TextInput::make('periodo_evaluacion')
+                    ->label('Periodo de evaluación')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0.5)
+                    ->step(0.5)
+                    ->default(1)
+                    ->suffix('años')
+                    ->helperText('Entra en la amortización. Puede cambiarlo después en el grupo.'),
+
+                /**
+                 * Reposicion y calibracion, donde la base las exige.
+                 *
+                 * En herramientas y equipos son obligatorias y no tienen
+                 * valor por defecto: sin ellas la insercion falla. En
+                 * consumibles no se piden, igual que en el formulario.
+                 */
+                TextInput::make('vrepo_anual')
+                    ->label('Reposición anual')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(99.99)
+                    ->default(0)
+                    ->suffix('%')
+                    ->required()
+                    ->visible(fn (): bool => static::exigeValores()),
+
+                TextInput::make('vcalibracion_anual')
+                    ->label('Calibración anual')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(99.99)
+                    ->default(0)
+                    ->suffix('%')
+                    ->required()
+                    ->visible(fn (): bool => static::exigeValores()),
+            ])
+            ->action(function (array $data, RelationManager $livewire): void {
+                $caja = (static::claseDeCaja())::query()->de(auth()->user())->find($data['caja']);
+
+                if (! $caja) {
+                    Notification::make()
+                        ->danger()
+                        ->title('Esa caja ya no está disponible')
+                        ->send();
+
+                    return;
+                }
+
+                /**
+                 * En transaccion: un grupo creado y sin volcar quedaria
+                 * vacio y sin explicacion.
+                 */
+                $cuantos = DB::transaction(function () use ($data, $caja, $livewire): int {
+                    $relacion = static::getRelationshipName();
+
+                    $atributos = [
+                        'nombre' => $data['nombre'],
+                        'periodo_evaluacion' => $data['periodo_evaluacion'],
+                    ];
+
+                    /** Solo donde la base las exige; en consumibles ni se piden. */
+                    if (static::exigeValores()) {
+                        $atributos['vrepo_anual'] = $data['vrepo_anual'] ?? 0;
+                        $atributos['vcalibracion_anual'] = $data['vcalibracion_anual'] ?? 0;
+                    }
+
+                    $grupo = $livewire->getOwnerRecord()->{$relacion}()->create($atributos);
+
+                    return static::volcarCaja($grupo, $caja);
+                });
+
+                if ($cuantos === 0) {
+                    Notification::make()
+                        ->warning()
+                        ->title('La caja está vacía')
+                        ->body('Se creó el grupo, pero ninguno de sus elementos apunta a un artículo del catálogo.')
+                        ->send();
+
+                    return;
+                }
+
+                Notification::make()
+                    ->success()
+                    ->title("Se creó el grupo con {$cuantos} elemento(s)")
+                    ->body('Recalcule los totales para ver el efecto en el precio.')
+                    ->send();
+            });
+    }
+
+    /**
+     * Las cajas del usuario, con cuantos articulos lleva cada una.
+     *
+     * @return array<int, string>
+     */
+    protected static function cajasPropias(): array
+    {
+        return (static::claseDeCaja())::query()
+            ->de(auth()->user())
+            ->withCount('elementos')
+            ->orderBy('nombre')
+            ->get()
+            ->mapWithKeys(fn (Model $caja): array => [
+                $caja->id => $caja->nombre . ' (' . $caja->elementos_count . ' elementos)',
+            ])
+            ->all();
     }
 
     /**

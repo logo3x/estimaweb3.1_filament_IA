@@ -802,3 +802,89 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
     background: color-mix(in oklch, var(--primary-400) 18%, transparent);
     color: var(--primary-300);
 }
+
+/**
+ * La pantalla de acceso.
+ *
+ * Es la primera -y a veces la unica- pantalla que ve quien entra de vez en
+ * cuando. Tenia la tarjeta por defecto de Filament sobre un gris plano, sin
+ * decir a que sistema se entra.
+ */
+.fi-simple-layout {
+    background:
+        radial-gradient(60rem 60rem at 15% -10%, color-mix(in oklch, var(--primary-500) 10%, transparent), transparent 60%),
+        radial-gradient(50rem 50rem at 110% 110%, color-mix(in oklch, var(--primary-600) 8%, transparent), transparent 55%),
+        var(--gray-50);
+}
+
+/**
+ * El isotipo, a un tamaño en que se reconoce.
+ *
+ * Va en .fi-simple-header, fuera de la tarjeta: con brandLogoHeight se
+ * quedaba en 36 px, que para el simbolo solo -sin el texto de la marca- es
+ * demasiado pequeño para identificarlo de un vistazo.
+ */
+.fi-simple-header .fi-logo {
+    height: 3.25rem;
+    margin-inline: auto;
+}
+
+/** Caja algo mas ancha y con mas aire: se escriben dos campos largos. */
+.fi-simple-main {
+    max-width: 27rem;
+    border-radius: 1rem;
+    box-shadow:
+        0 1px 2px rgb(0 0 0 / 0.04),
+        0 12px 32px -12px rgb(0 0 0 / 0.14);
+}
+
+.fi-acceso-cabecera {
+    margin-block: -0.5rem 1.25rem;
+    text-align: center;
+}
+
+.fi-acceso-sistema {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.fi-acceso-empresa {
+    margin-block-start: 0.125rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--gray-400);
+}
+
+/** Separado del boton por una linea, para que no se lea como parte del formulario. */
+.fi-acceso-pie {
+    margin-block-start: 1.5rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--gray-200);
+    text-align: center;
+}
+
+.fi-acceso-ayuda {
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+.fi-acceso-aviso {
+    margin-block-start: 0.5rem;
+    font-size: 0.6875rem;
+    color: var(--gray-400);
+}
+
+.dark .fi-simple-layout {
+    background:
+        radial-gradient(60rem 60rem at 15% -10%, color-mix(in oklch, var(--primary-500) 12%, transparent), transparent 60%),
+        radial-gradient(50rem 50rem at 110% 110%, color-mix(in oklch, var(--primary-600) 10%, transparent), transparent 55%),
+        var(--gray-950);
+}
+
+.dark .fi-acceso-sistema { color: var(--gray-200); }
+.dark .fi-acceso-empresa { color: var(--gray-500); }
+.dark .fi-acceso-pie { border-block-start-color: rgb(255 255 255 / 0.08); }
+.dark .fi-acceso-ayuda { color: var(--gray-400); }
+.dark .fi-acceso-aviso { color: var(--gray-500); }
