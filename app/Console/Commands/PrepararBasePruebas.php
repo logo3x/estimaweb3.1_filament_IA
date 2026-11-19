@@ -134,11 +134,18 @@ class PrepararBasePruebas extends Command
 
                 DB::statement("DELETE FROM `{$destino}`.`{$tabla}`");
 
-                /** Solo las columnas presentes en el esquema nuevo. */
-                $columnas = array_map(
-                    static fn (object $c): string => $c->Field,
-                    DB::select("SHOW COLUMNS FROM `{$destino}`.`{$tabla}`")
-                );
+                /**
+                 * Solo las columnas que existen en las dos bases.
+                 *
+                 * Las del esquema nuevo que la referencia no tiene -las que
+                 * agrega una migracion posterior, como `tipo` en
+                 * impresion_registros- se quedan con su valor por defecto.
+                 * Pedirlas en el SELECT rompia la copia entera.
+                 */
+                $columnas = array_values(array_intersect(
+                    $this->columnasDe($destino, $tabla),
+                    $this->columnasDe($origen, $tabla),
+                ));
 
                 $lista = '`' . implode('`,`', $columnas) . '`';
 
@@ -164,5 +171,18 @@ class PrepararBasePruebas extends Command
         }
 
         return $total;
+    }
+
+    /**
+     * Los nombres de las columnas de una tabla, en su orden.
+     *
+     * @return list<string>
+     */
+    private function columnasDe(string $base, string $tabla): array
+    {
+        return array_map(
+            static fn (object $c): string => $c->Field,
+            DB::select("SHOW COLUMNS FROM `{$base}`.`{$tabla}`")
+        );
     }
 }
