@@ -68,6 +68,28 @@ enum Capacidad: string
     case MantenerElSistema = 'mantener_el_sistema';
 
     /**
+     * Crear y descargar respaldos de la base.
+     *
+     * Se da tambien al Administrador, y no solo a la administracion total,
+     * a proposito: en el sistema anterior el respaldo estaba atado a un
+     * correo concreto escrito en el codigo, de modo que si esa persona no
+     * estaba, nadie podia respaldar sin un despliegue.
+     *
+     * El archivo lleva todos los precios, margenes y datos de clientes, asi
+     * que tampoco se abre mas alla de ahi.
+     */
+    case GestionarRespaldos = 'gestionar_respaldos';
+
+    /**
+     * Consultar quien hizo que: cambios, accesos y envios.
+     *
+     * Solo consultar. La auditoria no se edita ni se borra desde el panel
+     * -en el sistema anterior si se podia, y eso anula su valor como
+     * evidencia-, de modo que esta capacidad es de lectura.
+     */
+    case ConsultarLaAuditoria = 'consultar_la_auditoria';
+
+    /**
      * Quien puede ejercer cada capacidad.
      *
      * super_admin no aparece: puede todo, y se resuelve aparte para que no
@@ -109,7 +131,15 @@ enum Capacidad: string
             self::GenerarDocumentos => ['Administrador'],
 
             self::AdministrarUsuarios,
-            self::AdministrarFactoresLegales => ['Administrador'],
+            self::AdministrarFactoresLegales,
+            /**
+             * El respaldo y la auditoria son tarea de la administracion.
+             *
+             * Deliberadamente NO se reservan a super_admin: un respaldo que
+             * solo puede hacer una persona concreta es el que no se hace.
+             */
+            self::GestionarRespaldos,
+            self::ConsultarLaAuditoria => ['Administrador'],
             /**
              * Lista vacia a proposito: solo super_admin, que Permisos
              * resuelve antes de mirar esta tabla. Estas acciones afectan al
@@ -131,6 +161,8 @@ enum Capacidad: string
             self::GenerarDocumentos => 'Solo la administración genera la oferta para el cliente.',
             self::AdministrarUsuarios => 'Solo la administración puede gestionar usuarios.',
             self::AdministrarFactoresLegales => 'Solo la administración puede modificar los factores legales.',
+            self::GestionarRespaldos => 'Solo la administración puede crear y descargar respaldos: contienen todos los precios y datos de clientes.',
+            self::ConsultarLaAuditoria => 'Solo la administración puede consultar el registro de actividad.',
             self::MantenerElSistema => 'El mantenimiento del servidor está reservado a la administración total.',
         };
     }

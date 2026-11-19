@@ -7,6 +7,8 @@ use App\Dominio\Permisos\Capacidad;
 use App\Dominio\Permisos\Permisos;
 use App\Dominio\CalcularCotizacion;
 use App\Dominio\Documentos\GeneradorDeOferta;
+use App\Dominio\Envios\RegistroDeEnvios;
+use App\Dominio\Envios\TipoDeEnvio;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
@@ -165,6 +167,18 @@ class EditCotizacion extends EditRecord
 
                     return null;
                 }
+
+                /**
+                 * Queda constancia de que esta oferta se genero.
+                 *
+                 * Va aqui, con el archivo ya hecho: si fallara antes no
+                 * habria nada que registrar. El registro no puede tumbar la
+                 * descarga, de eso se encarga el propio servicio.
+                 */
+                app(RegistroDeEnvios::class)->documentoGenerado(
+                    $this->getRecord(),
+                    TipoDeEnvio::Word,
+                );
 
                 return response()->download($archivo)->deleteFileAfterSend();
             });

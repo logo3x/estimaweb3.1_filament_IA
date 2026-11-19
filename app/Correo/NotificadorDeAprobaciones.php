@@ -3,6 +3,8 @@
 namespace App\Correo;
 
 use App\Dominio\Aprobaciones\EstadoAprobacion;
+use App\Dominio\Envios\RegistroDeEnvios;
+use App\Dominio\Envios\TipoDeEnvio;
 use App\Models\Cotizacion;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -29,11 +31,12 @@ final class NotificadorDeAprobaciones
 {
     public function __construct(
         private readonly DestinatariosDelAviso $destinatarios,
+        private readonly RegistroDeEnvios $registro = new RegistroDeEnvios(),
     ) {}
 
     public static function crear(): self
     {
-        return new self(new DestinatariosDelAviso());
+        return new self(new DestinatariosDelAviso(), new RegistroDeEnvios());
     }
 
     /**
@@ -65,8 +68,30 @@ final class NotificadorDeAprobaciones
                 ));
 
                 $enviados++;
+
+                /**
+                 * Queda constancia del correo.
+                 *
+                 * El sistema anterior solo registraba la generacion del
+                 * Word, de modo que un correo enviado no dejaba rastro.
+                 */
+                $this->registro->correoEnviado(
+                    cotizacion: $cotizacion,
+                    correoDestino: (string) $usuario->email,
+                    tipo: TipoDeEnvio::AvisoInterno,
+                    quien: $autorDeLaAccion,
+                );
             } catch (Throwable $e) {
                 $fallidos[] = (string) $usuario->email;
+
+                /** Tambien se registra el que NO salio, con el motivo. */
+                $this->registro->correoEnviado(
+                    cotizacion: $cotizacion,
+                    correoDestino: (string) $usuario->email,
+                    tipo: TipoDeEnvio::AvisoInterno,
+                    quien: $autorDeLaAccion,
+                    fallo: $e->getMessage(),
+                );
 
                 /**
                  * Se registra con el detalle necesario para reenviarlo a

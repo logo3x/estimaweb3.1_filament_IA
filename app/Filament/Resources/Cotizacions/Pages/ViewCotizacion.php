@@ -7,6 +7,8 @@ use App\Dominio\CalcularCotizacion;
 use App\Dominio\CotizacionCalculada;
 use App\Dominio\Documentos\ConversorAPdf;
 use App\Dominio\Documentos\GeneradorDeOferta;
+use App\Dominio\Envios\RegistroDeEnvios;
+use App\Dominio\Envios\TipoDeEnvio;
 use App\Filament\Resources\Cotizacions\AccionesDeAprobacion;
 use App\Filament\Resources\Cotizacions\CotizacionResource;
 use Filament\Actions\Action;
@@ -64,6 +66,12 @@ class ViewCotizacion extends ViewRecord
                         return null;
                     }
 
+                    /** Queda constancia de que esta oferta se genero. */
+                    app(RegistroDeEnvios::class)->documentoGenerado(
+                        $this->getRecord(),
+                        TipoDeEnvio::Word,
+                    );
+
                     return response()->download($archivo)->deleteFileAfterSend();
                 }),
 
@@ -89,6 +97,11 @@ class ViewCotizacion extends ViewRecord
 
                         return null;
                     }
+
+                    app(RegistroDeEnvios::class)->documentoGenerado(
+                        $this->getRecord(),
+                        TipoDeEnvio::Pdf,
+                    );
 
                     return response()->download($archivo)->deleteFileAfterSend();
                 }),

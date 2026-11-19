@@ -18,10 +18,13 @@ class ImpresionRegistro extends Model
 
     protected $fillable = [
         'cotizacion_id',
+        'tipo',
         'fecha_hora',
         'destinatario',
+        'correo_destino',
         'usuario_id',
         'referencia',
+        'fallo',
     ];
 
     /** @return array<string, string> */
@@ -29,7 +32,20 @@ class ImpresionRegistro extends Model
     {
         return [
             'fecha_hora' => 'datetime',
+            'tipo' => \App\Dominio\Envios\TipoDeEnvio::class,
         ];
+    }
+
+    /** Si salio de la empresa, o solo se genero un documento. */
+    public function salioAlCliente(): bool
+    {
+        return $this->tipo->salioAlCliente() && $this->fallo === null;
+    }
+
+    /** Los envios de una cotizacion, del mas reciente al mas viejo. */
+    public function scopeRecientes(\Illuminate\Database\Eloquent\Builder $query): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->orderByDesc('fecha_hora');
     }
 
     /** @return BelongsTo<Cotizacion, $this> */

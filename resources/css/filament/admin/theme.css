@@ -888,3 +888,46 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
 .dark .fi-acceso-pie { border-block-start-color: rgb(255 255 255 / 0.08); }
 .dark .fi-acceso-ayuda { color: var(--gray-400); }
 .dark .fi-acceso-aviso { color: var(--gray-500); }
+
+/** La pantalla de respaldos reutiliza la tabla de mantenimiento. */
+.fi-resp-tabla td { vertical-align: middle; }
+
+.fi-resp-cuando {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gray-800);
+}
+
+/** "hace 2 horas" debajo de la fecha: se lee antes que la fecha exacta. */
+.fi-resp-hace {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--gray-500);
+}
+
+.fi-resp-peso {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+    text-align: end;
+    white-space: nowrap;
+}
+
+.fi-resp-acciones {
+    display: flex;
+    gap: 0.375rem;
+    justify-content: flex-end;
+}
+
+.fi-resp-aviso,
+.fi-resp-vacio {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+}
+
+.dark .fi-resp-cuando { color: var(--gray-100); }
+.dark .fi-resp-hace { color: var(--gray-400); }
+.dark .fi-resp-peso { color: var(--gray-400); }
+.dark .fi-resp-aviso,
+.dark .fi-resp-vacio { color: var(--gray-300); }
