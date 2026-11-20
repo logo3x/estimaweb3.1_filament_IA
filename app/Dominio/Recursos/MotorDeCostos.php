@@ -82,7 +82,7 @@ final class MotorDeCostos
         $valorUnitario = match ($tipo) {
             'personal' => $this->valorDePersonal($recurso, $unidad, $revision, $avisos),
             'herramienta', 'equipo' => $this->valorAmortizado($recurso, $unidad, $tipo, $revision, $avisos),
-            'consumible' => $this->valorDeConsumible($recurso),
+            'consumible' => $this->valorDeConsumible($recurso, $revision, $avisos),
             default => (float) ($recurso->cantidad ?? 0),
         };
 
@@ -94,6 +94,7 @@ final class MotorDeCostos
             unidad: $unidad,
             valorUnitario: $valorUnitario,
             aporte: $valorUnitario * (float) $revision->cantidad * $cantidadDelItem,
+            revisionId: (int) $revision->id,
         );
     }
 
@@ -126,7 +127,7 @@ final class MotorDeCostos
         Revision $revision,
         array &$avisos,
     ): float {
-        $valorCompra = $this->valorDeCompra($activo);
+        $valorCompra = $this->valorDeCompra($activo, $tipo, $revision, $avisos);
 
         $argumentos = [
             $valorCompra,
@@ -142,19 +143,49 @@ final class MotorDeCostos
         };
     }
 
-    /** Los consumibles se gastan: cuesta su compra completa, sin amortizar. */
-    private function valorDeConsumible(object $consumible): float
+    /**
+     * Los consumibles se gastan: cuesta su compra completa, sin amortizar.
+     *
+     * @param  list<string>  $avisos
+     */
+    private function valorDeConsumible(object $consumible, Revision $revision, array &$avisos): float
     {
-        return $this->valorDeCompra($consumible);
+        return $this->valorDeCompra($consumible, 'consumible', $revision, $avisos);
     }
 
-    /** Suma lo que cuestan los items que componen un recurso. */
-    private function valorDeCompra(object $recurso): float
+    /**
+     * Suma lo que cuestan los items que componen un recurso.
+     *
+     * Un componente con cantidad cero o negativa no se cobra y queda avisado.
+     * En el sistema actual una cantidad negativa RESTABA del precio: la
+     * cotizacion 47 tiene un banco de valvulas de $97.758.500 cargado con
+     * cantidad -1, y la oferta salia $802.325 por debajo del costo real. Aqui
+     * no puede restar, pero tampoco se adivina la cantidad correcta: se avisa
+     * para que quien cotiza la corrija.
+     *
+     * @param  list<string>  $avisos
+     */
+    private function valorDeCompra(object $recurso, string $tipo, Revision $revision, array &$avisos): float
     {
         $total = 0.0;
 
         foreach ($recurso->items ?? [] as $item) {
-            $total += (int) $item->cantidad * (float) ($item->catalogo->precio ?? 0);
+            $cantidad = (int) $item->cantidad;
+
+            if ($cantidad <= 0) {
+                $avisos[] = sprintf(
+                    'Revision %d: %s "%s" tiene el componente "%s" con cantidad %d. No se cobra; corrija la cantidad.',
+                    $revision->id,
+                    $tipo,
+                    (string) ($recurso->nombre ?? '?'),
+                    (string) ($item->catalogo->nombre ?? '?'),
+                    $cantidad,
+                );
+
+                continue;
+            }
+
+            $total += $cantidad * (float) ($item->catalogo->precio ?? 0);
         }
 
         return $total;

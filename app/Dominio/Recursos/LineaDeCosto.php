@@ -20,12 +20,20 @@ final readonly class LineaDeCosto
         public float $valorUnitario,
         /** Lo que aporta al item, ya multiplicado por cantidades. */
         public float $aporte,
+        /**
+         * La revision de la que sale la linea.
+         *
+         * Permite rastrear cada cifra hasta el recurso cargado y compararla,
+         * linea a linea, con el calculo del sistema actual.
+         */
+        public int $revisionId = 0,
     ) {}
 
     /** @return array<string, mixed> */
     public function aArray(): array
     {
         return [
+            'revision_id' => $this->revisionId,
             'item_id' => $this->itemId,
             'categoria' => $this->categoria,
             'descripcion' => $this->descripcion,

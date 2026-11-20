@@ -1,0 +1,3658 @@
+{
+    "cotizaciones": {
+        "6": {
+            "lineas": [
+                {
+                    "revision": 222,
+                    "item": 127,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Mes",
+                    "valor_unitario": 16851294.503448,
+                    "aporte": 16851294.503448
+                },
+                {
+                    "revision": 195,
+                    "item": 128,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                }
+            ],
+            "personas": {
+                "3": {
+                    "por_mes": 16851294.503448,
+                    "por_dia_calendario": 561709.816782,
+                    "por_dia_habil": 775628.026487
+                }
+            }
+        },
+        "7": {
+            "lineas": [
+                {
+                    "revision": 29,
+                    "item": 9,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 30,
+                    "item": 9,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 32,
+                    "item": 9,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Unidad",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 33,
+                    "item": 9,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "Global",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 39,
+                    "item": 10,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 40,
+                    "item": 10,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 42,
+                    "item": 10,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Unidad",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 43,
+                    "item": 10,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "Global",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 45,
+                    "item": 11,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 46,
+                    "item": 11,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 48,
+                    "item": 11,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Unidad",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 49,
+                    "item": 11,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "Global",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 51,
+                    "item": 12,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 52,
+                    "item": 12,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Persona",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                },
+                {
+                    "revision": 54,
+                    "item": 12,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Unidad",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                }
+            ],
+            "personas": {
+                "9": {
+                    "por_mes": 5795245.32586,
+                    "por_dia_calendario": 193174.844195,
+                    "por_dia_habil": 266742.397398
+                },
+                "10": {
+                    "por_mes": 9826779.938189,
+                    "por_dia_calendario": 327559.331273,
+                    "por_dia_habil": 452305.069419
+                }
+            }
+        },
+        "9": {
+            "lineas": [],
+            "personas": []
+        },
+        "10": {
+            "lineas": [],
+            "personas": []
+        },
+        "13": {
+            "lineas": [
+                {
+                    "revision": 83,
+                    "item": 39,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Mes",
+                    "valor_unitario": 5447695.27446,
+                    "aporte": 27238476.372301
+                },
+                {
+                    "revision": 84,
+                    "item": 39,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Mes",
+                    "valor_unitario": 0.0,
+                    "aporte": 0.0
+                }
+            ],
+            "personas": {
+                "19": {
+                    "por_mes": 5447695.27446,
+                    "por_dia_calendario": 181589.842482,
+                    "por_dia_habil": 250745.432867
+                }
+            }
+        },
+        "14": {
+            "lineas": [
+                {
+                    "revision": 211,
+                    "item": 143,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 442690.0,
+                    "aporte": 5312280.0
+                },
+                {
+                    "revision": 212,
+                    "item": 144,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 447530.0,
+                    "aporte": 5370360.0
+                },
+                {
+                    "revision": 213,
+                    "item": 145,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 276769.0,
+                    "aporte": 3321228.0
+                },
+                {
+                    "revision": 214,
+                    "item": 146,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16770.0,
+                    "aporte": 201240.0
+                }
+            ],
+            "personas": []
+        },
+        "15": {
+            "lineas": [
+                {
+                    "revision": 253,
+                    "item": 57,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Calendario",
+                    "valor_unitario": 7291.734519,
+                    "aporte": 7291.734519
+                }
+            ],
+            "personas": {
+                "68": {
+                    "por_mes": 221583.313854,
+                    "por_dia_calendario": 7291.734519,
+                    "por_dia_habil": 14570.181079
+                }
+            }
+        },
+        "16": {
+            "lineas": [],
+            "personas": []
+        },
+        "17": {
+            "lineas": [],
+            "personas": []
+        },
+        "18": {
+            "lineas": [
+                {
+                    "revision": 223,
+                    "item": 183,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 480986.571508,
+                    "aporte": 4328879.143576
+                }
+            ],
+            "personas": {
+                "37": {
+                    "por_mes": 9753445.697048,
+                    "por_dia_calendario": 325114.856568,
+                    "por_dia_habil": 480986.571508
+                }
+            }
+        },
+        "19": {
+            "lineas": [
+                {
+                    "revision": 233,
+                    "item": 188,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 8040.0,
+                    "aporte": 8040.0
+                },
+                {
+                    "revision": 246,
+                    "item": 188,
+                    "categoria": "Personal",
+                    "cantidad": 50.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 471541.545754,
+                    "aporte": 23577077.287718
+                },
+                {
+                    "revision": 247,
+                    "item": 188,
+                    "categoria": "Viaticos",
+                    "cantidad": 31.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5000.0,
+                    "aporte": 155000.0
+                },
+                {
+                    "revision": 240,
+                    "item": 189,
+                    "categoria": "Viaticos",
+                    "cantidad": 31.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5000.0,
+                    "aporte": 155000.0
+                },
+                {
+                    "revision": 241,
+                    "item": 189,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 8040.0,
+                    "aporte": 8040.0
+                },
+                {
+                    "revision": 243,
+                    "item": 189,
+                    "categoria": "Personal",
+                    "cantidad": 33.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 495362.626764,
+                    "aporte": 16346966.683224
+                }
+            ],
+            "personas": {
+                "38": {
+                    "por_mes": 7533474.827832,
+                    "por_dia_calendario": 251115.827594,
+                    "por_dia_habil": 495362.626764
+                },
+                "47": {
+                    "por_mes": 7171203.827832,
+                    "por_dia_calendario": 239040.127594,
+                    "por_dia_habil": 471541.545754
+                }
+            }
+        },
+        "20": {
+            "lineas": [
+                {
+                    "revision": 248,
+                    "item": 192,
+                    "categoria": "Personal",
+                    "cantidad": 10.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 584785.858562,
+                    "aporte": 5847858.58562
+                },
+                {
+                    "revision": 249,
+                    "item": 192,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 2200000.0,
+                    "aporte": 4400000.0
+                },
+                {
+                    "revision": 250,
+                    "item": 192,
+                    "categoria": "Viaticos",
+                    "cantidad": 10.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 350000.0,
+                    "aporte": 3500000.0
+                },
+                {
+                    "revision": 251,
+                    "item": 192,
+                    "categoria": "Viaticos",
+                    "cantidad": 5.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 400000.0,
+                    "aporte": 2000000.0
+                },
+                {
+                    "revision": 252,
+                    "item": 192,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5118054.0,
+                    "aporte": 5118054.0
+                }
+            ],
+            "personas": {
+                "65": {
+                    "por_mes": 12705057.563118,
+                    "por_dia_calendario": 423501.918771,
+                    "por_dia_habil": 584785.858562
+                }
+            }
+        },
+        "21": {
+            "lineas": [
+                {
+                    "revision": 255,
+                    "item": 193,
+                    "categoria": "Servicios",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 721443.0,
+                    "aporte": 2885772.0
+                },
+                {
+                    "revision": 256,
+                    "item": 193,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 33007880.0,
+                    "aporte": 33007880.0
+                }
+            ],
+            "personas": []
+        },
+        "22": {
+            "lineas": [
+                {
+                    "revision": 258,
+                    "item": 194,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1445408.0,
+                    "aporte": 1445408.0
+                },
+                {
+                    "revision": 261,
+                    "item": 194,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Calendario",
+                    "valor_unitario": 347227.503987,
+                    "aporte": 347227.503987
+                },
+                {
+                    "revision": 264,
+                    "item": 194,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 85000.0
+                }
+            ],
+            "personas": {
+                "70": {
+                    "por_mes": 10416825.119625,
+                    "por_dia_calendario": 347227.503987,
+                    "por_dia_habil": 479463.551488
+                }
+            }
+        },
+        "23": {
+            "lineas": [
+                {
+                    "revision": 265,
+                    "item": 196,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 38600000.0,
+                    "aporte": 38600000.0
+                }
+            ],
+            "personas": []
+        },
+        "24": {
+            "lineas": [
+                {
+                    "revision": 270,
+                    "item": 197,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 1302646.808674,
+                    "aporte": 2605293.617349
+                },
+                {
+                    "revision": 271,
+                    "item": 197,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 14179.69483,
+                    "aporte": 14179.69483
+                },
+                {
+                    "revision": 272,
+                    "item": 197,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 120304.785964,
+                    "aporte": 120304.785964
+                },
+                {
+                    "revision": 273,
+                    "item": 197,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 2109393.0,
+                    "aporte": 2109393.0
+                },
+                {
+                    "revision": 277,
+                    "item": 197,
+                    "categoria": "Otros",
+                    "cantidad": 12.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 11000.0,
+                    "aporte": 132000.0
+                },
+                {
+                    "revision": 278,
+                    "item": 197,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 240000.0
+                },
+                {
+                    "revision": 279,
+                    "item": 197,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 160000.0
+                },
+                {
+                    "revision": 280,
+                    "item": 197,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10000.0,
+                    "aporte": 20000.0
+                },
+                {
+                    "revision": 281,
+                    "item": 197,
+                    "categoria": "Vehiculos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 650000.0,
+                    "aporte": 1300000.0
+                },
+                {
+                    "revision": 282,
+                    "item": 197,
+                    "categoria": "Otros",
+                    "cantidad": 30.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 11500.0,
+                    "aporte": 345000.0
+                },
+                {
+                    "revision": 283,
+                    "item": 197,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 24451.0
+                },
+                {
+                    "revision": 284,
+                    "item": 198,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 1302646.808674,
+                    "aporte": 2605293.617349
+                },
+                {
+                    "revision": 285,
+                    "item": 198,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 14179.69483,
+                    "aporte": 14179.69483
+                },
+                {
+                    "revision": 286,
+                    "item": 198,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 120304.785964,
+                    "aporte": 120304.785964
+                },
+                {
+                    "revision": 287,
+                    "item": 198,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 2109393.0,
+                    "aporte": 2109393.0
+                },
+                {
+                    "revision": 288,
+                    "item": 198,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 240000.0
+                },
+                {
+                    "revision": 289,
+                    "item": 198,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 160000.0
+                },
+                {
+                    "revision": 290,
+                    "item": 198,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10000.0,
+                    "aporte": 20000.0
+                },
+                {
+                    "revision": 291,
+                    "item": 198,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 24451.0
+                }
+            ],
+            "personas": {
+                "71": {
+                    "por_mes": 28301304.565258,
+                    "por_dia_calendario": 943376.818842,
+                    "por_dia_habil": 1302646.808674
+                }
+            }
+        },
+        "25": {
+            "lineas": [
+                {
+                    "revision": 266,
+                    "item": 199,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Calendario",
+                    "valor_unitario": 347227.503987,
+                    "aporte": 694455.007975
+                },
+                {
+                    "revision": 267,
+                    "item": 199,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 45000.0,
+                    "aporte": 90000.0
+                },
+                {
+                    "revision": 268,
+                    "item": 199,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 160000.0
+                },
+                {
+                    "revision": 269,
+                    "item": 199,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9625000.0,
+                    "aporte": 9625000.0
+                }
+            ],
+            "personas": {
+                "72": {
+                    "por_mes": 10416825.119625,
+                    "por_dia_calendario": 347227.503987,
+                    "por_dia_habil": 479463.551488
+                }
+            }
+        },
+        "26": {
+            "lineas": [
+                {
+                    "revision": 310,
+                    "item": 202,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 872614.221648,
+                    "aporte": 1745228.443296
+                },
+                {
+                    "revision": 311,
+                    "item": 202,
+                    "categoria": "Equipos",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 242134.725107,
+                    "aporte": 484269.450213
+                },
+                {
+                    "revision": 312,
+                    "item": 202,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 1400.0,
+                    "aporte": 1400.0
+                },
+                {
+                    "revision": 313,
+                    "item": 202,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 240000.0
+                },
+                {
+                    "revision": 314,
+                    "item": 202,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 160000.0
+                },
+                {
+                    "revision": 315,
+                    "item": 202,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12000.0,
+                    "aporte": 24000.0
+                },
+                {
+                    "revision": 316,
+                    "item": 202,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 50000.0
+                },
+                {
+                    "revision": 317,
+                    "item": 202,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 250000.0,
+                    "aporte": 1000000.0
+                },
+                {
+                    "revision": 318,
+                    "item": 203,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 872614.221648,
+                    "aporte": 1745228.443296
+                },
+                {
+                    "revision": 319,
+                    "item": 203,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 242134.725107,
+                    "aporte": 242134.725107
+                },
+                {
+                    "revision": 320,
+                    "item": 203,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 1400.0,
+                    "aporte": 1400.0
+                },
+                {
+                    "revision": 321,
+                    "item": 203,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 240000.0
+                },
+                {
+                    "revision": 322,
+                    "item": 203,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 160000.0
+                },
+                {
+                    "revision": 323,
+                    "item": 203,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12000.0,
+                    "aporte": 24000.0
+                }
+            ],
+            "personas": {
+                "73": {
+                    "por_mes": 18958416.579528,
+                    "por_dia_calendario": 631947.219318,
+                    "por_dia_habil": 872614.221648
+                }
+            }
+        },
+        "27": {
+            "lineas": [
+                {
+                    "revision": 324,
+                    "item": 204,
+                    "categoria": "Personal",
+                    "cantidad": 21.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 1167083.051915,
+                    "aporte": 24508744.090225
+                },
+                {
+                    "revision": 325,
+                    "item": 204,
+                    "categoria": "Herramientas",
+                    "cantidad": 10.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 94132.031829,
+                    "aporte": 941320.318294
+                },
+                {
+                    "revision": 326,
+                    "item": 204,
+                    "categoria": "Equipos",
+                    "cantidad": 12.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 97193.201652,
+                    "aporte": 1166318.419823
+                },
+                {
+                    "revision": 328,
+                    "item": 204,
+                    "categoria": "Vehiculos",
+                    "cantidad": 10.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 650000.0,
+                    "aporte": 6500000.0
+                },
+                {
+                    "revision": 329,
+                    "item": 204,
+                    "categoria": "Viaticos",
+                    "cantidad": 22.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 80000.0,
+                    "aporte": 1760000.0
+                },
+                {
+                    "revision": 330,
+                    "item": 204,
+                    "categoria": "Viaticos",
+                    "cantidad": 22.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 100000.0,
+                    "aporte": 2200000.0
+                },
+                {
+                    "revision": 331,
+                    "item": 204,
+                    "categoria": "Viaticos",
+                    "cantidad": 22.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12000.0,
+                    "aporte": 264000.0
+                },
+                {
+                    "revision": 332,
+                    "item": 204,
+                    "categoria": "Otros",
+                    "cantidad": 30.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 11950.0,
+                    "aporte": 358500.0
+                },
+                {
+                    "revision": 333,
+                    "item": 204,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 70000.0,
+                    "aporte": 140000.0
+                },
+                {
+                    "revision": 334,
+                    "item": 204,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 8.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 195608.0
+                }
+            ],
+            "personas": {
+                "76": {
+                    "por_mes": 25356046.385916,
+                    "por_dia_calendario": 845201.546197,
+                    "por_dia_habil": 1167083.051915
+                }
+            }
+        },
+        "28": {
+            "lineas": [],
+            "personas": []
+        },
+        "29": {
+            "lineas": [
+                {
+                    "revision": 335,
+                    "item": 207,
+                    "categoria": "Personal",
+                    "cantidad": 3.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 409088.426585,
+                    "aporte": 1227265.279756
+                },
+                {
+                    "revision": 336,
+                    "item": 207,
+                    "categoria": "Personal",
+                    "cantidad": 3.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 409088.426585,
+                    "aporte": 1227265.279756
+                },
+                {
+                    "revision": 337,
+                    "item": 207,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 73353.0
+                },
+                {
+                    "revision": 338,
+                    "item": 207,
+                    "categoria": "Otros",
+                    "cantidad": 30.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12500.0,
+                    "aporte": 375000.0
+                },
+                {
+                    "revision": 339,
+                    "item": 207,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 145000.0,
+                    "aporte": 290000.0
+                },
+                {
+                    "revision": 340,
+                    "item": 207,
+                    "categoria": "Vehiculos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1450000.0,
+                    "aporte": 4350000.0
+                },
+                {
+                    "revision": 341,
+                    "item": 207,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 105239.16873,
+                    "aporte": 105239.16873
+                },
+                {
+                    "revision": 342,
+                    "item": 207,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 7017.597042,
+                    "aporte": 7017.597042
+                },
+                {
+                    "revision": 343,
+                    "item": 207,
+                    "categoria": "Viaticos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 360000.0
+                },
+                {
+                    "revision": 344,
+                    "item": 207,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 360000.0
+                },
+                {
+                    "revision": 345,
+                    "item": 207,
+                    "categoria": "Viaticos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12000.0,
+                    "aporte": 36000.0
+                },
+                {
+                    "revision": 346,
+                    "item": 207,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 168000.0,
+                    "aporte": 336000.0
+                },
+                {
+                    "revision": 347,
+                    "item": 207,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 50000.0
+                },
+                {
+                    "revision": 360,
+                    "item": 207,
+                    "categoria": "Consumibles",
+                    "cantidad": 1.0,
+                    "unidad": "EA",
+                    "valor_unitario": 2023000.0,
+                    "aporte": 2023000.0
+                },
+                {
+                    "revision": 348,
+                    "item": 208,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 409088.426585,
+                    "aporte": 12272652.797561
+                },
+                {
+                    "revision": 349,
+                    "item": 208,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 409088.426585,
+                    "aporte": 12272652.797561
+                },
+                {
+                    "revision": 350,
+                    "item": 208,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 7017.597042,
+                    "aporte": 210527.91126
+                },
+                {
+                    "revision": 351,
+                    "item": 208,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 105239.16873,
+                    "aporte": 3157175.061904
+                },
+                {
+                    "revision": 352,
+                    "item": 208,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 120000.0,
+                    "aporte": 7200000.0
+                },
+                {
+                    "revision": 353,
+                    "item": 208,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 5400000.0
+                },
+                {
+                    "revision": 354,
+                    "item": 208,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12000.0,
+                    "aporte": 720000.0
+                },
+                {
+                    "revision": 361,
+                    "item": 208,
+                    "categoria": "Vehiculos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1450000.0,
+                    "aporte": 43500000.0
+                },
+                {
+                    "revision": 362,
+                    "item": 208,
+                    "categoria": "Consumibles",
+                    "cantidad": 0.5,
+                    "unidad": "EA",
+                    "valor_unitario": 2023000.0,
+                    "aporte": 30345000.0
+                },
+                {
+                    "revision": 363,
+                    "item": 208,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 750000.0
+                },
+                {
+                    "revision": 364,
+                    "item": 208,
+                    "categoria": "Viaticos",
+                    "cantidad": 0.25,
+                    "unidad": "N\/A",
+                    "valor_unitario": 168000.0,
+                    "aporte": 1260000.0
+                }
+            ],
+            "personas": {
+                "77": {
+                    "por_mes": 8295495.114298,
+                    "por_dia_calendario": 276516.50381,
+                    "por_dia_habil": 409088.426585
+                }
+            }
+        },
+        "30": {
+            "lineas": [
+                {
+                    "revision": 366,
+                    "item": 209,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16613541.0,
+                    "aporte": 49840623.0
+                }
+            ],
+            "personas": []
+        },
+        "31": {
+            "lineas": [],
+            "personas": []
+        },
+        "32": {
+            "lineas": [
+                {
+                    "revision": 367,
+                    "item": 216,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 495401.213085,
+                    "aporte": 990802.426171
+                },
+                {
+                    "revision": 368,
+                    "item": 216,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 258314.96474,
+                    "aporte": 516629.92948
+                },
+                {
+                    "revision": 374,
+                    "item": 216,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 97804.0
+                },
+                {
+                    "revision": 399,
+                    "item": 216,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 350000.0,
+                    "aporte": 700000.0
+                },
+                {
+                    "revision": 401,
+                    "item": 216,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 170000.0
+                },
+                {
+                    "revision": 402,
+                    "item": 216,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 260000.0
+                },
+                {
+                    "revision": 403,
+                    "item": 216,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1400000.0,
+                    "aporte": 1400000.0
+                },
+                {
+                    "revision": 375,
+                    "item": 217,
+                    "categoria": "Personal",
+                    "cantidad": 4.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 495401.213085,
+                    "aporte": 1981604.852342
+                },
+                {
+                    "revision": 376,
+                    "item": 217,
+                    "categoria": "Personal",
+                    "cantidad": 4.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 258314.96474,
+                    "aporte": 1033259.85896
+                },
+                {
+                    "revision": 377,
+                    "item": 217,
+                    "categoria": "Otros",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 350000.0,
+                    "aporte": 1400000.0
+                },
+                {
+                    "revision": 379,
+                    "item": 217,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 340000.0
+                },
+                {
+                    "revision": 380,
+                    "item": 217,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 520000.0
+                },
+                {
+                    "revision": 381,
+                    "item": 217,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1400000.0,
+                    "aporte": 1400000.0
+                },
+                {
+                    "revision": 382,
+                    "item": 217,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 8.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 195608.0
+                },
+                {
+                    "revision": 383,
+                    "item": 218,
+                    "categoria": "Personal",
+                    "cantidad": 12.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 495401.213085,
+                    "aporte": 5944814.557025
+                },
+                {
+                    "revision": 384,
+                    "item": 218,
+                    "categoria": "Personal",
+                    "cantidad": 12.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 258314.96474,
+                    "aporte": 3099779.576881
+                },
+                {
+                    "revision": 385,
+                    "item": 218,
+                    "categoria": "Otros",
+                    "cantidad": 12.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 350000.0,
+                    "aporte": 4200000.0
+                },
+                {
+                    "revision": 387,
+                    "item": 218,
+                    "categoria": "Viaticos",
+                    "cantidad": 12.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 1020000.0
+                },
+                {
+                    "revision": 388,
+                    "item": 218,
+                    "categoria": "Viaticos",
+                    "cantidad": 12.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 1560000.0
+                },
+                {
+                    "revision": 389,
+                    "item": 218,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1400000.0,
+                    "aporte": 1400000.0
+                },
+                {
+                    "revision": 390,
+                    "item": 218,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 24.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 586824.0
+                },
+                {
+                    "revision": 391,
+                    "item": 219,
+                    "categoria": "Personal",
+                    "cantidad": 6.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 495401.213085,
+                    "aporte": 2972407.278512
+                },
+                {
+                    "revision": 392,
+                    "item": 219,
+                    "categoria": "Personal",
+                    "cantidad": 6.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 258314.96474,
+                    "aporte": 1549889.788441
+                },
+                {
+                    "revision": 393,
+                    "item": 219,
+                    "categoria": "Otros",
+                    "cantidad": 6.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 350000.0,
+                    "aporte": 2100000.0
+                },
+                {
+                    "revision": 395,
+                    "item": 219,
+                    "categoria": "Viaticos",
+                    "cantidad": 6.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 510000.0
+                },
+                {
+                    "revision": 396,
+                    "item": 219,
+                    "categoria": "Viaticos",
+                    "cantidad": 6.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 780000.0
+                },
+                {
+                    "revision": 397,
+                    "item": 219,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1400000.0,
+                    "aporte": 1400000.0
+                },
+                {
+                    "revision": 398,
+                    "item": 219,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 12.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 293412.0
+                }
+            ],
+            "personas": {
+                "81": {
+                    "por_mes": 10763086.755493,
+                    "por_dia_calendario": 358769.558516,
+                    "por_dia_habil": 495401.213085
+                },
+                "82": {
+                    "por_mes": 5612150.923944,
+                    "por_dia_calendario": 187071.697465,
+                    "por_dia_habil": 258314.96474
+                }
+            }
+        },
+        "33": {
+            "lineas": [
+                {
+                    "revision": 598,
+                    "item": 290,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 18500000.0
+                },
+                {
+                    "revision": 599,
+                    "item": 291,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9850000.0,
+                    "aporte": 9850000.0
+                },
+                {
+                    "revision": 600,
+                    "item": 292,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 27750000.0
+                },
+                {
+                    "revision": 601,
+                    "item": 293,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 9250000.0
+                },
+                {
+                    "revision": 602,
+                    "item": 294,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 3800000.0,
+                    "aporte": 3800000.0
+                }
+            ],
+            "personas": []
+        },
+        "34": {
+            "lineas": [
+                {
+                    "revision": 412,
+                    "item": 222,
+                    "categoria": "Personal",
+                    "cantidad": 3.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 258314.96474,
+                    "aporte": 774944.89422
+                },
+                {
+                    "revision": 413,
+                    "item": 222,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 498939.332485,
+                    "aporte": 997878.664969
+                },
+                {
+                    "revision": 414,
+                    "item": 222,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 950000.0,
+                    "aporte": 950000.0
+                },
+                {
+                    "revision": 415,
+                    "item": 222,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1200000.0,
+                    "aporte": 1200000.0
+                },
+                {
+                    "revision": 416,
+                    "item": 222,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 300000.0,
+                    "aporte": 300000.0
+                },
+                {
+                    "revision": 417,
+                    "item": 222,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 170000.0
+                },
+                {
+                    "revision": 418,
+                    "item": 222,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 130000.0
+                },
+                {
+                    "revision": 427,
+                    "item": 222,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 97804.0
+                }
+            ],
+            "personas": {
+                "83": {
+                    "por_mes": 10839955.937559,
+                    "por_dia_calendario": 361331.864585,
+                    "por_dia_habil": 498939.332485
+                },
+                "84": {
+                    "por_mes": 5612150.923944,
+                    "por_dia_calendario": 187071.697465,
+                    "por_dia_habil": 258314.96474
+                }
+            }
+        },
+        "35": {
+            "lineas": [
+                {
+                    "revision": 428,
+                    "item": 223,
+                    "categoria": "Personal",
+                    "cantidad": 4.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 498939.332485,
+                    "aporte": 1995757.329938
+                },
+                {
+                    "revision": 429,
+                    "item": 223,
+                    "categoria": "Otros",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 450000.0,
+                    "aporte": 1800000.0
+                },
+                {
+                    "revision": 430,
+                    "item": 223,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1200000.0,
+                    "aporte": 1200000.0
+                },
+                {
+                    "revision": 431,
+                    "item": 223,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 300000.0,
+                    "aporte": 300000.0
+                },
+                {
+                    "revision": 432,
+                    "item": 223,
+                    "categoria": "Viaticos",
+                    "cantidad": 5.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 425000.0
+                },
+                {
+                    "revision": 433,
+                    "item": 223,
+                    "categoria": "Viaticos",
+                    "cantidad": 5.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 130000.0,
+                    "aporte": 650000.0
+                },
+                {
+                    "revision": 434,
+                    "item": 223,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 10.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 244510.0
+                },
+                {
+                    "revision": 435,
+                    "item": 223,
+                    "categoria": "Personal",
+                    "cantidad": 5.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 212287.163948,
+                    "aporte": 1061435.819742
+                }
+            ],
+            "personas": {
+                "85": {
+                    "por_mes": 4612150.923944,
+                    "por_dia_calendario": 153738.364131,
+                    "por_dia_habil": 212287.163948
+                },
+                "86": {
+                    "por_mes": 10839955.937559,
+                    "por_dia_calendario": 361331.864585,
+                    "por_dia_habil": 498939.332485
+                }
+            }
+        },
+        "36": {
+            "lineas": [
+                {
+                    "revision": 441,
+                    "item": 225,
+                    "categoria": "Servicios",
+                    "cantidad": 21.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 6530042.0,
+                    "aporte": 137130882.0
+                }
+            ],
+            "personas": []
+        },
+        "37": {
+            "lineas": [
+                {
+                    "revision": 442,
+                    "item": 226,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 984506.0,
+                    "aporte": 984506.0
+                },
+                {
+                    "revision": 443,
+                    "item": 227,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 442741.0,
+                    "aporte": 442741.0
+                },
+                {
+                    "revision": 444,
+                    "item": 228,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 435114.0,
+                    "aporte": 435114.0
+                }
+            ],
+            "personas": []
+        },
+        "38": {
+            "lineas": [
+                {
+                    "revision": 448,
+                    "item": 229,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 768000.0,
+                    "aporte": 768000.0
+                }
+            ],
+            "personas": []
+        },
+        "39": {
+            "lineas": [
+                {
+                    "revision": 449,
+                    "item": 231,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9070202.0,
+                    "aporte": 9070202.0
+                }
+            ],
+            "personas": []
+        },
+        "40": {
+            "lineas": [
+                {
+                    "revision": 447,
+                    "item": 234,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 14850000.0,
+                    "aporte": 14850000.0
+                }
+            ],
+            "personas": []
+        },
+        "41": {
+            "lineas": [],
+            "personas": []
+        },
+        "42": {
+            "lineas": [
+                {
+                    "revision": 450,
+                    "item": 236,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 7183046.0,
+                    "aporte": 21549138.0
+                }
+            ],
+            "personas": []
+        },
+        "43": {
+            "lineas": [
+                {
+                    "revision": 451,
+                    "item": 242,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 727983.89172,
+                    "aporte": 727983.89172
+                },
+                {
+                    "revision": 452,
+                    "item": 242,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 727983.89172,
+                    "aporte": 727983.89172
+                }
+            ],
+            "personas": {
+                "93": {
+                    "por_mes": 14762057.356292,
+                    "por_dia_calendario": 492068.578543,
+                    "por_dia_habil": 727983.89172
+                }
+            }
+        },
+        "44": {
+            "lineas": [
+                {
+                    "revision": 468,
+                    "item": 250,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 738611.735426,
+                    "aporte": 12556399.502249
+                },
+                {
+                    "revision": 469,
+                    "item": 250,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 740448.666372,
+                    "aporte": 12587627.328324
+                },
+                {
+                    "revision": 470,
+                    "item": 250,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 4320194.726855
+                },
+                {
+                    "revision": 471,
+                    "item": 250,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 89147.234574,
+                    "aporte": 1515502.987754
+                },
+                {
+                    "revision": 472,
+                    "item": 250,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 3060000.0
+                },
+                {
+                    "revision": 473,
+                    "item": 250,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 2890000.0
+                },
+                {
+                    "revision": 474,
+                    "item": 250,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 15000.0,
+                    "aporte": 510000.0
+                },
+                {
+                    "revision": 475,
+                    "item": 250,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 5100000.0
+                },
+                {
+                    "revision": 476,
+                    "item": 250,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 831334.0
+                },
+                {
+                    "revision": 480,
+                    "item": 250,
+                    "categoria": "Vehiculos",
+                    "cantidad": 0.5,
+                    "unidad": "N\/A",
+                    "valor_unitario": 750000.0,
+                    "aporte": 6375000.0
+                },
+                {
+                    "revision": 453,
+                    "item": 251,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 738611.735426,
+                    "aporte": 1477223.470853
+                },
+                {
+                    "revision": 454,
+                    "item": 251,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 740448.666372,
+                    "aporte": 1480897.332744
+                },
+                {
+                    "revision": 455,
+                    "item": 251,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 254129.10158
+                },
+                {
+                    "revision": 456,
+                    "item": 251,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 89147.234574,
+                    "aporte": 89147.234574
+                },
+                {
+                    "revision": 457,
+                    "item": 251,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 300000.0
+                },
+                {
+                    "revision": 458,
+                    "item": 251,
+                    "categoria": "Vehiculos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 750000.0,
+                    "aporte": 2250000.0
+                },
+                {
+                    "revision": 459,
+                    "item": 251,
+                    "categoria": "Vehiculos",
+                    "cantidad": 20.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12500.0,
+                    "aporte": 250000.0
+                },
+                {
+                    "revision": 460,
+                    "item": 251,
+                    "categoria": "Vehiculos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 100000.0,
+                    "aporte": 200000.0
+                },
+                {
+                    "revision": 461,
+                    "item": 251,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 24451.0
+                },
+                {
+                    "revision": 462,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 180000.0
+                },
+                {
+                    "revision": 463,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 170000.0
+                },
+                {
+                    "revision": 464,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 300000.0
+                },
+                {
+                    "revision": 465,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 15000.0,
+                    "aporte": 30000.0
+                },
+                {
+                    "revision": 466,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 180000.0
+                },
+                {
+                    "revision": 467,
+                    "item": 251,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 170000.0
+                },
+                {
+                    "revision": 479,
+                    "item": 251,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 738611.735426,
+                    "aporte": 1477223.470853
+                },
+                {
+                    "revision": 478,
+                    "item": 254,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 250000.0,
+                    "aporte": 1250000.0
+                }
+            ],
+            "personas": {
+                "95": {
+                    "por_mes": 14977568.770977,
+                    "por_dia_calendario": 499252.292366,
+                    "por_dia_habil": 738611.735426
+                },
+                "96": {
+                    "por_mes": 15014818.056691,
+                    "por_dia_calendario": 500493.935223,
+                    "por_dia_habil": 740448.666372
+                }
+            }
+        },
+        "45": {
+            "lineas": [
+                {
+                    "revision": 481,
+                    "item": 255,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 924096.863867,
+                    "aporte": 1848193.727733
+                },
+                {
+                    "revision": 482,
+                    "item": 255,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 1003979.649481,
+                    "aporte": 1003979.649481
+                },
+                {
+                    "revision": 505,
+                    "item": 255,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 254129.10158
+                },
+                {
+                    "revision": 506,
+                    "item": 255,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 89147.234574,
+                    "aporte": 89147.234574
+                },
+                {
+                    "revision": 507,
+                    "item": 255,
+                    "categoria": "Vehiculos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 750000.0,
+                    "aporte": 2250000.0
+                },
+                {
+                    "revision": 508,
+                    "item": 255,
+                    "categoria": "Vehiculos",
+                    "cantidad": 20.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12500.0,
+                    "aporte": 250000.0
+                },
+                {
+                    "revision": 509,
+                    "item": 255,
+                    "categoria": "Vehiculos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 180000.0
+                },
+                {
+                    "revision": 510,
+                    "item": 255,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 360000.0
+                },
+                {
+                    "revision": 511,
+                    "item": 255,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 340000.0
+                },
+                {
+                    "revision": 512,
+                    "item": 255,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 15000.0,
+                    "aporte": 30000.0
+                },
+                {
+                    "revision": 513,
+                    "item": 255,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 50000.0
+                },
+                {
+                    "revision": 549,
+                    "item": 255,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 150000.0
+                },
+                {
+                    "revision": 493,
+                    "item": 256,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 924096.863867,
+                    "aporte": 7392774.910934
+                },
+                {
+                    "revision": 494,
+                    "item": 256,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 1003979.649481,
+                    "aporte": 8031837.19585
+                },
+                {
+                    "revision": 542,
+                    "item": 256,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 2033032.812638
+                },
+                {
+                    "revision": 543,
+                    "item": 256,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 89147.234574,
+                    "aporte": 713177.87659
+                },
+                {
+                    "revision": 544,
+                    "item": 256,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 1440000.0
+                },
+                {
+                    "revision": 545,
+                    "item": 256,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 1360000.0
+                },
+                {
+                    "revision": 546,
+                    "item": 256,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 400000.0
+                },
+                {
+                    "revision": 547,
+                    "item": 256,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 195608.0
+                },
+                {
+                    "revision": 548,
+                    "item": 256,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 1200000.0
+                }
+            ],
+            "personas": {
+                "101": {
+                    "por_mes": 18738836.205489,
+                    "por_dia_calendario": 624627.873516,
+                    "por_dia_habil": 924096.863867
+                },
+                "102": {
+                    "por_mes": 15268522.509311,
+                    "por_dia_calendario": 508950.75031,
+                    "por_dia_habil": 1003979.649481
+                }
+            }
+        },
+        "46": {
+            "lineas": [
+                {
+                    "revision": 515,
+                    "item": 258,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 64419125.0,
+                    "aporte": 64419125.0
+                },
+                {
+                    "revision": 516,
+                    "item": 259,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25709875.0,
+                    "aporte": 25709875.0
+                }
+            ],
+            "personas": []
+        },
+        "47": {
+            "lineas": [
+                {
+                    "revision": 517,
+                    "item": 260,
+                    "categoria": "Personal",
+                    "cantidad": 3.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 814595.163984,
+                    "aporte": 2443785.491951
+                },
+                {
+                    "revision": 520,
+                    "item": 260,
+                    "categoria": "Personal",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 764386.810103,
+                    "aporte": 1528773.620205
+                },
+                {
+                    "revision": 521,
+                    "item": 260,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 254129.10158
+                },
+                {
+                    "revision": 522,
+                    "item": 260,
+                    "categoria": "Equipos",
+                    "cantidad": 2.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": -89147.234574,
+                    "aporte": -178294.469148
+                },
+                {
+                    "revision": 523,
+                    "item": 260,
+                    "categoria": "Vehiculos",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 750000.0,
+                    "aporte": 2250000.0
+                },
+                {
+                    "revision": 524,
+                    "item": 260,
+                    "categoria": "Vehiculos",
+                    "cantidad": 20.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 12500.0,
+                    "aporte": 250000.0
+                },
+                {
+                    "revision": 525,
+                    "item": 260,
+                    "categoria": "Vehiculos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 180000.0
+                },
+                {
+                    "revision": 526,
+                    "item": 260,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 360000.0
+                },
+                {
+                    "revision": 527,
+                    "item": 260,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 340000.0
+                },
+                {
+                    "revision": 528,
+                    "item": 260,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 50000.0
+                },
+                {
+                    "revision": 529,
+                    "item": 260,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 15000.0,
+                    "aporte": 30000.0
+                },
+                {
+                    "revision": 534,
+                    "item": 260,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 24451.0
+                },
+                {
+                    "revision": 530,
+                    "item": 261,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 814595.163984,
+                    "aporte": 5702166.147886
+                },
+                {
+                    "revision": 531,
+                    "item": 261,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 764386.810103,
+                    "aporte": 5350707.670719
+                },
+                {
+                    "revision": 532,
+                    "item": 261,
+                    "categoria": "Herramientas",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 254129.10158,
+                    "aporte": 1778903.711058
+                },
+                {
+                    "revision": 533,
+                    "item": 261,
+                    "categoria": "Equipos",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": -89147.234574,
+                    "aporte": -624030.642016
+                },
+                {
+                    "revision": 535,
+                    "item": 261,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 90000.0,
+                    "aporte": 1260000.0
+                },
+                {
+                    "revision": 536,
+                    "item": 261,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 85000.0,
+                    "aporte": 1190000.0
+                },
+                {
+                    "revision": 537,
+                    "item": 261,
+                    "categoria": "Viaticos",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 25000.0,
+                    "aporte": 350000.0
+                },
+                {
+                    "revision": 538,
+                    "item": 261,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 15000.0,
+                    "aporte": 105000.0
+                },
+                {
+                    "revision": 539,
+                    "item": 261,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 150000.0,
+                    "aporte": 1050000.0
+                },
+                {
+                    "revision": 540,
+                    "item": 261,
+                    "categoria": "Vehiculos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 750000.0,
+                    "aporte": 5250000.0
+                },
+                {
+                    "revision": 541,
+                    "item": 262,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 250000.0,
+                    "aporte": 250000.0
+                }
+            ],
+            "personas": {
+                "103": {
+                    "por_mes": 16518360.735263,
+                    "por_dia_calendario": 550612.024509,
+                    "por_dia_habil": 814595.163984
+                },
+                "104": {
+                    "por_mes": 15500235.735263,
+                    "por_dia_calendario": 516674.524509,
+                    "por_dia_habil": 764386.810103
+                }
+            }
+        },
+        "48": {
+            "lineas": [
+                {
+                    "revision": 514,
+                    "item": 263,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 137051856.0,
+                    "aporte": 137051856.0
+                }
+            ],
+            "personas": []
+        },
+        "49": {
+            "lineas": [
+                {
+                    "revision": 518,
+                    "item": 264,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 722187.0,
+                    "aporte": 722187.0
+                }
+            ],
+            "personas": []
+        },
+        "50": {
+            "lineas": [
+                {
+                    "revision": 550,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 2.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 49377000.0,
+                    "aporte": 98754000.0
+                },
+                {
+                    "revision": 551,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 18507589.0,
+                    "aporte": 55522767.0
+                },
+                {
+                    "revision": 552,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 421400.0,
+                    "aporte": 1264200.0
+                },
+                {
+                    "revision": 553,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1670540.0,
+                    "aporte": 5011620.0
+                },
+                {
+                    "revision": 554,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24831530.0,
+                    "aporte": 74494590.0
+                },
+                {
+                    "revision": 555,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1882877.0,
+                    "aporte": 5648631.0
+                },
+                {
+                    "revision": 556,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 2406118.0,
+                    "aporte": 7218354.0
+                },
+                {
+                    "revision": 557,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 2406118.0,
+                    "aporte": 7218354.0
+                },
+                {
+                    "revision": 558,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9952575.0,
+                    "aporte": 29857725.0
+                },
+                {
+                    "revision": 559,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 40260.0,
+                    "aporte": 120780.0
+                },
+                {
+                    "revision": 560,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 154650.0,
+                    "aporte": 463950.0
+                },
+                {
+                    "revision": 561,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 931500.0,
+                    "aporte": 2794500.0
+                },
+                {
+                    "revision": 562,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 432468.0,
+                    "aporte": 1297404.0
+                },
+                {
+                    "revision": 563,
+                    "item": 287,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1623377.0,
+                    "aporte": 4870131.0
+                },
+                {
+                    "revision": 564,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 81600.0,
+                    "aporte": 244800.0
+                },
+                {
+                    "revision": 565,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 2959491.0,
+                    "aporte": 8878473.0
+                },
+                {
+                    "revision": 566,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 4326.0,
+                    "aporte": 12978.0
+                },
+                {
+                    "revision": 567,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 32191.0,
+                    "aporte": 96573.0
+                },
+                {
+                    "revision": 568,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 235000.0,
+                    "aporte": 705000.0
+                },
+                {
+                    "revision": 569,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 112634.0,
+                    "aporte": 337902.0
+                },
+                {
+                    "revision": 570,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 118149.0,
+                    "aporte": 354447.0
+                },
+                {
+                    "revision": 571,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 242143.0,
+                    "aporte": 726429.0
+                },
+                {
+                    "revision": 572,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 331462.0,
+                    "aporte": 994386.0
+                },
+                {
+                    "revision": 573,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 307913.0,
+                    "aporte": 923739.0
+                },
+                {
+                    "revision": 574,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 865000.0,
+                    "aporte": 2595000.0
+                },
+                {
+                    "revision": 575,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 30900.0,
+                    "aporte": 92700.0
+                },
+                {
+                    "revision": 576,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 51064.0,
+                    "aporte": 153192.0
+                },
+                {
+                    "revision": 578,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 381500.0,
+                    "aporte": 1144500.0
+                },
+                {
+                    "revision": 579,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 17800.0,
+                    "aporte": 53400.0
+                },
+                {
+                    "revision": 580,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 39000.0,
+                    "aporte": 117000.0
+                },
+                {
+                    "revision": 581,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 107008.0,
+                    "aporte": 321024.0
+                },
+                {
+                    "revision": 582,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 212515.0,
+                    "aporte": 637545.0
+                },
+                {
+                    "revision": 583,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 35173.0,
+                    "aporte": 105519.0
+                },
+                {
+                    "revision": 584,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 30858.0,
+                    "aporte": 92574.0
+                },
+                {
+                    "revision": 585,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 82269.0,
+                    "aporte": 246807.0
+                },
+                {
+                    "revision": 586,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21000.0,
+                    "aporte": 63000.0
+                },
+                {
+                    "revision": 587,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 270130.0,
+                    "aporte": 810390.0
+                },
+                {
+                    "revision": 588,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 17200.0,
+                    "aporte": 51600.0
+                },
+                {
+                    "revision": 589,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27200.0,
+                    "aporte": 81600.0
+                },
+                {
+                    "revision": 590,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27000.0,
+                    "aporte": 81000.0
+                },
+                {
+                    "revision": 591,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 215587.0,
+                    "aporte": 646761.0
+                },
+                {
+                    "revision": 592,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 183019.0,
+                    "aporte": 549057.0
+                },
+                {
+                    "revision": 593,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 138230.0,
+                    "aporte": 414690.0
+                },
+                {
+                    "revision": 594,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 118149.0,
+                    "aporte": 354447.0
+                },
+                {
+                    "revision": 595,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 28900.0,
+                    "aporte": 86700.0
+                },
+                {
+                    "revision": 596,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 49000.0,
+                    "aporte": 147000.0
+                },
+                {
+                    "revision": 597,
+                    "item": 288,
+                    "categoria": "Otros",
+                    "cantidad": 3.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 18700.0,
+                    "aporte": 56100.0
+                }
+            ],
+            "personas": []
+        },
+        "51": {
+            "lineas": [],
+            "personas": []
+        },
+        "52": {
+            "lineas": [
+                {
+                    "revision": 603,
+                    "item": 295,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 18500000.0
+                },
+                {
+                    "revision": 604,
+                    "item": 296,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9850000.0,
+                    "aporte": 9850000.0
+                },
+                {
+                    "revision": 605,
+                    "item": 297,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 27750000.0
+                },
+                {
+                    "revision": 606,
+                    "item": 298,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 9250000.0,
+                    "aporte": 9250000.0
+                },
+                {
+                    "revision": 607,
+                    "item": 299,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 3800000.0,
+                    "aporte": 3800000.0
+                }
+            ],
+            "personas": []
+        },
+        "53": {
+            "lineas": [
+                {
+                    "revision": 608,
+                    "item": 300,
+                    "categoria": "Personal",
+                    "cantidad": 20.0,
+                    "unidad": "Dia Calendario",
+                    "valor_unitario": 289563.940219,
+                    "aporte": 5791278.804382
+                },
+                {
+                    "revision": 609,
+                    "item": 300,
+                    "categoria": "Otros",
+                    "cantidad": 6.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 400000.0,
+                    "aporte": 2400000.0
+                },
+                {
+                    "revision": 610,
+                    "item": 300,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 15.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 366765.0
+                },
+                {
+                    "revision": 611,
+                    "item": 300,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1200000.0,
+                    "aporte": 1200000.0
+                },
+                {
+                    "revision": 612,
+                    "item": 300,
+                    "categoria": "Viaticos",
+                    "cantidad": 5.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 220000.0,
+                    "aporte": 1100000.0
+                },
+                {
+                    "revision": 613,
+                    "item": 300,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 200000.0,
+                    "aporte": 200000.0
+                },
+                {
+                    "revision": 614,
+                    "item": 301,
+                    "categoria": "Personal",
+                    "cantidad": 1.0,
+                    "unidad": "Dia Habil",
+                    "valor_unitario": 399839.740706,
+                    "aporte": 399839.740706
+                },
+                {
+                    "revision": 615,
+                    "item": 301,
+                    "categoria": "Otros",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 400000.0,
+                    "aporte": 400000.0
+                },
+                {
+                    "revision": 616,
+                    "item": 301,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 220000.0,
+                    "aporte": 220000.0
+                },
+                {
+                    "revision": 617,
+                    "item": 301,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 24451.0
+                }
+            ],
+            "personas": {
+                "106": {
+                    "por_mes": 8686918.206573,
+                    "por_dia_calendario": 289563.940219,
+                    "por_dia_habil": 399839.740706
+                }
+            }
+        },
+        "54": {
+            "lineas": [
+                {
+                    "revision": 618,
+                    "item": 302,
+                    "categoria": "Personal",
+                    "cantidad": 14.0,
+                    "unidad": "Dia Calendario",
+                    "valor_unitario": 418972.073916,
+                    "aporte": 5865609.034817
+                },
+                {
+                    "revision": 619,
+                    "item": 302,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 1200000.0,
+                    "aporte": 1200000.0
+                },
+                {
+                    "revision": 620,
+                    "item": 302,
+                    "categoria": "Viaticos",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 200000.0,
+                    "aporte": 200000.0
+                },
+                {
+                    "revision": 621,
+                    "item": 302,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 200000.0,
+                    "aporte": 800000.0
+                },
+                {
+                    "revision": 622,
+                    "item": 302,
+                    "categoria": "Viaticos",
+                    "cantidad": 4.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 250000.0,
+                    "aporte": 1000000.0
+                },
+                {
+                    "revision": 623,
+                    "item": 302,
+                    "categoria": "Comunicaciones",
+                    "cantidad": 15.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 24451.0,
+                    "aporte": 366765.0
+                }
+            ],
+            "personas": {
+                "107": {
+                    "por_mes": 12569162.217465,
+                    "por_dia_calendario": 418972.073916,
+                    "por_dia_habil": 578530.894664
+                }
+            }
+        },
+        "55": {
+            "lineas": [
+                {
+                    "revision": 624,
+                    "item": 303,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 625,
+                    "item": 304,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 626,
+                    "item": 305,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 32808034.0,
+                    "aporte": 32808034.0
+                },
+                {
+                    "revision": 627,
+                    "item": 306,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 628,
+                    "item": 307,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16404017.0,
+                    "aporte": 16404017.0
+                },
+                {
+                    "revision": 629,
+                    "item": 308,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 630,
+                    "item": 309,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 631,
+                    "item": 310,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 632,
+                    "item": 311,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21872022.0,
+                    "aporte": 21872022.0
+                },
+                {
+                    "revision": 633,
+                    "item": 312,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 32808034.0,
+                    "aporte": 32808034.0
+                },
+                {
+                    "revision": 634,
+                    "item": 313,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21872022.0,
+                    "aporte": 21872022.0
+                },
+                {
+                    "revision": 635,
+                    "item": 314,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5468006.0,
+                    "aporte": 5468006.0
+                },
+                {
+                    "revision": 636,
+                    "item": 315,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5468006.0,
+                    "aporte": 5468006.0
+                },
+                {
+                    "revision": 637,
+                    "item": 316,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5468006.0,
+                    "aporte": 5468006.0
+                },
+                {
+                    "revision": 638,
+                    "item": 317,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 5468006.0,
+                    "aporte": 5468006.0
+                },
+                {
+                    "revision": 639,
+                    "item": 318,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10936011.0,
+                    "aporte": 10936011.0
+                },
+                {
+                    "revision": 640,
+                    "item": 319,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10936011.0,
+                    "aporte": 10936011.0
+                },
+                {
+                    "revision": 641,
+                    "item": 320,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10936011.0,
+                    "aporte": 10936011.0
+                },
+                {
+                    "revision": 642,
+                    "item": 321,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10936011.0,
+                    "aporte": 10936011.0
+                },
+                {
+                    "revision": 643,
+                    "item": 322,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 10936011.0,
+                    "aporte": 10936011.0
+                },
+                {
+                    "revision": 644,
+                    "item": 323,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16404017.0,
+                    "aporte": 16404017.0
+                },
+                {
+                    "revision": 645,
+                    "item": 324,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 27340029.0,
+                    "aporte": 27340029.0
+                },
+                {
+                    "revision": 646,
+                    "item": 325,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21872022.0,
+                    "aporte": 21872022.0
+                },
+                {
+                    "revision": 647,
+                    "item": 326,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16404017.0,
+                    "aporte": 16404017.0
+                },
+                {
+                    "revision": 648,
+                    "item": 327,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21872022.0,
+                    "aporte": 21872022.0
+                },
+                {
+                    "revision": 649,
+                    "item": 328,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 21872022.0,
+                    "aporte": 21872022.0
+                },
+                {
+                    "revision": 650,
+                    "item": 329,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16404017.0,
+                    "aporte": 16404017.0
+                },
+                {
+                    "revision": 651,
+                    "item": 330,
+                    "categoria": "Servicios",
+                    "cantidad": 1.0,
+                    "unidad": "N\/A",
+                    "valor_unitario": 16404017.0,
+                    "aporte": 16404017.0
+                }
+            ],
+            "personas": []
+        },
+        "56": {
+            "lineas": [],
+            "personas": []
+        }
+    },
+    "diferencias_deliberadas": {
+        "271": {
+            "cotizacion": 24,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 14883.463788,
+            "aporte": 14883.463788
+        },
+        "272": {
+            "cotizacion": 24,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"3.00\") y aplicaba cero.",
+            "valor_unitario": 101414.068422,
+            "aporte": 101414.068422
+        },
+        "285": {
+            "cotizacion": 24,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 14883.463788,
+            "aporte": 14883.463788
+        },
+        "286": {
+            "cotizacion": 24,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"3.00\") y aplicaba cero.",
+            "valor_unitario": 101414.068422,
+            "aporte": 101414.068422
+        },
+        "311": {
+            "cotizacion": 26,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 219753.774907,
+            "aporte": 439507.549814
+        },
+        "319": {
+            "cotizacion": 26,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 219753.774907,
+            "aporte": 219753.774907
+        },
+        "325": {
+            "cotizacion": 27,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 98804.00839,
+            "aporte": 988040.083904
+        },
+        "326": {
+            "cotizacion": 27,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 85978.348557,
+            "aporte": 1031740.182679
+        },
+        "341": {
+            "cotizacion": 29,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 94024.315635,
+            "aporte": 94024.315635
+        },
+        "342": {
+            "cotizacion": 29,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.50\") y aplicaba cero.",
+            "valor_unitario": 6221.248761,
+            "aporte": 6221.248761
+        },
+        "350": {
+            "cotizacion": 29,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.50\") y aplicaba cero.",
+            "valor_unitario": 6221.248761,
+            "aporte": 186637.462834
+        },
+        "351": {
+            "cotizacion": 29,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 94024.315635,
+            "aporte": 2820729.469044
+        },
+        "470": {
+            "cotizacion": 44,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 4538707.443054
+        },
+        "471": {
+            "cotizacion": 44,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 77932.381478,
+            "aporte": 1324850.485133
+        },
+        "455": {
+            "cotizacion": 44,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 266982.790768
+        },
+        "456": {
+            "cotizacion": 44,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 77932.381478,
+            "aporte": 77932.381478
+        },
+        "505": {
+            "cotizacion": 45,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 266982.790768
+        },
+        "506": {
+            "cotizacion": 45,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 77932.381478,
+            "aporte": 77932.381478
+        },
+        "542": {
+            "cotizacion": 45,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 2135862.326143
+        },
+        "543": {
+            "cotizacion": 45,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"5.00\") y aplicaba cero.",
+            "valor_unitario": 77932.381478,
+            "aporte": 623459.051827
+        },
+        "521": {
+            "cotizacion": 47,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 266982.790768
+        },
+        "522": {
+            "cotizacion": 47,
+            "motivo": "Componente con cantidad cero o negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
+            "valor_unitario": 0.0,
+            "aporte": 0.0
+        },
+        "532": {
+            "cotizacion": 47,
+            "motivo": "Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como \"1.00\") y aplicaba cero.",
+            "valor_unitario": 266982.790768,
+            "aporte": 1868879.535375
+        },
+        "533": {
+            "cotizacion": 47,
+            "motivo": "Componente con cantidad cero o negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
+            "valor_unitario": 0.0,
+            "aporte": 0.0
+        }
+    }
+}

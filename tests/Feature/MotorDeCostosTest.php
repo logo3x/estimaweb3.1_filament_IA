@@ -8,6 +8,8 @@ use App\Dominio\Recursos\CalculadoraAmortizacion;
 use App\Dominio\Recursos\MotorDeCostos;
 use App\Models\Cotizacion;
 use App\Models\Revision;
+use Illuminate\Support\Collection;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -29,7 +31,7 @@ class MotorDeCostosTest extends TestCase
     }
 
     /**
-     * @return array{\Illuminate\Support\Collection<int, Revision>, array<int, int>}
+     * @return array{Collection<int, Revision>, array<int, int>}
      */
     private function datosDe(int $cotizacionId): array
     {
@@ -90,8 +92,39 @@ class MotorDeCostosTest extends TestCase
         $this->assertSame(
             [],
             $resultado['avisos'],
-            'La cotizacion 55 no deberia tener recursos sin calcular: ' . implode(' | ', $resultado['avisos'])
+            'La cotizacion 55 no deberia tener recursos sin calcular: '.implode(' | ', $resultado['avisos'])
         );
+    }
+
+    /**
+     * Un componente con cantidad negativa no resta del precio: avisa.
+     *
+     * La cotizacion 47 tiene el equipo "Banco de valvulas" con su unico
+     * componente, un banco portatil de $97.758.500, cargado con cantidad -1.
+     * El sistema actual restaba ese equipo y la oferta salia por debajo del
+     * costo. Aqui vale cero y queda un aviso por cada revision que lo usa.
+     */
+    public function test_un_componente_con_cantidad_negativa_avisa_y_no_resta(): void
+    {
+        [$revisiones, $cantidades] = $this->datosDe(47);
+
+        $resultado = $this->motor()->calcular($revisiones, $cantidades);
+
+        $avisosDelBanco = array_values(array_filter(
+            $resultado['avisos'],
+            static fn (string $aviso): bool => str_contains($aviso, 'Banco de valvulas') && str_contains($aviso, 'cantidad -1'),
+        ));
+
+        /** El equipo esta en dos items: revisiones 522 y 533. */
+        $this->assertCount(2, $avisosDelBanco, implode(' | ', $resultado['avisos']));
+
+        foreach ($resultado['lineas'] as $linea) {
+            $this->assertGreaterThanOrEqual(
+                0.0,
+                $linea->aporte,
+                "Ninguna linea puede restar del precio: {$linea->descripcion} aporta {$linea->aporte}."
+            );
+        }
     }
 
     /** Cada item acumula el costo de los recursos que le fueron asignados. */
@@ -243,7 +276,7 @@ class MotorDeCostosTest extends TestCase
     {
         $casos = [];
 
-        foreach (glob(__DIR__ . '/../golden/cotizacion-*.json') ?: [] as $archivo) {
+        foreach (glob(__DIR__.'/../golden/cotizacion-*.json') ?: [] as $archivo) {
             $datos = json_decode((string) file_get_contents($archivo), true);
 
             if (! is_array($datos)) {
@@ -270,11 +303,11 @@ class MotorDeCostosTest extends TestCase
      * sistema actual nunca aplico, y para ellas se comprueba que la
      * diferencia se mantenga dentro de lo razonable.
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('cotizacionesConCosto')]
+    #[DataProvider('cotizacionesConCosto')]
     public function test_el_costo_directo_coincide_con_el_sistema_actual(int $id): void
     {
         $golden = json_decode(
-            (string) file_get_contents(__DIR__ . "/../golden/cotizacion-{$id}.json"),
+            (string) file_get_contents(__DIR__."/../golden/cotizacion-{$id}.json"),
             true
         );
 
@@ -307,7 +340,7 @@ class MotorDeCostosTest extends TestCase
             0.01,
             $desviacion,
             "Cotizacion {$id}: el costo directo cambio respecto al sistema actual "
-            . '(' . number_format($esperado, 2) . ' -> ' . number_format($obtenido, 2) . ').'
+            .'('.number_format($esperado, 2).' -> '.number_format($obtenido, 2).').'
         );
     }
 
