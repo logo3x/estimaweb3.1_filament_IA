@@ -1492,3 +1492,155 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
 .dark .fi-est-barra-ctn { background: rgb(255 255 255 / 0.06); }
 .dark .fi-est-aviso { border-color: rgb(255 255 255 / 0.1); }
 .dark .fi-est-enlace { color: var(--primary-400); }
+
+/* ---------------------------------------------------------------------- */
+/* Inicio                                                                  */
+/* ---------------------------------------------------------------------- */
+
+/* El saludo sobre una franja con el azul de la marca, como el acceso. */
+.fi-inicio {
+    overflow: hidden;
+    border-radius: 1rem;
+    background: white;
+    border: 1px solid var(--gray-200);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+    animation: sube-texto 450ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.fi-inicio-cabecera {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.75rem 1.75rem 1.5rem;
+    color: white;
+    background:
+        radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.08) 1px, transparent 0) 0 0 / 20px 20px,
+        radial-gradient(28rem 14rem at 100% 0%, rgb(240 138 31 / 0.45), transparent 70%),
+        linear-gradient(135deg, var(--marca-azul), var(--marca-azul-hondo));
+}
+
+.fi-inicio-fecha {
+    font-size: 0.8125rem;
+    color: rgb(255 255 255 / 0.75);
+}
+
+.fi-inicio-saludo {
+    margin-block: 0.125rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.fi-inicio-gerencia {
+    display: inline-block;
+    margin-block-start: 0.25rem;
+    padding: 0.125rem 0.625rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.15);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.fi-inicio-acciones {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.fi-inicio-columnas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+}
+
+.fi-inicio-bloque {
+    padding: 1.25rem 1.75rem 1.5rem;
+}
+
+.fi-inicio-bloque + .fi-inicio-bloque {
+    border-inline-start: 1px solid var(--gray-200);
+}
+
+.fi-inicio-bloque-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-end: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.fi-inicio-icono {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--marca-azul);
+}
+
+.fi-inicio-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.fi-inicio-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.625rem;
+    margin-inline: -0.625rem;
+    border-radius: 0.5rem;
+    transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.fi-inicio-item:hover {
+    background: var(--gray-50);
+    transform: translateX(2px);
+}
+
+/* La etiqueta del estado no se recorta: se recorta el nombre. */
+.fi-inicio-item > .fi-badge { flex-shrink: 0; }
+
+.fi-inicio-item-texto {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.fi-inicio-item-codigo {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--primary-600);
+}
+
+.fi-inicio-item-nombre {
+    overflow: hidden;
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.fi-inicio-vacio,
+.fi-inicio-mas {
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+}
+
+.fi-inicio-mas { margin-block-start: 0.5rem; }
+
+.dark .fi-inicio { background: var(--gray-900); border-color: rgb(255 255 255 / 0.1); }
+.dark .fi-inicio-cabecera {
+    background:
+        radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.06) 1px, transparent 0) 0 0 / 20px 20px,
+        radial-gradient(28rem 14rem at 100% 0%, rgb(240 138 31 / 0.3), transparent 70%),
+        linear-gradient(135deg, #04213f, var(--gray-950));
+}
+.dark .fi-inicio-bloque + .fi-inicio-bloque { border-inline-start-color: rgb(255 255 255 / 0.08); }
+.dark .fi-inicio-bloque-titulo { color: var(--gray-100); }
+.dark .fi-inicio-icono { color: #8fb8e8; }
+.dark .fi-inicio-item:hover { background: rgb(255 255 255 / 0.05); }
+.dark .fi-inicio-item-codigo { color: var(--primary-400); }
