@@ -61,6 +61,7 @@ class EditCotizacion extends EditRecord
 
             ActionGroup::make([
                 $this->recalcular(),
+                \App\Filament\Resources\Cotizacions\AccionDuplicar::make(),
                 ViewAction::make()->label('Ver detalle')->icon('heroicon-o-eye'),
 
                 /** Separado del resto: borrar arrastra items y recursos. */

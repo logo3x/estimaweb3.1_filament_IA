@@ -189,6 +189,8 @@ class CotizacionsTable
                  */
                 EditAction::make()
                     ->visible(fn (Cotizacion $record): bool => $record->puedeSerEditadaPor(auth()->user())),
+
+                \App\Filament\Resources\Cotizacions\AccionDuplicar::make()->iconButton()->tooltip('Duplicar'),
             ])
             ->toolbarActions([
                 /**

@@ -45,6 +45,8 @@ class ViewCotizacion extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            \App\Filament\Resources\Cotizacions\AccionDuplicar::make(),
+
             /**
              * El documento se genera al vuelo con los totales del dominio,
              * no con las columnas guardadas: asi nunca se envia al cliente
