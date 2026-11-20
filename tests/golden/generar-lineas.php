@@ -31,15 +31,16 @@ if (! $raizViejo || ! is_file($raizViejo.'/app/Services/AiuCalculationService.ph
     exit(1);
 }
 
-require $raizViejo.'/vendor/autoload.php';
-$app = require $raizViejo.'/bootstrap/app.php';
-$app->make(Kernel::class)->bootstrap();
-
 use App\Models\Cotizacione;
 use App\Models\Revision;
 use App\Services\AiuCalculationService;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\DB;
+
+/** Los `use` van antes: en un script suelto solo valen para lo que viene despues. */
+require $raizViejo.'/vendor/autoload.php';
+$app = require $raizViejo.'/bootstrap/app.php';
+$app->make(Kernel::class)->bootstrap();
 
 Cotizacione::disableAuditing();
 
@@ -158,13 +159,13 @@ foreach (Cotizacione::query()->orderBy('id')->get() as $cotizacion) {
                 $unitario = costoDeActivo($activo, $componentes, (string) $revision->unidad, INTERES[$clave] ?? 0.0);
                 $aporte = $unitario * (float) $revision->cantidad * (int) $resultado['pre_item_cotizaciones']->firstWhere('id', $revision->id_item_cotizacion)->cantidad;
 
-                $negativo = collect($componentes)->contains(fn ($c) => (int) $c['cantidad'] <= 0);
+                $negativo = collect($componentes)->contains(fn ($c) => (int) $c['cantidad'] < 0);
 
                 if (abs($unitario - (float) $linea['valor_unitario']) > 0.005) {
                     $salida['diferencias_deliberadas'][(string) $revision->id] = [
                         'cotizacion' => (int) $cotizacion->id,
                         'motivo' => $negativo
-                            ? 'Componente con cantidad cero o negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.'
+                            ? 'Componente con cantidad negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.'
                             : 'Interes constante: el sistema actual nunca lo encontraba en su tabla (periodo guardado como "'.$activo->periodo_evaluacion.'") y aplicaba cero.',
                         'valor_unitario' => round($unitario, 6),
                         'aporte' => round($aporte, 6),

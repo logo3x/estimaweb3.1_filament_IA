@@ -90,6 +90,15 @@ enum Capacidad: string
     case ConsultarLaAuditoria = 'consultar_la_auditoria';
 
     /**
+     * Ver las cifras de conjunto: cuanto se cotiza, a quien y como avanza.
+     *
+     * Igual que en el sistema actual, que la reservaba a la administracion:
+     * suma los precios de todas las cotizaciones, incluidas las de otras
+     * gerencias.
+     */
+    case ConsultarLasEstadisticas = 'consultar_las_estadisticas';
+
+    /**
      * Entrar al panel como otra persona, para ver lo que ella ve.
      *
      * Sirve para resolver un "a mi no me aparece" sin pedir la contraseña
@@ -152,7 +161,8 @@ enum Capacidad: string
              * solo puede hacer una persona concreta es el que no se hace.
              */
             self::GestionarRespaldos,
-            self::ConsultarLaAuditoria => ['Administrador'],
+            self::ConsultarLaAuditoria,
+            self::ConsultarLasEstadisticas => ['Administrador'],
             /**
              * Lista vacia a proposito: solo super_admin, que Permisos
              * resuelve antes de mirar esta tabla. Estas acciones afectan al
@@ -181,6 +191,7 @@ enum Capacidad: string
             self::AdministrarFactoresLegales => 'Solo la administración puede modificar los factores legales.',
             self::GestionarRespaldos => 'Solo la administración puede crear y descargar respaldos: contienen todos los precios y datos de clientes.',
             self::ConsultarLaAuditoria => 'Solo la administración puede consultar el registro de actividad.',
+            self::ConsultarLasEstadisticas => 'Solo la administración puede consultar las estadísticas: suman los precios de todas las cotizaciones.',
             self::SuplantarUsuarios => 'Entrar como otro usuario está reservado a la administración total: durante ese rato se actúa con sus permisos.',
             self::MantenerElSistema => 'El mantenimiento del servidor está reservado a la administración total.',
         };

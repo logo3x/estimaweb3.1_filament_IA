@@ -156,12 +156,17 @@ final class MotorDeCostos
     /**
      * Suma lo que cuestan los items que componen un recurso.
      *
-     * Un componente con cantidad cero o negativa no se cobra y queda avisado.
-     * En el sistema actual una cantidad negativa RESTABA del precio: la
-     * cotizacion 47 tiene un banco de valvulas de $97.758.500 cargado con
-     * cantidad -1, y la oferta salia $802.325 por debajo del costo real. Aqui
-     * no puede restar, pero tampoco se adivina la cantidad correcta: se avisa
-     * para que quien cotiza la corrija.
+     * Un componente con cantidad NEGATIVA no se cobra y queda avisado. En el
+     * sistema actual restaba del precio: la cotizacion 47 tiene un banco de
+     * valvulas de $97.758.500 cargado con cantidad -1, y la oferta salia
+     * $802.325 por debajo del costo real. Aqui no puede restar, pero tampoco
+     * se adivina la cantidad correcta: se avisa para que quien cotiza la
+     * corrija.
+     *
+     * La cantidad CERO no avisa. Aparece en kits de consumibles reales (las
+     * cotizaciones 19, 24, 26 y 29) para articulos que esa vez no se usan: no
+     * resta nada, y avisar en ofertas correctas acostumbraria a ignorar los
+     * avisos.
      *
      * @param  list<string>  $avisos
      */
@@ -172,7 +177,7 @@ final class MotorDeCostos
         foreach ($recurso->items ?? [] as $item) {
             $cantidad = (int) $item->cantidad;
 
-            if ($cantidad <= 0) {
+            if ($cantidad < 0) {
                 $avisos[] = sprintf(
                     'Revision %d: %s "%s" tiene el componente "%s" con cantidad %d. No se cobra; corrija la cantidad.',
                     $revision->id,

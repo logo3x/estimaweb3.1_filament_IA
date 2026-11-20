@@ -3638,7 +3638,7 @@
         },
         "522": {
             "cotizacion": 47,
-            "motivo": "Componente con cantidad cero o negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
+            "motivo": "Componente con cantidad negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
             "valor_unitario": 0.0,
             "aporte": 0.0
         },
@@ -3650,7 +3650,7 @@
         },
         "533": {
             "cotizacion": 47,
-            "motivo": "Componente con cantidad cero o negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
+            "motivo": "Componente con cantidad negativa: el sistema actual lo RESTABA del precio; el 3.1 no lo cobra y avisa.",
             "valor_unitario": 0.0,
             "aporte": 0.0
         }
