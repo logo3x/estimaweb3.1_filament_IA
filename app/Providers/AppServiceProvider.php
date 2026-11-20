@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Correo\TransporteMicrosoftGraph;
+use App\Notifications\RestablecerContrasena;
+use Filament\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 use PhpOffice\PhpWord\Settings as AjustesWord;
@@ -10,7 +13,17 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        /**
+         * El correo de "olvide mi contraseña" sale en el acto.
+         *
+         * Filament usa una notificacion encolada y en el servidor nadie
+         * atiende la cola: el enlace no llegaba nunca. Ver
+         * App\Notifications\RestablecerContrasena.
+         */
+        $this->app->bind(
+            ResetPassword::class,
+            fn ($app, array $parametros): RestablecerContrasena => new RestablecerContrasena($parametros['token']),
+        );
     }
 
     public function boot(): void
@@ -27,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
      */
     private function registrarCorreoPorGraph(): void
     {
-        Mail::extend('graph', fn (array $configuracion): \App\Correo\TransporteMicrosoftGraph => new \App\Correo\TransporteMicrosoftGraph(
+        Mail::extend('graph', fn (array $configuracion): TransporteMicrosoftGraph => new TransporteMicrosoftGraph(
             tenantId: (string) ($configuracion['tenant_id'] ?? ''),
             clientId: (string) ($configuracion['client_id'] ?? ''),
             clientSecret: (string) ($configuracion['client_secret'] ?? ''),

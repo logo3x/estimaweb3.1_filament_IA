@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\SolicitarCambioDeContrasena;
 use App\Filament\AvatarLocal;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -29,6 +30,13 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            /**
+             * "¿Olvido su contraseña?", con el correo de Microsoft 365.
+             *
+             * La pagina propia no revela que correos tienen cuenta, y la
+             * notificacion se envia en el acto (no hay cola en el servidor).
+             */
+            ->passwordReset(SolicitarCambioDeContrasena::class)
             /**
              * La marca, en el acceso y en la barra.
              *
