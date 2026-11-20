@@ -90,6 +90,19 @@ enum Capacidad: string
     case ConsultarLaAuditoria = 'consultar_la_auditoria';
 
     /**
+     * Entrar al panel como otra persona, para ver lo que ella ve.
+     *
+     * Sirve para resolver un "a mi no me aparece" sin pedir la contraseña
+     * ajena, que es la alternativa y es peor.
+     *
+     * Se reserva a la administracion total, por encima incluso de
+     * administrar usuarios: durante la suplantacion se actua **con los
+     * permisos del otro**, de modo que quien puede suplantar puede hacer
+     * cualquier cosa que cualquiera pueda hacer. Por eso ademas se audita.
+     */
+    case SuplantarUsuarios = 'suplantar_usuarios';
+
+    /**
      * Quien puede ejercer cada capacidad.
      *
      * super_admin no aparece: puede todo, y se resuelve aparte para que no
@@ -145,7 +158,12 @@ enum Capacidad: string
              * resuelve antes de mirar esta tabla. Estas acciones afectan al
              * servidor entero, no a una cotizacion.
              */
-            self::MantenerElSistema => [],
+            self::MantenerElSistema,
+            /**
+             * Tambien vacia: suplantar es actuar con los permisos del otro,
+             * asi que no se delega ni en la administracion.
+             */
+            self::SuplantarUsuarios => [],
         };
     }
 
@@ -163,6 +181,7 @@ enum Capacidad: string
             self::AdministrarFactoresLegales => 'Solo la administración puede modificar los factores legales.',
             self::GestionarRespaldos => 'Solo la administración puede crear y descargar respaldos: contienen todos los precios y datos de clientes.',
             self::ConsultarLaAuditoria => 'Solo la administración puede consultar el registro de actividad.',
+            self::SuplantarUsuarios => 'Entrar como otro usuario está reservado a la administración total: durante ese rato se actúa con sus permisos.',
             self::MantenerElSistema => 'El mantenimiento del servidor está reservado a la administración total.',
         };
     }

@@ -65,6 +65,7 @@ return array(
     'App\\Dominio\\Rendimiento\\Rendimiento' => $baseDir . '/app/Dominio/Rendimiento/Rendimiento.php',
     'App\\Dominio\\Respaldos\\Respaldos' => $baseDir . '/app/Dominio/Respaldos/Respaldos.php',
     'App\\Dominio\\Respaldos\\VolcadoDeLaBase' => $baseDir . '/app/Dominio/Respaldos/VolcadoDeLaBase.php',
+    'App\\Dominio\\Suplantacion\\Suplantacion' => $baseDir . '/app/Dominio/Suplantacion/Suplantacion.php',
     'App\\Filament\\AvatarLocal' => $baseDir . '/app/Filament/AvatarLocal.php',
     'App\\Filament\\Pages\\FactoresLegales' => $baseDir . '/app/Filament/Pages/FactoresLegales.php',
     'App\\Filament\\Pages\\Mantenimiento' => $baseDir . '/app/Filament/Pages/Mantenimiento.php',

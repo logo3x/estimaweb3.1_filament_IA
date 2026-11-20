@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Dominio\Suplantacion\Suplantacion;
 use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -86,6 +89,42 @@ class UsersTable
             ])
             ->recordActions([
                 EditAction::make(),
+
+                /**
+                 * Ver el panel como lo ve esta persona.
+                 *
+                 * Resuelve un "a mi no me aparece" sin pedirle la
+                 * contraseña, que es la alternativa y es peor: una clave
+                 * compartida deja de identificar a quien actua.
+                 *
+                 * Reservado a la administracion total y auditado: durante
+                 * ese rato se actua con los permisos del otro.
+                 */
+                Action::make('suplantar')
+                    ->label('Entrar como')
+                    ->icon('heroicon-m-user-circle')
+                    ->color('warning')
+                    ->requiresConfirmation()
+                    ->modalHeading(fn (User $record): string => 'Entrar como ' . $record->name)
+                    ->modalDescription('Verá el panel con los permisos de esta persona. Queda registrado en la auditoría, y podrá volver a su cuenta desde el aviso de arriba.')
+                    ->modalSubmitActionLabel('Entrar')
+                    ->visible(fn (User $record): bool => app(Suplantacion::class)->puedeEntrarComo($record))
+                    ->action(function (User $record) {
+                        try {
+                            app(Suplantacion::class)->entrarComo($record);
+                        } catch (\DomainException $e) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se pudo entrar como esa persona')
+                                ->body($e->getMessage())
+                                ->send();
+
+                            return null;
+                        }
+
+                        /** A la portada, ya con la otra identidad. */
+                        return redirect('/admin');
+                    }),
                 /**
                  * Borrar un usuario esta restringido en la base: sus
                  * cotizaciones y registros de envio dejarian de tener autor.

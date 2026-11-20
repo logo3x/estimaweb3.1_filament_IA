@@ -1215,3 +1215,59 @@ body:has([wire\:loading]:not([style*='display: none']))::before {
 .dark .fi-rend-cifra { color: var(--gray-300); }
 .dark .fi-rend-vacio { color: var(--gray-400); }
 .dark .fi-rend-etiqueta { color: var(--primary-300); }
+
+/**
+ * El aviso de estar actuando como otra persona.
+ *
+ * En ambar y ocupando el ancho: lo peligroso no es entrar como otro, sino
+ * olvidar que se entro. Lleva el camino de vuelta siempre visible, porque
+ * sin el quien suplanta queda atrapado y en el servidor no hay consola
+ * para borrarle la sesion a mano.
+ */
+.fi-suplantacion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.625rem 1rem;
+    background: rgb(217 119 6 / 0.12);
+    border-block-end: 1px solid rgb(217 119 6 / 0.35);
+}
+
+.fi-suplantacion-texto {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: rgb(146 64 14);
+}
+
+.fi-suplantacion-icono {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+    color: rgb(180 83 9);
+}
+
+.fi-suplantacion-boton {
+    padding: 0.3125rem 0.75rem;
+    border-radius: 0.5rem;
+    background: rgb(180 83 9);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 150ms ease;
+}
+
+.fi-suplantacion-boton:hover { background: rgb(146 64 14); }
+
+.dark .fi-suplantacion {
+    background: rgb(217 119 6 / 0.18);
+    border-block-end-color: rgb(217 119 6 / 0.4);
+}
+
+.dark .fi-suplantacion-texto { color: rgb(253 230 138); }
+.dark .fi-suplantacion-icono { color: rgb(252 211 77); }

@@ -151,6 +151,17 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\View\PanelsRenderHook::USER_MENU_BEFORE,
                 fn (): string => view('filament.rol-en-la-barra')->render(),
             )
+            /**
+             * El aviso de estar actuando como otra persona.
+             *
+             * Bajo la barra y en TODAS las pantallas: lo peligroso no es
+             * entrar como otro, sino olvidar que se entro. Ademas es el
+             * camino de vuelta, que tiene que estar siempre a la vista.
+             */
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::TOPBAR_AFTER,
+                fn (): string => view('filament.aviso-de-suplantacion')->render(),
+            )
             ->sidebarCollapsibleOnDesktop()
             /**
              * Tema propio: solo transiciones y lectura de cifras.

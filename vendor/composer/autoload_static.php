@@ -826,6 +826,7 @@ class ComposerStaticInitcda2add6397422fb1a2eb5b9207f1575
         'App\\Dominio\\Rendimiento\\Rendimiento' => __DIR__ . '/../..' . '/app/Dominio/Rendimiento/Rendimiento.php',
         'App\\Dominio\\Respaldos\\Respaldos' => __DIR__ . '/../..' . '/app/Dominio/Respaldos/Respaldos.php',
         'App\\Dominio\\Respaldos\\VolcadoDeLaBase' => __DIR__ . '/../..' . '/app/Dominio/Respaldos/VolcadoDeLaBase.php',
+        'App\\Dominio\\Suplantacion\\Suplantacion' => __DIR__ . '/../..' . '/app/Dominio/Suplantacion/Suplantacion.php',
         'App\\Filament\\AvatarLocal' => __DIR__ . '/../..' . '/app/Filament/AvatarLocal.php',
         'App\\Filament\\Pages\\FactoresLegales' => __DIR__ . '/../..' . '/app/Filament/Pages/FactoresLegales.php',
         'App\\Filament\\Pages\\Mantenimiento' => __DIR__ . '/../..' . '/app/Filament/Pages/Mantenimiento.php',
